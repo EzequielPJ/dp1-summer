@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+ * converters.xml
+ *
+ * Copyright (C) 2019 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd		
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd		
+	">
+
+	<util:list id="converters">
+		
+		<bean class="converters.BookToStringConverter"/>
+		<bean class="converters.StringToBookConverter"/>
+		
+		<bean class="converters.GenreToStringConverter"/>
+		<bean class="converters.StringToGenreConverter"/>
+		
+		<bean class="converters.ContestToStringConverter"/>
+		<bean class="converters.StringToContestConverter"/>		
+		
+		<bean class="converters.MessageToStringConverter"/>
+		<bean class="converters.StringToMessageConverter"/>
+		
+		<bean class="converters.MessageBoxToStringConverter"/>
+		<bean class="converters.StringToMessageBoxConverter"/>
+		
+		<bean class="converters.ActorToStringConverter"/>
+		<bean class="converters.StringToActorConverter"/>
+		
+		<bean class="converters.WriterToStringConverter"/>
+		<bean class="converters.StringToWriterConverter"/>
+		
+		<bean class="converters.PublisherToStringConverter"/>
+		<bean class="converters.StringToPublisherConverter"/>
+		
+		<bean class="converters.BookToStringConverter"/>
+		<bean class="converters.StringToBookConverter"/>
+		
+		<bean class="converters.OpinionToStringConverter"/>
+		<bean class="converters.StringToOpinionConverter"/>
+		
+		<bean class="converters.ParticipationToStringConverter"/>
+		<bean class="converters.StringToParticipationConverter"/>
+	</util:list>
+	
+</beans>
