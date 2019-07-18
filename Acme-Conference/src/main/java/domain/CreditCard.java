@@ -16,12 +16,12 @@ import org.hibernate.validator.constraints.SafeHtml;
 @Access(AccessType.PROPERTY)
 public class CreditCard {
 
-	private String	holder;
-	private String	make;
-	private String	number;
-	private int		expirationMonth;
-	private int		expirationYear;
 	private int		cvv;
+	private int		expirationMonth;
+	private String	brandName;
+	private String	holder;
+	private int		expirationYear;
+	private String	number;
 
 
 	@NotBlank
@@ -36,12 +36,12 @@ public class CreditCard {
 
 	@NotBlank
 	@SafeHtml
-	public String getMake() {
-		return this.make;
+	public String getBrandName() {
+		return this.brandName;
 	}
 
-	public void setMake(final String make) {
-		this.make = make;
+	public void setBrandName(final String brandName) {
+		this.brandName = brandName;
 	}
 
 	@NotBlank

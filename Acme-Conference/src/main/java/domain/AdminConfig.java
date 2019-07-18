@@ -7,16 +7,11 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.URL;
-
-import forms.AdminConfigForm;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -24,16 +19,12 @@ public class AdminConfig extends DomainEntity {
 
 	private String				systemName;
 	private String				bannerURL;
-	private String				welcomeMessageEN;
-	private String				welcomeMessageES;
+	private String				welcomeMsgEN;
+	private String				welcomeMsgES;
 	private String				countryCode;
-	private Collection<String>	spamWords;
-	private Integer				finderResults;
-	private Integer				finderCacheTime;
-	private Double				spammerPercentage;
-	private Double				VAT;
 	private Collection<String>	creditCardMakes;
-	private Double				flatRate;
+	private Collection<String>	voidWordsES;
+	private Collection<String>	voidWordsEN;
 
 
 	@NotBlank
@@ -59,22 +50,22 @@ public class AdminConfig extends DomainEntity {
 
 	@NotBlank
 	@SafeHtml
-	public String getWelcomeMessageEN() {
-		return this.welcomeMessageEN;
+	public String getWelcomeMsgEN() {
+		return this.welcomeMsgEN;
 	}
 
-	public void setWelcomeMessageEN(final String welcomeMessageEN) {
-		this.welcomeMessageEN = welcomeMessageEN;
+	public void setWelcomeMsgEN(final String welcomeMsgEN) {
+		this.welcomeMsgEN = welcomeMsgEN;
 	}
 
 	@NotBlank
 	@SafeHtml
-	public String getWelcomeMessageES() {
-		return this.welcomeMessageES;
+	public String getWelcomeMsgES() {
+		return this.welcomeMsgES;
 	}
 
-	public void setWelcomeMessageES(final String welcomeMessageES) {
-		this.welcomeMessageES = welcomeMessageES;
+	public void setWelcomeMsgES(final String welcomeMsgES) {
+		this.welcomeMsgES = welcomeMsgES;
 	}
 
 	@NotBlank
@@ -89,52 +80,21 @@ public class AdminConfig extends DomainEntity {
 	}
 
 	@ElementCollection
-	public Collection<String> getSpamWords() {
-		return this.spamWords;
+	public Collection<String> getVoidWordsES() {
+		return this.voidWordsES;
 	}
 
-	public void setSpamWords(final Collection<String> spamWords) {
-		this.spamWords = spamWords;
+	public void setVoidWordsES(final Collection<String> voidWordsES) {
+		this.voidWordsES = voidWordsES;
 	}
 
-	@Range(min = 1, max = 100)
-	@NotNull
-	public Integer getFinderResults() {
-		return this.finderResults;
+	@ElementCollection
+	public Collection<String> getVoidWordsEN() {
+		return this.voidWordsEN;
 	}
 
-	public void setFinderResults(final Integer finderResults) {
-		this.finderResults = finderResults;
-	}
-
-	@Range(min = 1, max = 24)
-	@NotNull
-	public Integer getFinderCacheTime() {
-		return this.finderCacheTime;
-	}
-
-	public void setFinderCacheTime(final Integer finderCacheTime) {
-		this.finderCacheTime = finderCacheTime;
-	}
-
-	@Range(min = 0, max = 100)
-	@NotNull
-	public Double getSpammerPercentage() {
-		return this.spammerPercentage;
-	}
-
-	public void setSpammerPercentage(final Double spammerPercentage) {
-		this.spammerPercentage = spammerPercentage;
-	}
-
-	@Range(min = 0, max = 100)
-	@NotNull
-	public Double getVAT() {
-		return this.VAT;
-	}
-
-	public void setVAT(final Double VAT) {
-		this.VAT = VAT;
+	public void setVoidWordsEN(final Collection<String> voidWordsEN) {
+		this.voidWordsEN = voidWordsEN;
 	}
 
 	@ElementCollection
@@ -146,30 +106,4 @@ public class AdminConfig extends DomainEntity {
 		this.creditCardMakes = creditCardMakes;
 	}
 
-	@Min(0)
-	@NotNull
-	public Double getFlatRate() {
-		return this.flatRate;
-	}
-
-	public void setFlatRate(final Double flatRate) {
-		this.flatRate = flatRate;
-	}
-
-	public AdminConfigForm castToForm() {
-		final AdminConfigForm adminConfigForm = new AdminConfigForm();
-		adminConfigForm.setBannerURL(this.getBannerURL());
-		adminConfigForm.setCountryCode(this.getCountryCode());
-		adminConfigForm.setFinderCacheTime(this.getFinderCacheTime());
-		adminConfigForm.setFinderResults(this.getFinderResults());
-		adminConfigForm.setSystemName(this.getSystemName());
-		adminConfigForm.setWelcomeMessageEN(this.getWelcomeMessageEN());
-		adminConfigForm.setWelcomeMessageES(this.getWelcomeMessageES());
-		adminConfigForm.setFlatRate(this.getFlatRate());
-		adminConfigForm.setVAT(this.getVAT());
-		adminConfigForm.setSpammerPercentage(this.getSpammerPercentage());
-
-		return adminConfigForm;
-
-	}
 }

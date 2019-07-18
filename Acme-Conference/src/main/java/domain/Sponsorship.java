@@ -12,13 +12,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
-
-import forms.SponsorshipForm;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -27,24 +24,13 @@ import forms.SponsorshipForm;
 })
 public class Sponsorship extends DomainEntity {
 
-	private Boolean				cancelled;
-	private String				bannerURL;
-	private String				targetPageURL;
-	private Integer				views;
-	private Double				flatRateApplied;
+	private String					bannerURL;
+	private String					targetURL;
+	private CreditCard				creditCard;
 
-	private Sponsor				sponsor;
-	private Collection<Contest>	contests;
+	private ConferenceSponsor		sponsor;
+	private Collection<Conference>	conferences;
 
-
-	@NotNull
-	public Boolean getCancelled() {
-		return this.cancelled;
-	}
-
-	public void setCancelled(final Boolean cancelled) {
-		this.cancelled = cancelled;
-	}
 
 	@URL
 	@NotBlank
@@ -60,63 +46,42 @@ public class Sponsorship extends DomainEntity {
 	@URL
 	@NotBlank
 	@Lob
-	public String getTargetPageURL() {
-		return this.targetPageURL;
+	public String getTargetURL() {
+		return this.targetURL;
 	}
 
-	public void setTargetPageURL(final String targetPageURL) {
-		this.targetPageURL = targetPageURL;
+	public void setTargetURL(final String targetURL) {
+		this.targetURL = targetURL;
 	}
 
-	@Min(0)
+	@Valid
 	@NotNull
-	public Double getFlatRateApplied() {
-		return this.flatRateApplied;
+	public CreditCard getCreditCard() {
+		return this.creditCard;
 	}
 
-	public void setFlatRateApplied(final Double flatRateApplied) {
-		this.flatRateApplied = flatRateApplied;
+	public void setCreditCard(final CreditCard creditCard) {
+		this.creditCard = creditCard;
 	}
 
 	@Valid
 	@ManyToOne(optional = false)
-	public Sponsor getSponsor() {
+	public ConferenceSponsor getSponsor() {
 		return this.sponsor;
 	}
 
-	public void setSponsor(final Sponsor sponsor) {
+	public void setSponsor(final ConferenceSponsor sponsor) {
 		this.sponsor = sponsor;
 	}
 
 	@Valid
 	@ManyToMany
-	public Collection<Contest> getContests() {
-		return this.contests;
+	public Collection<Conference> getConferences() {
+		return this.conferences;
 	}
 
-	public void setContests(final Collection<Contest> contests) {
-		this.contests = contests;
+	public void setConferences(final Collection<Conference> conferences) {
+		this.conferences = conferences;
 	}
 
-	@NotNull
-	@Min(0)
-	public Integer getViews() {
-		return this.views;
-	}
-
-	public void setViews(final Integer views) {
-		this.views = views;
-	}
-
-	public SponsorshipForm castToForm() {
-		final SponsorshipForm sponsorshipForm = new SponsorshipForm();
-
-		sponsorshipForm.setId(this.getId());
-		sponsorshipForm.setBannerURL(this.getBannerURL());
-		sponsorshipForm.setContests(this.getContests());
-		sponsorshipForm.setTargetPageURL(this.getTargetPageURL());
-
-		return sponsorshipForm;
-
-	}
 }
