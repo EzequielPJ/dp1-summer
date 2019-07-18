@@ -6,6 +6,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.NotBlank;
@@ -75,8 +76,7 @@ public class CreditCard {
 		this.expirationYear = expirationYear;
 	}
 
-	@Range(min = 100, max = 999)
-	@NotNull
+	@Pattern(regexp = "^[0-9]{3}$")
 	public int getCvv() {
 		return this.cvv;
 	}
