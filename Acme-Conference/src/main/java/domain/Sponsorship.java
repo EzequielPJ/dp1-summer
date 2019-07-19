@@ -20,7 +20,7 @@ import org.hibernate.validator.constraints.URL;
 @Entity
 @Access(AccessType.PROPERTY)
 @Table(indexes = {
-	@Index(columnList = "sponsor"), @Index(columnList = "cancelled")
+	@Index(columnList = "sponsor"), /* @Index(columnList = "cancelled") */
 })
 public class Sponsorship extends DomainEntity {
 
