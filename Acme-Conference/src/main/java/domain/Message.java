@@ -6,7 +6,6 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Lob;
@@ -18,7 +17,6 @@ import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -31,16 +29,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 })
 public class Message extends DomainEntity {
 
-	private Date					moment;
-	private String					subject;
-	private String					body;
-	private Collection<String>		tags;
-	private String					priority;
+	private Date				moment;
+	private String				subject;
+	private String				body;
 
 	//Relationships
-	private Actor					sender;
-	private Collection<Actor>		recipients;
-	private Collection<MessageBox>	messageBoxes;
+	private Collection<Topic>	topics;
+	private Actor				sender;
+	private Collection<Actor>	recipients;
 
 
 	@Valid
@@ -97,34 +93,14 @@ public class Message extends DomainEntity {
 		this.body = body;
 	}
 
-	@ElementCollection
-	public Collection<String> getTags() {
-		return this.tags;
-	}
-
-	public void setTags(final Collection<String> tags) {
-		this.tags = tags;
-	}
-
 	@Valid
 	@ManyToMany
-	public Collection<MessageBox> getMessageBoxes() {
-		return this.messageBoxes;
+	public Collection<Topic> getTopics() {
+		return this.topics;
 	}
 
-	public void setMessageBoxes(final Collection<MessageBox> messageBoxes) {
-		this.messageBoxes = messageBoxes;
-	}
-
-	@Pattern(regexp = "^(HIGH|NEUTRAL|LOW)$")
-	@NotBlank
-	@SafeHtml
-	public String getPriority() {
-		return this.priority;
-	}
-
-	public void setPriority(final String priority) {
-		this.priority = priority;
+	public void setTopics(final Collection<Topic> topics) {
+		this.topics = topics;
 	}
 
 }

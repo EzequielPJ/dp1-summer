@@ -6,6 +6,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.NotBlank;
@@ -16,12 +17,12 @@ import org.hibernate.validator.constraints.SafeHtml;
 @Access(AccessType.PROPERTY)
 public class CreditCard {
 
-	private String	holder;
-	private String	make;
-	private String	number;
-	private int		expirationMonth;
-	private int		expirationYear;
 	private int		cvv;
+	private int		expirationMonth;
+	private String	brandName;
+	private String	holder;
+	private int		expirationYear;
+	private String	number;
 
 
 	@NotBlank
@@ -36,12 +37,12 @@ public class CreditCard {
 
 	@NotBlank
 	@SafeHtml
-	public String getMake() {
-		return this.make;
+	public String getBrandName() {
+		return this.brandName;
 	}
 
-	public void setMake(final String make) {
-		this.make = make;
+	public void setBrandName(final String brandName) {
+		this.brandName = brandName;
 	}
 
 	@NotBlank
@@ -75,8 +76,7 @@ public class CreditCard {
 		this.expirationYear = expirationYear;
 	}
 
-	@Range(min = 100, max = 999)
-	@NotNull
+	@Pattern(regexp = "^[0-9]{3}$")
 	public int getCvv() {
 		return this.cvv;
 	}

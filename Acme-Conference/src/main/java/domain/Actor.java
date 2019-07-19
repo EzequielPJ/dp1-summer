@@ -1,15 +1,12 @@
 
 package domain;
 
-import java.util.Collection;
-
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
@@ -29,18 +26,17 @@ import security.UserAccount;
 public abstract class Actor extends DomainEntity {
 
 	//Atributes
-	private String					name;
-	private String					surname;
-	private String					photoURL;
-	private String					email;
-	private String					phoneNumber;
-	private String					address;
-	private boolean					banned;
-	private Boolean					spammer;
+	private String		name;
+	private String		middlename;
+	private String		surname;
+	private String		photoURL;
+	private String		email;
+	private String		phoneNumber;
+	private String		address;
 
 	//Relationship
-	private UserAccount				userAccount;
-	private Collection<MessageBox>	messageBoxes;
+	private UserAccount	userAccount;
+	private Finder		finder;
 
 
 	//Atributes getters and setters
@@ -54,6 +50,14 @@ public abstract class Actor extends DomainEntity {
 		this.name = name;
 	}
 
+	@SafeHtml
+	public String getMiddleame() {
+		return this.middlename;
+	}
+
+	public void setMiddlename(final String middlename) {
+		this.middlename = middlename;
+	}
 	@SafeHtml
 	@NotBlank
 	public String getSurname() {
@@ -83,7 +87,7 @@ public abstract class Actor extends DomainEntity {
 		this.address = address;
 	}
 
-	@NotBlank
+	@SafeHtml
 	public String getEmail() {
 		return this.email;
 	}
@@ -101,22 +105,6 @@ public abstract class Actor extends DomainEntity {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public Boolean getSpammer() {
-		return this.spammer;
-	}
-
-	public void setSpammer(final Boolean spammer) {
-		this.spammer = spammer;
-	}
-
-	public boolean getBanned() {
-		return this.banned;
-	}
-
-	public void setBanned(final boolean banned) {
-		this.banned = banned;
-	}
-
 	//Relationship getters and setters
 	@Valid
 	@OneToOne(optional = false)
@@ -129,12 +117,12 @@ public abstract class Actor extends DomainEntity {
 	}
 
 	@Valid
-	@OneToMany
-	public Collection<MessageBox> getMessageBoxes() {
-		return this.messageBoxes;
+	@OneToOne(optional = false)
+	public Finder getFinder() {
+		return this.finder;
 	}
 
-	public void setMessageBoxes(final Collection<MessageBox> messageBoxes) {
-		this.messageBoxes = messageBoxes;
+	public void setFinder(final Finder finder) {
+		this.finder = finder;
 	}
 }
