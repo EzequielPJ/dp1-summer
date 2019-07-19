@@ -17,7 +17,7 @@ import org.hibernate.validator.constraints.SafeHtml;
 @Access(AccessType.PROPERTY)
 public class CreditCard {
 
-	private int		cvv;
+	private String	cvv;
 	private int		expirationMonth;
 	private String	brandName;
 	private String	holder;
@@ -77,11 +77,12 @@ public class CreditCard {
 	}
 
 	@Pattern(regexp = "^[0-9]{3}$")
-	public int getCvv() {
+	//	@Range(min = 100, max = 999)
+	public String getCvv() {
 		return this.cvv;
 	}
 
-	public void setCvv(final int cvv) {
+	public void setCvv(final String cvv) {
 		this.cvv = cvv;
 	}
 

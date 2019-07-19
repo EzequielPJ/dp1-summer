@@ -37,6 +37,7 @@ public class Message extends DomainEntity {
 	private Collection<Topic>	topics;
 	private Actor				sender;
 	private Collection<Actor>	recipients;
+	private Collection<MessageBox> messageBox;
 
 
 	@Valid
@@ -103,4 +104,15 @@ public class Message extends DomainEntity {
 		this.topics = topics;
 	}
 
+	@ManyToMany
+	public Collection<MessageBox> getMessageBox() {
+		return messageBox;
+	}
+
+	
+	public void setMessageBox(Collection<MessageBox> messageBox) {
+		this.messageBox = messageBox;
+	}
+
+	
 }
