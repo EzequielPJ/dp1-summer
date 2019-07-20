@@ -28,7 +28,7 @@
 
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"	destroy-method="close">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/Acme-Writers" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/Acme-Conference" />
 		<property name="user" value="acme-user" />
 		<property name="password" value="ACME-Us3r-P@ssw0rd" />
 		<!--<property name="jdbcUrl" value="jdbc:mysql://bd5i4c1v31oryubbzs0t-mysql.services.clever-cloud.com:3306/bd5i4c1v31oryubbzs0t" />
@@ -41,7 +41,7 @@
 	<!-- JPA -->
 
 	<bean id="persistenceUnit" class="java.lang.String">
-		<constructor-arg value="Acme-Writers" />
+		<constructor-arg value="Acme-Conference" />
 	</bean>
 
 	<bean id="sqlDialect" class="java.lang.String">
