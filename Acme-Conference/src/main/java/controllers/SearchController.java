@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.BookService;
-import domain.Book;
+import services.ConferenceService;
+import domain.Conference;
 import forms.SearchForm;
 
 @Controller
@@ -24,7 +24,7 @@ import forms.SearchForm;
 public class SearchController extends AbstractController {
 
 	@Autowired
-	private BookService	bookService;
+	private ConferenceService	conferenceService;
 
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
@@ -70,8 +70,8 @@ public class SearchController extends AbstractController {
 
 		result.addObject("searchForm", searchForm);
 
-		final Collection<Book> books = this.bookService.getFilterBooksByKeyword(searchForm.getKeyword());
-		result.addObject("books", books);
+		final Collection<Conference> conferences = this.conferenceService.getFilterConferencesByKeyword(searchForm.getKeyword());
+		result.addObject("conferences", conferences);
 		result.addObject("requestURI", "search/display.do");
 		result.addObject("message", messageCode);
 

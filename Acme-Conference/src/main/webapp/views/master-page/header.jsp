@@ -25,7 +25,7 @@
 		<!-- Books -->
 		
 		<li>
-			<a class="fNiv"><spring:message	code="master.page.list.AllBooks" /></a>
+			<a class="fNiv"><spring:message	code="master.page.list.AllConferences" /></a>
 			<ul>
 				<li class="arrow"></li>
 				<li>
