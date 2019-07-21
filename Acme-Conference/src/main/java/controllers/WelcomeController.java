@@ -60,8 +60,8 @@ public class WelcomeController extends AbstractController {
 
 		result.addObject("name", name);
 		result.addObject("moment", moment);
-		result.addObject("welcomeMsgEs", adminConfig.getWelcomeMessageES());
-		result.addObject("welcomeMsgEn", adminConfig.getWelcomeMessageEN());
+		result.addObject("welcomeMsgEs", adminConfig.getWelcomeMsgES());
+		result.addObject("welcomeMsgEn", adminConfig.getWelcomeMsgEN());
 
 		this.configValues(result);
 

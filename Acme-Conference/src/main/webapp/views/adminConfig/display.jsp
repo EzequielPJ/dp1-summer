@@ -20,16 +20,10 @@
 	<section>
 	
 		<display:table name="adminConfig" id="adminConfig">
-			<display:column titleKey="adminConfig.display.cacheFinder" ><acme:text value="${adminConfig.finderCacheTime}"/></display:column>
-			<display:column titleKey="adminConfig.display.resultsFinder" ><acme:text value="${adminConfig.finderResults}"/></display:column>
-			<display:column titleKey="adminConfig.display.VAT" ><acme:text value="${adminConfig.VAT}"/></display:column>
-			<display:column titleKey="adminConfig.display.flatRate" ><acme:text value="${adminConfig.flatRate}"/></display:column>
 			<display:column titleKey="adminConfig.display.systemName" ><acme:text value="${adminConfig.systemName}"/></display:column>
 			<display:column titleKey="adminConfig.display.countryCode" ><acme:text value="${adminConfig.countryCode}"/></display:column>
  			<display:column titleKey="adminConfig.display.bannerURL" ><acme:link value="${adminConfig.bannerURL}"/></display:column>
- 			<display:column titleKey="adminConfig.display.spammerPercentage" ><acme:text value="${adminConfig.spammerPercentage}"/></display:column>
-			<display:column titleKey="adminConfig.display.welcomeMessage" > <acme:text value="${adminConfig.welcomeMessageEN}"/><acme:text value="${adminConfig.welcomeMessageES}"/></display:column>
-			<display:column titleKey="adminConfig.display.spamWords" ><acme:text value="${adminConfig.spamWords}"/></display:column>
+			<display:column titleKey="adminConfig.display.welcomeMessage" > <acme:text value="${adminConfig.welcomeMsgEN}"/><acme:text value="${adminConfig.welcomeMsgES}"/></display:column>
 			<display:column titleKey="adminConfig.display.creditCardMakes" ><acme:text value="${adminConfig.creditCardMakes}"/></display:column>
 		</display:table>
 		

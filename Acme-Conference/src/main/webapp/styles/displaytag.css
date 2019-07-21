@@ -119,7 +119,7 @@ span.pagebanner {
 	margin-top: 10px;
 	display: block;
 	border-bottom: none;
-	width: 11%;
+	width: 250px;
 }
 
 span.pagelinks {
@@ -129,7 +129,7 @@ span.pagelinks {
 	display: block;
 	border-top: none;
 	margin-bottom: -5px;
-	width: 11%;
+	width: 250px;
 }
 
 .group-1 {
