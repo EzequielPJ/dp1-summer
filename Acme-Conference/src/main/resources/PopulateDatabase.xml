@@ -28,7 +28,7 @@
                     <value>DINNERS</value>
                 </list>
             </property>
-            <property name="voidWordsES">
+            <property name="voidWords">
                 <list>
                     <value>datos</value>
                     <value>ciencia</value>
@@ -46,10 +46,6 @@
                     <value>enfoque</value>
                     <value>encontrar</value>
                     <value>trato</value>
-                </list>
-            </property>
-            <property name="voidWordsEN">
-                <list>
                     <value>data</value>
                     <value>science</value>
                     <value>nowadays</value>
@@ -68,8 +64,6 @@
                     <value>deal</value>
                 </list>
             </property>
-<!--             <property name="flatRate" value="0.5" />
-            <property name="VAT" value="21.0" /> -->
     </bean>
    
    <!-- User accounts (admin) -->

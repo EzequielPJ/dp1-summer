@@ -25,6 +25,7 @@
  			<display:column titleKey="adminConfig.display.bannerURL" ><acme:link value="${adminConfig.bannerURL}"/></display:column>
 			<display:column titleKey="adminConfig.display.welcomeMessage" > <acme:text value="${adminConfig.welcomeMsgEN}"/><acme:text value="${adminConfig.welcomeMsgES}"/></display:column>
 			<display:column titleKey="adminConfig.display.creditCardMakes" ><acme:text value="${adminConfig.creditCardMakes}"/></display:column>
+			<display:column titleKey="adminConfig.display.voidWords" ><acme:text value="${adminConfig.voidWords}"/></display:column>
 		</display:table>
 		
 	<acme:button url="adminConfig/administrator/edit.do" type="button" code="adminConfig.display.edit"/>

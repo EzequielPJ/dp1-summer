@@ -25,8 +25,7 @@ public class AdminConfig extends DomainEntity {
 	private String				welcomeMsgES;
 	private String				countryCode;
 	private Collection<String>	creditCardMakes;
-	private Collection<String>	voidWordsES;
-	private Collection<String>	voidWordsEN;
+	private Collection<String>	voidWords;
 
 
 	@NotBlank
@@ -82,21 +81,12 @@ public class AdminConfig extends DomainEntity {
 	}
 
 	@ElementCollection
-	public Collection<String> getVoidWordsES() {
-		return this.voidWordsES;
+	public Collection<String> getVoidWords() {
+		return this.voidWords;
 	}
 
-	public void setVoidWordsES(final Collection<String> voidWordsES) {
-		this.voidWordsES = voidWordsES;
-	}
-
-	@ElementCollection
-	public Collection<String> getVoidWordsEN() {
-		return this.voidWordsEN;
-	}
-
-	public void setVoidWordsEN(final Collection<String> voidWordsEN) {
-		this.voidWordsEN = voidWordsEN;
+	public void setVoidWords(final Collection<String> voidWords) {
+		this.voidWords = voidWords;
 	}
 
 	@ElementCollection
