@@ -44,7 +44,7 @@ public class Submission extends DomainEntity {
 		this.moment = moment;
 	}
 
-	@Pattern(regexp = "^REJECTED|ACCEPTED$")
+	@Pattern(regexp = "^REJECTED|ACCEPTED|UNDER-REVIEW$")
 	@NotBlank
 	@SafeHtml
 	public String getStatus() {
