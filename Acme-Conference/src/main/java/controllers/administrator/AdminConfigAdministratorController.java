@@ -67,23 +67,24 @@ public class AdminConfigAdministratorController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/addSpamWord", method = RequestMethod.POST, params = "save")
-	public ModelAndView addSpamWord(@Valid final SpamWordForm spamWordForm, final BindingResult binding) {
-		ModelAndView result;
-		result = new ModelAndView("adminConfig/edit");
+	//	@RequestMapping(value = "/addSpamWord", method = RequestMethod.POST, params = "save")
+	//	public ModelAndView addSpamWord(@Valid final SpamWordForm spamWordForm, final BindingResult binding) {
+	//		ModelAndView result;
+	//		result = new ModelAndView("adminConfig/edit");
+	//
+	//		try {
+	//			final AdminConfig adminConfig = this.adminConfigService.addSpamWord(spamWordForm, binding);
+	//			this.adminConfigService.save(adminConfig);
+	//			result = new ModelAndView("redirect:edit.do");
+	//		} catch (final ValidationException oops) {
+	//			result = this.createModelAndView(spamWordForm);
+	//		} catch (final Throwable oops) {
+	//			result = this.createModelAndView(spamWordForm, "adminConfig.save.error");
+	//		}
+	//
+	//		return result;
+	//	}
 
-		try {
-			final AdminConfig adminConfig = this.adminConfigService.addSpamWord(spamWordForm, binding);
-			this.adminConfigService.save(adminConfig);
-			result = new ModelAndView("redirect:edit.do");
-		} catch (final ValidationException oops) {
-			result = this.createModelAndView(spamWordForm);
-		} catch (final Throwable oops) {
-			result = this.createModelAndView(spamWordForm, "adminConfig.save.error");
-		}
-
-		return result;
-	}
 	@RequestMapping(value = "/addCreditCardMake", method = RequestMethod.POST, params = "save")
 	public ModelAndView addCreditCardMake(@Valid final CreditCardMakeForm creditCardMakeForm, final BindingResult binding) {
 		ModelAndView result;
@@ -103,20 +104,20 @@ public class AdminConfigAdministratorController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/deleteSpamWord", method = RequestMethod.POST)
-	public ModelAndView deleteSpamWord(final String spamWord) {
-		ModelAndView result;
-
-		try {
-			this.adminConfigService.deleteSpamWord(spamWord);
-			result = new ModelAndView("redirect:edit.do");
-		} catch (final Throwable oops) {
-			result = this.createModelAndView("adminConfig.save.error");
-		}
-
-		this.configValues(result);
-		return result;
-	}
+	//	@RequestMapping(value = "/deleteSpamWord", method = RequestMethod.POST)
+	//	public ModelAndView deleteSpamWord(final String spamWord) {
+	//		ModelAndView result;
+	//
+	//		try {
+	//			this.adminConfigService.deleteSpamWord(spamWord);
+	//			result = new ModelAndView("redirect:edit.do");
+	//		} catch (final Throwable oops) {
+	//			result = this.createModelAndView("adminConfig.save.error");
+	//		}
+	//
+	//		this.configValues(result);
+	//		return result;
+	//	}
 
 	@RequestMapping(value = "/deleteCreditCardMake", method = RequestMethod.POST)
 	public ModelAndView deleteCreditCardMake(final String creditCardMake) {
@@ -135,7 +136,7 @@ public class AdminConfigAdministratorController extends AbstractController {
 
 	protected ModelAndView createModelAndView(final AdminConfigForm adminConfigForm, final CreditCardMakeForm creditCardMakeForm, final SpamWordForm spamWordForm, final String message) {
 		final ModelAndView result = new ModelAndView("adminConfig/edit");
-		final List<String> spamWords = (List<String>) this.adminConfigService.getAdminConfig().getSpamWords();
+		//		final List<String> spamWords = (List<String>) this.adminConfigService.getAdminConfig().getSpamWords();
 		final List<String> creditCardMakes = (List<String>) this.adminConfigService.getAdminConfig().getCreditCardMakes();
 		Boolean lastMake = false;
 		if (creditCardMakes.size() == 1)
@@ -145,7 +146,7 @@ public class AdminConfigAdministratorController extends AbstractController {
 		result.addObject("creditCardMakeForm", creditCardMakeForm);
 		result.addObject("spamWordForm", spamWordForm);
 		result.addObject("requestURI", "adminConfig/administrator/edit.do");
-		result.addObject("spamWords", spamWords);
+		//		result.addObject("spamWords", spamWords);
 		result.addObject("creditCardMakes", creditCardMakes);
 		result.addObject("lastMake", lastMake);
 		result.addObject("message", message);

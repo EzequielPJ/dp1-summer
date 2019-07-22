@@ -13,6 +13,8 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.URL;
 
+import forms.AdminConfigForm;
+
 @Entity
 @Access(AccessType.PROPERTY)
 public class AdminConfig extends DomainEntity {
@@ -104,6 +106,18 @@ public class AdminConfig extends DomainEntity {
 
 	public void setCreditCardMakes(final Collection<String> creditCardMakes) {
 		this.creditCardMakes = creditCardMakes;
+	}
+
+	public AdminConfigForm castToForm() {
+		final AdminConfigForm adminConfigForm = new AdminConfigForm();
+		adminConfigForm.setBannerURL(this.getBannerURL());
+		adminConfigForm.setCountryCode(this.getCountryCode());
+		adminConfigForm.setSystemName(this.getSystemName());
+		adminConfigForm.setWelcomeMsgEN(this.getWelcomeMsgEN());
+		adminConfigForm.setWelcomeMsgES(this.getWelcomeMsgES());
+
+		return adminConfigForm;
+
 	}
 
 }
