@@ -10,39 +10,29 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 
-<security:authorize access="hasRole('READER')">
+<security:authorize access="hasRole('AUTHOR')">
 
 	<section>
 
-		<form:form id="editFinder" action="finder/reader/edit.do"
+		<form:form id="editFinder" action="finder/author/edit.do"
 			modelAttribute="finder" method="post">
 
-			<acme:textbox code="finder.edit.keyword" path="keyWord" />
-			<form:label path="lang">
-				<spring:message code="finder.edit.lang" />
-			</form:label>	
-			<form:select path="lang">
-				<form:option value="" ><jstl:out value="----"/></form:option>
-				<jstl:forEach items="${languages}" var="language">
-					<form:option value="${language}" ><jstl:out value="${language}"/></form:option>
-				</jstl:forEach>
-			</form:select>
-			<form:errors path="lang" cssClass="error" />			
-			<acme:inputNumber code="finder.edit.minNumWords" path="minNumWords" />
-			<acme:inputNumber code="finder.edit.maxNumWords" path="maxNumWords" />
+			<acme:textbox code="finder.edit.keyword" path="keyWord" />		
+			<acme:inputDate code="finder.edit.minimumDate" path="minimumDate" />
+			<acme:inputDate code="finder.edit.maximumDate" path="maximumDate" />
+			<acme:inputDouble code="finder.edit.maximumFee" path="maximumFee" val="${finder.maximumFee}"/>
 			
 			<jstl:choose>
 				<jstl:when test="${cookie.language.value == 'es'}">
-					<acme:select items="${genres}" itemLabel="nameES" code="finder.edit.genre" path="genre"/>
+					<acme:select items="${categories}" itemLabel="categoryES" code="finder.edit.category" path="category"/>
 				</jstl:when>
 				
 				<jstl:otherwise>
-					<acme:select items="${genres}" itemLabel="nameEN" code="finder.edit.genre" path="genre"/>
+					<acme:select items="${categories}" itemLabel="categoryEN" code="finder.edit.category" path="category"/>
 				</jstl:otherwise>
 			</jstl:choose>
 			
 			<acme:cancel url="/" code="finder.edit.cancel" />
-			<acme:submit name="clear" code="finder.edit.clear" />
 			<acme:submit name="save" code="finder.edit.save" />
 			
 
@@ -52,26 +42,29 @@
 	
 	<section>
 	
-		<display:table pagesize="10" name="books" id="book" requestURI="${requestURI}">
-			<display:column titleKey="finder.edit.book.ticker"> <jstl:out value="${book.ticker.identifier}"/>
+		<display:table pagesize="10" name="conferences" id="conference" requestURI="${requestURI}">
+			<display:column titleKey="finder.edit.conference.title"><jstl:out value="${conference.title}"/></display:column>
+			<display:column titleKey="finder.edit.conference.acronym"><jstl:out value="${conference.acronym}"/></display:column>
+			<display:column titleKey="finder.edit.conference.venue"><jstl:out value="${conference.venue}"/></display:column>			
+			<display:column titleKey="finder.edit.conference.summary"><jstl:out value="${conference.summary}"/></display:column>
+			<display:column titleKey="finder.edit.conference.startDate"><jstl:out value="${conference.startDate}"/></display:column>
+			<display:column titleKey="finder.edit.conference.endDate"><jstl:out value="${conference.endDate}"/></display:column>
+			<display:column titleKey="finder.edit.conference.fee"><jstl:out value="${conference.fee}"/></display:column>
+			<display:column titleKey="finder.edit.conference.category">
+				<jstl:choose>
+					<jstl:when test="${cookie.language.value == 'es'}">
+						<jstl:out value="${conference.category.categoryES}"/>
+					</jstl:when>
+					
+					<jstl:otherwise>
+						<jstl:out value="${conference.category.categoryEN}"/>
+					</jstl:otherwise>
+				</jstl:choose>
 			</display:column>
-			<display:column titleKey="finder.edit.book.title"><jstl:out value="${book.title}"/>
+			<display:column titleKey="finder.edit.conference.display">
+				<acme:button url="conference/display.do?idConference=${conference.id}" type="button" code="finder.edit.conference.display"/>
 			</display:column>
-			<display:column titleKey="finder.edit.book.writer"><jstl:out value="${book.writer.name} ${book.writer.surname}"/></display:column>			
-			<display:column titleKey="finder.edit.book.publisher"><jstl:out value="${book.publisher.name} ${book.publisher.surname}"/></display:column>			
-			<display:column titleKey="finder.edit.book.description"><jstl:out value="${book.description}"/></display:column>
-			<display:column titleKey="finder.edit.book.lang"><jstl:out value="${book.lang}"/></display:column>
 			
-			<jstl:choose>
-				<jstl:when test="${cookie.language.value == 'es'}">
-					<display:column titleKey="finder.edit.book.genre"><jstl:out value="${book.genre.nameES}"/></display:column>
-				</jstl:when>
-				
-				<jstl:otherwise>
-					<display:column titleKey="finder.edit.book.genre"><jstl:out value="${book.genre.nameEN}"/></display:column>
-				</jstl:otherwise>
-			</jstl:choose>
-			<display:column titleKey="finder.edit.book.numWords"><jstl:out value="${book.numWords}"/></display:column>			
 		</display:table>
 	
 	</section>

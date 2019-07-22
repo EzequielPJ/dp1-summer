@@ -35,6 +35,7 @@
 		<security:intercept-url pattern="/styles/**" access="permitAll" /> 
 		<security:intercept-url pattern="/search/display.do" access="permitAll" /> 
 		<security:intercept-url pattern="/contest/list.do" access="permitAll" /> 
+		<security:intercept-url pattern="/finder/author/edit.do" access="hasRole('AUTHOR')" /> 
 		<security:intercept-url pattern="/misc/termsAndConditions.do" access="permitAll" />
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />

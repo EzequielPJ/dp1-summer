@@ -8,6 +8,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -24,10 +25,11 @@ public class Finder extends DomainEntity {
 	private String					keyWord;
 	private Date					minimumDate;
 	private Date					maximumDate;
-	private Integer					maximumFee;
+	private Double					maximumFee;
 
 	//Relationship
 	private Collection<Conference>	conferences;
+	private Category				category;
 
 
 	@SafeHtml
@@ -60,11 +62,11 @@ public class Finder extends DomainEntity {
 	}
 
 	@Min(0)
-	public Integer getMaximumFee() {
+	public Double getMaximumFee() {
 		return this.maximumFee;
 	}
 
-	public void setMaximumFee(final Integer maximumFee) {
+	public void setMaximumFee(final Double maximumFee) {
 		this.maximumFee = maximumFee;
 	}
 
@@ -76,6 +78,16 @@ public class Finder extends DomainEntity {
 
 	public void setConferences(final Collection<Conference> conferences) {
 		this.conferences = conferences;
+	}
+
+	@Valid
+	@ManyToOne(optional = true)
+	public Category getCategory() {
+		return this.category;
+	}
+
+	public void setCategory(final Category category) {
+		this.category = category;
 	}
 
 }
