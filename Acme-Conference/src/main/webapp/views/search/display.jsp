@@ -20,24 +20,17 @@
 	
 	<section>
 	
-		<display:table pagesize="10" name="books" id="book" requestURI="${requestURI}">
-			<display:column titleKey="search.book.ticker"> <jstl:out value="${book.ticker.identifier}"/>
+		<display:table pagesize="10" name="conferences" id="conference" requestURI="${requestURI}">
+			<display:column titleKey="search.conference.title"><jstl:out value="${conference.title}"/>
 			</display:column>
-			<display:column titleKey="search.book.title"><jstl:out value="${book.title}"/>
+			<display:column titleKey="search.conference.venue"><jstl:out value="${conference.venue}"/></display:column>			
+			<display:column titleKey="search.conference.summary"><jstl:out value="${conference.summary}"/></display:column>
+			<display:column titleKey="search.conference.startDate"><jstl:out value="${conference.startDate}"/></display:column>
+			<display:column titleKey="search.conference.endDate"><jstl:out value="${conference.endDate}"/></display:column>
+			<display:column titleKey="search.conference.display">
+				<acme:button url="conference/display.do?idConference=${conference.id}" type="button" code="search.conference.display"/>
 			</display:column>
-			<display:column titleKey="search.book.writer"><jstl:out value="${book.writer.name} ${book.writer.surname}"/></display:column>			
-			<display:column titleKey="search.book.description"><jstl:out value="${book.description}"/></display:column>
-			<display:column titleKey="search.book.lang"><jstl:out value="${book.lang}"/></display:column>
 			
-			<jstl:choose>
-				<jstl:when test="${cookie.language.value == 'es'}">
-					<display:column titleKey="search.book.genre"><jstl:out value="${book.genre.nameES}"/></display:column>
-				</jstl:when>
-				
-				<jstl:otherwise>
-					<display:column titleKey="search.book.genre"><jstl:out value="${book.genre.nameEN}"/></display:column>
-				</jstl:otherwise>
-			</jstl:choose>
 		</display:table>
 	
 	</section>
