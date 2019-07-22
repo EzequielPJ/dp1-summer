@@ -108,9 +108,9 @@
 		</security:authorize>
 		
 		<!-- Finder -->
-		<security:authorize access="hasRole('READER')">
+		<security:authorize access="hasRole('AUTHOR')">
 			<li>
-				<a class="fNiv" href="finder/reader/edit.do"><spring:message code="master.page.finder.edit" /></a>
+				<a class="fNiv" href="finder/author/edit.do"><spring:message code="master.page.finder.edit" /></a>
 			</li>
 			<li>
 				<a class="fNiv" href="opinion/reader/list.do"><spring:message code="master.page.opinion.list" /></a>
