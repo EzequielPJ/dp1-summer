@@ -520,7 +520,7 @@
         <property name="endDate" value="11/19/2018"/>
         <property name="summary" value="Como utilizar la ingeniería en casa"/>
         <property name="fee" value="25"/>
-        <property name="finalMode" value="true"/>
+        <property name="finalMode" value="false"/>
         <property name="administrator" ref="admin" />
         <property name="category" ref="category6" />
     </bean>
@@ -536,7 +536,7 @@
         <property name="endDate" value="07/29/2019"/>
         <property name="summary" value="Aprende a crear videojuegos"/>
         <property name="fee" value="14"/>
-        <property name="finalMode" value="true"/>
+        <property name="finalMode" value="false"/>
         <property name="administrator" ref="admin" />
         <property name="category" ref="category6" />
     </bean>

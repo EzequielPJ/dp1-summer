@@ -20,6 +20,15 @@
 <acme:text label="conference.list.endDate" value="${conference.endDate}"/>
 <acme:text label="conference.list.summary" value="${conference.summary}"/>
 <acme:text label="conference.list.fee" value="${conference.fee}"/>
+
+
+<jstl:if test="${lang eq 'en' }">
+<acme:text label="conference.list.category" value="${conference.category.categoryEN}"/>
+</jstl:if>
+<jstl:if test="${lang eq 'es' }">
+<acme:text label="conference.list.category" value="${conference.category.categoryES}"/>
+</jstl:if>
+
 		
 
 

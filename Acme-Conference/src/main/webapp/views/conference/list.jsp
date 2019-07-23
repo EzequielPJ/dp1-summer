@@ -19,18 +19,26 @@
 			<display:column titleKey="conference.list.endDate"><jstl:out value="${conference.endDate}"/></display:column>
 			<display:column titleKey="conference.list.summary"><jstl:out value="${conference.summary}"/></display:column>
 			<display:column titleKey="conference.list.fee"><jstl:out value="${conference.fee}"/></display:column>
+			
+<%-- 			<jstl:if test="${lang eq 'en' }">
+			<display:column titleKey="conference.list.category"><jstl:out value="${conference.category.categoryEN}"/></display:column>
+			</jstl:if>
+			<jstl:if test="${lang eq 'es' }">
+			<display:column titleKey="conference.list.category"><jstl:out value="${conference.category.categoryES}"/></display:column>
+			</jstl:if> --%>
+			
 		
 				<display:column titleKey="conference.list.seeMore">
 					<acme:button url="conference/administrator/display.do?idConference=${conference.id}" type="button" code="conference.list.seeMore"/>
 				</display:column>
 				
 				<display:column titleKey="conference.list.edit">
-					<jstl:if test="${row.finalMode == false}">
+					<jstl:if test="${conference.finalMode eq false}">
 						<acme:button url="conference/administrator/edit.do?idConference=${conference.id}" type="button" code="conference.list.edit"/>
 					</jstl:if>
 				</display:column>
 				<display:column titleKey="conference.list.delete">
-					<jstl:if test="${row.finalMode == false}">
+					<jstl:if test="${conference.finalMode eq false}">
 						<acme:button url="conference/administrator/delete.do?idConference=${conference.id}" type="button" code="conference.list.delete"/>
 					</jstl:if>
 				</display:column> 

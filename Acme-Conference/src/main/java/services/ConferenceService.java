@@ -19,7 +19,6 @@ import security.LoginService;
 import security.UserAccount;
 import utiles.AuthorityMethods;
 import domain.Administrator;
-import domain.Category;
 import domain.Conference;
 
 @Service
@@ -66,7 +65,6 @@ public class ConferenceService {
 		final Conference conference = new Conference();
 		conference.setAcronym("");
 		conference.setAdministrator(this.findByPrincipal(LoginService.getPrincipal()));
-		conference.setCategory(new Category());
 		conference.setFee(0.0);
 		conference.setFinalMode(false);
 		conference.setSummary("");
@@ -81,13 +79,67 @@ public class ConferenceService {
 		return this.conferenceRepository.save(conference);
 	}
 
+	public void delete(final int id) {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+
+		//		Company a;
+		//		a = this.sisitsRepository.findCompanyByUserAccount(LoginService.getPrincipal().getId());
+		//
+		//		Collection<Sisits> colQ;
+		//		colQ = this.sisitsRepository.findSisitsesByCompany(a.getId());
+		//
+		//		Assert.isTrue(colQ.contains(this.sisitsRepository.findOne(id)), "You don't have permission to delete this");
+
+		//TODO borrar todas las referencias a otras clases como activity, comment, etc... (Hacer querys ricas)
+
+		this.conferenceRepository.delete(this.conferenceRepository.findOne(id));
+	}
+
 	public Conference reconstruct(final Conference conference, final BindingResult binding) throws ParseException {
 		Conference conferenceRec;
 		if (conference.getId() == 0) {
 			conferenceRec = conference;
 			conferenceRec.setAdministrator(this.findByPrincipal(LoginService.getPrincipal()));
-		} else
+		} else {
 			conferenceRec = this.conferenceRepository.findOne(conference.getId());
+			Assert.isTrue(conferenceRec.getFinalMode() == false, "You can not edit a conference in finalMode");
+			conferenceRec.setTitle(conference.getTitle());
+			conferenceRec.setAcronym(conference.getAcronym());
+			conferenceRec.setVenue(conference.getVenue());
+			conferenceRec.setSubmissionDeadline(conference.getSubmissionDeadline());
+			conferenceRec.setNotificationDeadline(conference.getNotificationDeadline());
+			conferenceRec.setCameraReadyDeadline(conference.getCameraReadyDeadline());
+			conferenceRec.setStartDate(conference.getStartDate());
+			conferenceRec.setEndDate(conference.getEndDate());
+			conferenceRec.setSummary(conference.getSummary());
+			conferenceRec.setFee(conference.getFee());
+			conferenceRec.setFinalMode(conference.getFinalMode());
+			conferenceRec.setCategory(conference.getCategory());
+		}
+
+		if (conference.getSubmissionDeadline() == null)
+			binding.rejectValue("submissionDeadline", "deadline.badDate");
+		if (conference.getNotificationDeadline() == null)
+			binding.rejectValue("notificationDeadline", "deadline.badDate");
+		if (conference.getCameraReadyDeadline() == null)
+			binding.rejectValue("cameraReadyDeadline", "deadline.badDate");
+		if (conference.getStartDate() == null)
+			binding.rejectValue("startDate", "deadline.badDate");
+		if (conference.getEndDate() == null)
+			binding.rejectValue("endDate", "deadline.badDate");
+
+		if (conference.getCategory() == null)
+			binding.rejectValue("category", "category.blank");
+
+		if (conference.getSubmissionDeadline().after(conference.getNotificationDeadline()) || conference.getSubmissionDeadline().equals(conference.getNotificationDeadline()))
+			binding.rejectValue("submissionDeadline", "submission.notification");
+		else if (conference.getNotificationDeadline().after(conference.getCameraReadyDeadline()) || conference.getNotificationDeadline().equals(conference.getCameraReadyDeadline()))
+			binding.rejectValue("notificationDeadline", "notification.cameraready");
+		else if (conference.getCameraReadyDeadline().after(conference.getStartDate()) || conference.getCameraReadyDeadline().equals(conference.getStartDate()))
+			binding.rejectValue("cameraReadyDeadline", "cameraready.startdate");
+		else if (conference.getStartDate().after(conference.getEndDate()) || conference.getStartDate().equals(conference.getEndDate()))
+			binding.rejectValue("startDate", "startdate.enddate");
+
 		this.validator.validate(conferenceRec, binding);
 		if (binding.hasErrors())
 			throw new ValidationException();
