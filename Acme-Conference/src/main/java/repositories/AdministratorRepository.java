@@ -54,67 +54,61 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
 
 	@Query("select stddev(c.fee) from Conference c")
 	Double getSDOfConferenceFees();
+
 	//	//---------------------------------------------------------------------------------
-	//
-	//	@Query("select 1.0 * count(b) / (select count(bo) from Book bo where bo.status = 'REJECTED') from Book b where b.status = 'ACCEPTED'")
-	//	Double getRatioOfBooksAcceptedVsBooksRejected();
-	//
+
+	@Query("select avg(datediff(c.endDate,c.startDate)) from Conference c")
+	Double getAvgOfDaysPerConference();
+
+	@Query("select min(datediff(c.endDate,c.startDate)) from Conference c")
+	Integer getMinimumOfDaysPerConference();
+
+	@Query("select max(datediff(c.endDate,c.startDate)) from Conference c")
+	Integer getMaximumOfDaysPerConference();
+
+	@Query("select stddev(datediff(c.endDate,c.startDate)) from Conference c")
+	Double getSDOfDaysPerConference();
+
 	//	//---------------------------------------------------------------------------------
-	//
-	//	@Query("select avg(1*(select count(c) from Chapter c where c.book.id = b.id)) from Book b where b.draft = false")
-	//	Double getAvgOfChaptersPerBook();
-	//
-	//	@Query("select min(1*(select count(c) from Chapter c where c.book.id = b.id)) from Book b where b.draft = false")
-	//	Integer getMinimumOfChaptersPerBook();
-	//
-	//	@Query("select max(1*(select count(c) from Chapter c where c.book.id = b.id)) from Book b where b.draft = false")
-	//	Integer getMaximumOfChaptersPerBook();
-	//
-	//	@Query("select stddev(1*(select count(c) from Chapter c where c.book.id = b.id)) from Book b where b.draft = false")
-	//	Double getSDOfChaptersPerBook();
-	//
+
+	@Query("select avg(1*(select count(c) from Conference c where c.category.id = ca.id)) from Category ca")
+	Double getAvgOfConferencesPerCategory();
+
+	@Query("select min(1*(select count(c) from Conference c where c.category.id = ca.id)) from Category ca")
+	Integer getMinimumOfConferencesPerCategory();
+
+	@Query("select max(1*(select count(c) from Conference c where c.category.id = ca.id)) from Category ca")
+	Integer getMaximumOfConferencesPerCategory();
+
+	@Query("select stddev(1*(select count(c) from Conference c where c.category.id = ca.id)) from Category ca")
+	Double getSDOfConferencesPerCategory();
+
 	//	//--------------------------------------------------------------------------------
-	//
-	//	@Query("select count(b),g from Book b join b.genre g where(b.draft = false and b.cancelled = false and (b.status = 'ACCEPTED' or b.status = 'INDEPENDENT')) group by g")
-	//	List<Object[]> getHistogramData();
-	//
-	//	//---------------------------------------------------------------------------------
-	//
-	//	@Query("select avg(1*(select count(s) from Sponsorship s where s.sponsor.id = sp.id)) from Sponsor sp")
-	//	Double getAvgOfSponsorshipsPerSponsor();
-	//
-	//	@Query("select min(1*(select count(s) from Sponsorship s where s.sponsor.id = sp.id)) from Sponsor sp")
-	//	Integer getMinimumOfSponsorshipsPerSponsor();
-	//
-	//	@Query("select max(1*(select count(s) from Sponsorship s where s.sponsor.id = sp.id)) from Sponsor sp")
-	//	Integer getMaximumOfSponsorshipsPerSponsor();
-	//
-	//	@Query("select stddev(1*(select count(s) from Sponsorship s where s.sponsor.id = sp.id)) from Sponsor sp")
-	//	Double getSDOfSponsorshipsPerSponsor();
-	//
+
+	@Query("select avg(1*(select count(co) from Comment co where co.conference.id = c.id)) from Conference c")
+	Double getAvgOfCommentsPerConference();
+
+	@Query("select min(1*(select count(co) from Comment co where co.conference.id = c.id)) from Conference c")
+	Integer getMinimumOfCommentsPerConference();
+
+	@Query("select max(1*(select count(co) from Comment co where co.conference.id = c.id)) from Conference c")
+	Integer getMaximumOfCommentsPerConference();
+
+	@Query("select stddev(1*(select count(co) from Comment co where co.conference.id = c.id)) from Conference c")
+	Double getSDOfCommentsPerConference();
+
 	//	//--------------------------------------------------------------------------------
-	//
-	//	@Query("select 1.0 * count(s) / (select count(sp) from Sponsorship sp where sp.cancelled != true) from Sponsorship s where s.cancelled = true")
-	//	Double getRatioOfSponsorshipsCancelledVsSponsorshipsNotCancelled();
-	//
-	//	//---------------------------------------------------------------------------------
-	//
-	//	@Query("select avg(views) from Sponsorship s")
-	//	Double getAvgOfViewsPerSponsorship();
-	//
-	//	@Query("select min(views) from Sponsorship s")
-	//	Integer getMinimumOfViewsPerSponsorship();
-	//
-	//	@Query("select max(views) from Sponsorship s")
-	//	Integer getMaximumOfViewsPerSponsorship();
-	//
-	//	@Query("select stddev(views) from Sponsorship s")
-	//	Double getSDOfViewsPerSponsorship();
-	//
-	//	@Query("select max(1*(select count(p) from Participation p where p.contest.id = c.id)) from Contest c")
-	//	Integer getMaximumOfParticipationsContest();
-	//
-	//	@Query("select max(1*(select count(s) from Sponsorship s join s.contests co where co.id = c.id)) from Contest c")
-	//	Integer getMaximumOfSponsorshipsContest();
+
+	@Query("select avg(1*(select count(co) from Comment co where co.activity.id = a.id)) from Activity a")
+	Double getAvgOfCommentsPerActivity();
+
+	@Query("select min(1*(select count(co) from Comment co where co.activity.id = a.id)) from Activity a")
+	Integer getMinimumOfCommentsPerActivity();
+
+	@Query("select max(1*(select count(co) from Comment co where co.activity.id = a.id)) from Activity a")
+	Integer getMaximumOfCommentsPerActivity();
+
+	@Query("select stddev(1*(select count(co) from Comment co where co.activity.id = a.id)) from Activity a")
+	Double getSDOfCommentsPerActivity();
 
 }
