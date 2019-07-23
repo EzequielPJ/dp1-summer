@@ -14,7 +14,7 @@ public class Ticker extends DomainEntity {
 	private String	identifier;
 
 
-	@Pattern(regexp = "^[A-Za-z0-9]{3}-[A-Za-z0-9]{4}$")
+	@Pattern(regexp = "^[A-Z0-9]{3}-[A-Z0-9]{4}$")
 	@Column(unique = true)
 	public String getIdentifier() {
 		return this.identifier;
