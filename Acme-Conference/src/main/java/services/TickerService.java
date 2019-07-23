@@ -3,18 +3,15 @@ package services;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import repositories.TickerRepository;
+import domain.Author;
 import domain.Ticker;
 
 @Service
@@ -25,20 +22,21 @@ public class TickerService {
 	private TickerRepository	tickerRepository;
 
 
-	public Ticker generateTicker() throws NoSuchAlgorithmException {
+	public Ticker generateTicker(final Author author) throws NoSuchAlgorithmException {
 		final Ticker ticker = new Ticker();
 		Ticker result;
-
-		//Fecha de crecion
 		String identifier;
-		final Date dateNow = DateTime.now().toDate();
-		final DateFormat dateFormat = new SimpleDateFormat("ddMMyy");
-		identifier = dateFormat.format(dateNow) + "-";
+
+		//Codigo con las iniciales
+		final char initialName = author.getName().toUpperCase().charAt(0);
+		final char initialMiddlename = author.getMiddlename() == null ? 'X' : author.getMiddlename().toUpperCase().charAt(0);
+		final char initialSurname = author.getSurname().toUpperCase().charAt(0);
+		identifier = initialName + initialMiddlename + initialSurname + "-";
 
 		//Cadena alfanumerica
 		final SecureRandom randomGenerator = SecureRandom.getInstance("SHA1PRNG");
-		final String alfanumerica = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-		for (int i = 0; i < 10; i++) {
+		final String alfanumerica = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		for (int i = 0; i < 4; i++) {
 			final Integer randomNumber = randomGenerator.nextInt(alfanumerica.length());
 			identifier = identifier + alfanumerica.charAt(randomNumber);
 		}
