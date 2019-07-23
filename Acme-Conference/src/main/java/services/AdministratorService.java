@@ -1,29 +1,15 @@
 
 package services;
 
-import java.util.Collection;
-import java.util.List;
-
 import javax.transaction.Transactional;
-import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 
 import repositories.AdministratorRepository;
-import security.Authority;
-import security.LoginService;
-import security.UserAccount;
 import security.UserAccountRepository;
-import utiles.AddPhoneCC;
 import utiles.AuthorityMethods;
-import utiles.EmailValidator;
-import domain.Administrator;
-import forms.AdministratorForm;
 
 @Service
 @Transactional
@@ -35,277 +21,285 @@ public class AdministratorService {
 	@Autowired
 	private AdministratorRepository	adminRepository;
 
-	@Autowired
-	private AdminConfigService		adminConfigService;
 
-	@Autowired
-	private MessageBoxService		messageBoxService;
-
-	@Autowired
-	private Validator				validator;
-
-
-	public Administrator create() {
-		final Administrator res = new Administrator();
-		res.setSpammer(null);
-		res.setBanned(false);
-		res.setMessageBoxes(this.messageBoxService.initializeNewUserBoxes());
-		return res;
-	}
-
-	public Administrator save(final Administrator admin) {
-
-		Assert.isTrue(admin != null);
-		Assert.isTrue(AuthorityMethods.checkIsSomeoneLogged());
-		Assert.isTrue(AuthorityMethods.chechAuthorityLogged(Authority.ADMINISTRATOR));
-		Assert.isTrue(!admin.getBanned());
-
-		if (admin.getId() == 0) {
-			final UserAccount userAccount = admin.getUserAccount();
-
-			final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
-			final String pass = encoder.encodePassword(userAccount.getPassword(), null);
-			userAccount.setPassword(pass);
-
-			final UserAccount finalAccount = this.accountRepository.save(userAccount);
-
-			admin.setUserAccount(finalAccount);
-		}
-
-		final Administrator res = this.adminRepository.save(admin);
-
-		return res;
-
-	}
-
-	public Administrator findOne(final int actorId) {
-		return this.adminRepository.findOne(actorId);
-	}
-
-	public Administrator findByPrincipal(final UserAccount principal) {
-		return this.adminRepository.findByPrincipal(principal.getId());
-	}
-
-	public Administrator reconstruct(final AdministratorForm adminForm, final BindingResult binding) {
-
-		if (!EmailValidator.validateEmail(adminForm.getEmail(), Authority.ADMINISTRATOR))
-			binding.rejectValue("email", "administrator.edit.email.error");
-		if (!adminForm.getUserAccount().getPassword().equals(adminForm.getConfirmPassword()))
-			binding.rejectValue("confirmPassword", "administrator.edit.confirmPassword.error");
-		if (this.accountRepository.findByUsername(adminForm.getUserAccount().getUsername()) != null)
-			binding.rejectValue("userAccount.username", "administrator.edit.userAccount.username.error");
-		if (!adminForm.getTermsAndConditions())
-			binding.rejectValue("termsAndConditions", "administrator.edit.termsAndConditions.error");
-
-		final Administrator result;
-		result = this.create();
-
-		final UserAccount account = adminForm.getUserAccount();
-
-		final Authority a = new Authority();
-		a.setAuthority(Authority.ADMINISTRATOR);
-		account.addAuthority(a);
-
-		result.setUserAccount(account);
-		result.setAddress(adminForm.getAddress());
-		result.setEmail(adminForm.getEmail());
-		result.setName(adminForm.getName());
-		result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), adminForm.getPhoneNumber()));
-		result.setPhotoURL(adminForm.getPhotoURL());
-
-		result.setSurname(adminForm.getSurname());
-
-		this.validator.validate(result, binding);
-
-		if (binding.hasErrors())
-			throw new ValidationException();
-		return result;
-	}
-	public Administrator reconstruct(final Administrator admin, final BindingResult binding) {
-
-		if (!EmailValidator.validateEmail(admin.getEmail(), Authority.ADMINISTRATOR))
-			binding.rejectValue("email", "administrator.edit.email.error");
-
-		final Administrator result;
-		result = this.findByPrincipal(LoginService.getPrincipal());
-		result.setAddress(admin.getAddress());
-		result.setEmail(admin.getEmail());
-		result.setName(admin.getName());
-		result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), admin.getPhoneNumber()));
-		result.setPhotoURL(admin.getPhotoURL());
-		result.setSurname(admin.getSurname());
-
-		this.validator.validate(result, binding);
-
-		if (binding.hasErrors())
-			throw new ValidationException();
-		return result;
-	}
-
-	public void flush() {
-		this.adminRepository.flush();
-	}
-
-	public Administrator getOne() {
-		return this.adminRepository.findAll().get(0);
-	}
-
-	public Collection<Administrator> findAll() {
-		return this.adminRepository.findAll();
-	}
-
+	// @Autowired
+	// private AdminConfigService adminConfigService;
+	//
+	// @Autowired
+	// private MessageBoxService messageBoxService;
+	//
+	// @Autowired
+	// private Validator validator;
+	//
+	//
+	// public Administrator create() {
+	// final Administrator res = new Administrator();
+	// res.setSpammer(null);
+	// res.setBanned(false);
+	// res.setMessageBoxes(this.messageBoxService.initializeNewUserBoxes());
+	// return res;
+	// }
+	//
+	// public Administrator save(final Administrator admin) {
+	//
+	// Assert.isTrue(admin != null);
+	// Assert.isTrue(AuthorityMethods.checkIsSomeoneLogged());
+	// Assert.isTrue(AuthorityMethods.chechAuthorityLogged(Authority.ADMINISTRATOR));
+	// Assert.isTrue(!admin.getBanned());
+	//
+	// if (admin.getId() == 0) {
+	// final UserAccount userAccount = admin.getUserAccount();
+	//
+	// final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+	// final String pass = encoder.encodePassword(userAccount.getPassword(), null);
+	// userAccount.setPassword(pass);
+	//
+	// final UserAccount finalAccount = this.accountRepository.save(userAccount);
+	//
+	// admin.setUserAccount(finalAccount);
+	// }
+	//
+	// final Administrator res = this.adminRepository.save(admin);
+	//
+	// return res;
+	//
+	// }
+	//
+	// public Administrator findOne(final int actorId) {
+	// return this.adminRepository.findOne(actorId);
+	// }
+	//
+	// public Administrator findByPrincipal(final UserAccount principal) {
+	// return this.adminRepository.findByPrincipal(principal.getId());
+	// }
+	//
+	// public Administrator reconstruct(final AdministratorForm adminForm, final BindingResult binding) {
+	//
+	// if (!EmailValidator.validateEmail(adminForm.getEmail(), Authority.ADMINISTRATOR))
+	// binding.rejectValue("email", "administrator.edit.email.error");
+	// if (!adminForm.getUserAccount().getPassword().equals(adminForm.getConfirmPassword()))
+	// binding.rejectValue("confirmPassword", "administrator.edit.confirmPassword.error");
+	// if (this.accountRepository.findByUsername(adminForm.getUserAccount().getUsername()) != null)
+	// binding.rejectValue("userAccount.username", "administrator.edit.userAccount.username.error");
+	// if (!adminForm.getTermsAndConditions())
+	// binding.rejectValue("termsAndConditions", "administrator.edit.termsAndConditions.error");
+	//
+	// final Administrator result;
+	// result = this.create();
+	//
+	// final UserAccount account = adminForm.getUserAccount();
+	//
+	// final Authority a = new Authority();
+	// a.setAuthority(Authority.ADMINISTRATOR);
+	// account.addAuthority(a);
+	//
+	// result.setUserAccount(account);
+	// result.setAddress(adminForm.getAddress());
+	// result.setEmail(adminForm.getEmail());
+	// result.setName(adminForm.getName());
+	// result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), adminForm.getPhoneNumber()));
+	// result.setPhotoURL(adminForm.getPhotoURL());
+	//
+	// result.setSurname(adminForm.getSurname());
+	//
+	// this.validator.validate(result, binding);
+	//
+	// if (binding.hasErrors())
+	// throw new ValidationException();
+	// return result;
+	// }
+	// public Administrator reconstruct(final Administrator admin, final BindingResult binding) {
+	//
+	// if (!EmailValidator.validateEmail(admin.getEmail(), Authority.ADMINISTRATOR))
+	// binding.rejectValue("email", "administrator.edit.email.error");
+	//
+	// final Administrator result;
+	// result = this.findByPrincipal(LoginService.getPrincipal());
+	// result.setAddress(admin.getAddress());
+	// result.setEmail(admin.getEmail());
+	// result.setName(admin.getName());
+	// result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), admin.getPhoneNumber()));
+	// result.setPhotoURL(admin.getPhotoURL());
+	// result.setSurname(admin.getSurname());
+	//
+	// this.validator.validate(result, binding);
+	//
+	// if (binding.hasErrors())
+	// throw new ValidationException();
+	// return result;
+	// }
+	//
+	// public void flush() {
+	// this.adminRepository.flush();
+	// }
+	//
+	// public Administrator getOne() {
+	// return this.adminRepository.findAll().get(0);
+	// }
+	//
+	// public Collection<Administrator> findAll() {
+	// return this.adminRepository.findAll();
+	// }
+	//
 	//DASHBOARD----------------------------------------------------------
 
-	public Double getAvgOfBooksPerWriter() {
+	public Double getAvgOfSubmissionsPerConference() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getAvgOfBooksPerWriter();
+		return this.adminRepository.getAvgOfSubmissionsPerConference();
 	}
 
-	public Integer getMinimumOfBooksPerWriter() {
+	public Integer getMinimumOfSubmissionsPerConference() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getMinimumOfBooksPerWriter();
+		return this.adminRepository.getMinimumOfSubmissionsPerConference();
 	}
 
-	public Integer getMaximumOfBooksPerWriter() {
+	public Integer getMaximumOfSubmissionsPerConference() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getMaximumOfBooksPerWriter();
+		return this.adminRepository.getMaximumOfSubmissionsPerConference();
 	}
 
-	public Double getSDOfBooksPerWriter() {
+	public Double getSDOfSubmissionsPerConference() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getSDOfBooksPerWriter();
+		return this.adminRepository.getSDOfSubmissionsPerConference();
 	}
 
-	//---------------------------------------------------------------------
+	//----------------------------------------------------------
 
-	public Double getAvgOfContestPerPublisher() {
+	public Double getAvgOfRegistrationsPerConference() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getAvgOfContestPerPublisher();
+		return this.adminRepository.getAvgOfRegistrationsPerConference();
 	}
 
-	public Integer getMinimumOfContestPerPublisher() {
+	public Integer getMinimumOfRegistrationsPerConference() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getMinimumOfContestPerPublisher();
+		return this.adminRepository.getMinimumOfRegistrationsPerConference();
 	}
 
-	public Integer getMaximumOfContestPerPublisher() {
+	public Integer getMaximumOfRegistrationsPerConference() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getMaximumOfContestPerPublisher();
+		return this.adminRepository.getMaximumOfRegistrationsPerConference();
 	}
 
-	public Double getSDOfContestPerPublisher() {
+	public Double getSDOfRegistrationsPerConference() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getSDOfContestPerPublisher();
+		return this.adminRepository.getSDOfRegistrationsPerConference();
 	}
 
-	//------------------------------------------------------------------------
+	//----------------------------------------------------------
 
-	public Double getRatioOfBooksWithPublisherVsBooksIndependients() {
+	public Double getAvgOfConferenceFees() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getRatioOfBooksWithPublisherVsBooksIndependients();
+		return this.adminRepository.getAvgOfConferenceFees();
 	}
 
-	//------------------------------------------------------------------------
-
-	public Double getRatioOfBooksAcceptedVsBooksRejected() {
+	public Integer getMinimumOfConferenceFees() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getRatioOfBooksAcceptedVsBooksRejected();
+		return this.adminRepository.getMinimumOfConferenceFees();
 	}
 
-	//------------------------------------------------------------------------
-
-	public Double getAvgOfChaptersPerBook() {
+	public Integer getMaximumOfConferenceFees() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getAvgOfChaptersPerBook();
+		return this.adminRepository.getMaximumOfConferenceFees();
 	}
 
-	public Integer getMinimumOfChaptersPerBook() {
+	public Double getSDOfConferenceFees() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getMinimumOfChaptersPerBook();
+		return this.adminRepository.getSDOfConferenceFees();
 	}
 
-	public Integer getMaximumOfChaptersPerBook() {
+	//----------------------------------------------------------
+
+	public Double getAvgOfDaysPerConference() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getMaximumOfChaptersPerBook();
+		return this.adminRepository.getAvgOfDaysPerConference();
 	}
 
-	public Double getSDOfChaptersPerBook() {
+	public Integer getMinimumOfDaysPerConference() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getSDOfChaptersPerBook();
+		return this.adminRepository.getMinimumOfDaysPerConference();
 	}
 
-	//--------------------------------------------------------------------------
-
-	public List<Object[]> getHistogramData() {
+	public Integer getMaximumOfDaysPerConference() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getHistogramData();
+		return this.adminRepository.getMaximumOfDaysPerConference();
 	}
 
-	//--------------------------------------------------------------------------
-
-	public Double getAvgOfSponsorshipsPerSponsor() {
+	public Double getSDOfDaysPerConference() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getAvgOfSponsorshipsPerSponsor();
+		return this.adminRepository.getSDOfDaysPerConference();
 	}
 
-	public Integer getMinimumOfSponsorshipsPerSponsor() {
+	//----------------------------------------------------------
+
+	public Double getAvgOfConferencesPerCategory() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getMinimumOfSponsorshipsPerSponsor();
+		return this.adminRepository.getAvgOfConferencesPerCategory();
 	}
 
-	public Integer getMaximumOfSponsorshipsPerSponsor() {
+	public Integer getMinimumOfConferencesPerCategory() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getMaximumOfSponsorshipsPerSponsor();
+		return this.adminRepository.getMinimumOfConferencesPerCategory();
 	}
 
-	public Double getSDOfSponsorshipsPerSponsor() {
+	public Integer getMaximumOfConferencesPerCategory() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getSDOfSponsorshipsPerSponsor();
+		return this.adminRepository.getMaximumOfConferencesPerCategory();
 	}
 
-	//--------------------------------------------------------------------------
-
-	public Double getRatioOfSponsorshipsCancelledVsSponsorshipsNotCancelled() {
+	public Double getSDOfConferencesPerCategory() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getRatioOfSponsorshipsCancelledVsSponsorshipsNotCancelled();
+		return this.adminRepository.getSDOfConferencesPerCategory();
 	}
 
-	//--------------------------------------------------------------------------
+	//----------------------------------------------------------
 
-	public Double getAvgOfViewsPerSponsorship() {
+	public Double getAvgOfCommentsPerConference() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getAvgOfViewsPerSponsorship();
+		return this.adminRepository.getAvgOfCommentsPerConference();
 	}
 
-	public Integer getMinimumOfViewsPerSponsorship() {
+	public Integer getMinimumOfCommentsPerConference() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getMinimumOfViewsPerSponsorship();
+		return this.adminRepository.getMinimumOfCommentsPerConference();
 	}
 
-	public Integer getMaximumOfViewsPerSponsorship() {
+	public Integer getMaximumOfCommentsPerConference() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getMaximumOfViewsPerSponsorship();
+		return this.adminRepository.getMaximumOfCommentsPerConference();
 	}
 
-	public Double getSDOfViewsPerSponsorship() {
+	public Double getSDOfCommentsPerConference() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getSDOfViewsPerSponsorship();
+		return this.adminRepository.getSDOfCommentsPerConference();
 	}
 
-	public Integer getMaximumOfParticipationsContest() {
+	//----------------------------------------------------------
+
+	public Double getAvgOfCommentsPerActivity() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getMaximumOfParticipationsContest();
+		return this.adminRepository.getAvgOfCommentsPerActivity();
 	}
 
-	public Integer getMaximumOfSponsorshipsContest() {
+	public Integer getMinimumOfCommentsPerActivity() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		return this.adminRepository.getMaximumOfSponsorshipsContest();
+		return this.adminRepository.getMinimumOfCommentsPerActivity();
 	}
 
-	public void saveAnonymize(final Administrator anonymousAdmin) {
-		Assert.isTrue(anonymousAdmin != null);
-		Assert.isTrue(AuthorityMethods.chechAuthorityLogged(Authority.ADMINISTRATOR) || AuthorityMethods.chechAuthorityLogged(Authority.BAN));
-		this.adminRepository.save(anonymousAdmin);
+	public Integer getMaximumOfCommentsPerActivity() {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		return this.adminRepository.getMaximumOfCommentsPerActivity();
 	}
+
+	public Double getSDOfCommentsPerActivity() {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		return this.adminRepository.getSDOfCommentsPerActivity();
+	}
+
+	//
+	// public void saveAnonymize(final Administrator anonymousAdmin) {
+	// Assert.isTrue(anonymousAdmin != null);
+	// Assert.isTrue(AuthorityMethods.chechAuthorityLogged(Authority.ADMINISTRATOR) || AuthorityMethods.chechAuthorityLogged(Authority.BAN));
+	// this.adminRepository.save(anonymousAdmin);
+	// }
 
 }
