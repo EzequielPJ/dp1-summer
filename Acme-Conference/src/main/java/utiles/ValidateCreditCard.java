@@ -1,7 +1,6 @@
 
 package utiles;
 
-import java.util.Collection;
 import java.util.GregorianCalendar;
 
 import org.joda.time.LocalDate;
@@ -68,13 +67,13 @@ public class ValidateCreditCard {
 		return result;
 	}
 
-	public static void checkMakeCreditCard(final CreditCard card, final Collection<String> makes, final BindingResult binding) {
-		final String make = card.getMake();
-
-		final Collection<String> makers = makes;
-
-		if (!makers.contains(make))
-			binding.rejectValue("creditCard.make", "creditCard.make.error");
-
-	}
+	//	public static void checkMakeCreditCard(final CreditCard card, final Collection<String> makes, final BindingResult binding) {
+	//		final String make = card.getMake();
+	//
+	//		final Collection<String> makers = makes;
+	//
+	//		if (!makers.contains(make))
+	//			binding.rejectValue("creditCard.make", "creditCard.make.error");
+	//
+	//	}
 }

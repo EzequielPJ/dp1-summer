@@ -20,7 +20,51 @@
 </div>
 <div>
 	<ul id="jMenu">
+	
+		<!-- Conference -->
 		
+		<security:authorize access="hasRole('ADMINISTRATOR')">
+			<li>
+				<a class="fNiv"><spring:message	code="master.page.conference" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li>
+						<a href="conference/administrator/list.do"><spring:message code="master.page.administrator.list" /></a>
+					</li>
+					<li>
+						<a href="conference/administrator/listSubmissionDeadline.do"><spring:message code="master.page.administrator.listSubmissionDeadline" /></a>
+					</li>
+					<li>
+						<a href="conference/administrator/listNotificationDeadline.do"><spring:message code="master.page.administrator.listNotificationDeadline" /></a>
+					</li>
+					<li>
+						<a href="conference/administrator/listCameraReadyDeadline.do"><spring:message code="master.page.administrator.listCameraReadyDeadline" /></a>
+					</li>
+					<li>
+						<a href="conference/administrator/listNextConference.do"><spring:message code="master.page.administrator.listNextConference" /></a>
+					</li>
+					<li>
+						<a href="conference/administrator/create.do"><spring:message code="master.page.administrator.create" /></a>
+					</li>
+				</ul>
+			</li>
+		</security:authorize>
+		
+		<li>
+				<a class="fNiv"><spring:message	code="master.page.listConference" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li>
+						<a href="conference/listConferencePast.do"><spring:message code="master.page.listConferencePast" /></a>
+					</li>
+					<li>
+						<a href="conference/listConferenceNow.do"><spring:message code="master.page.listConferenceNow" /></a>
+					</li>
+					<li>
+						<a href="conference/listConferenceFuture.do"><spring:message code="master.page.listConferenceFuture" /></a>
+					</li>
+				</ul>
+			</li>
 		
 		<!-- Books -->
 		

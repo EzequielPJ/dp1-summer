@@ -45,6 +45,8 @@
 		<value>/views/chapter/messages</value>
 		<value>/views/opinion/messages</value>
 		<value>/views/participation/messages</value>
+		
+		<value>/views/conference/messages</value>
 
 	</util:list>
 

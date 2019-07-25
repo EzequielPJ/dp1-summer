@@ -9,7 +9,6 @@
  * TDG Licence, a copy of which you may download from 
  * http://www.tdg-seville.info/License.html
  -->
-
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"	
 	xsi:schemaLocation="
@@ -25,18 +24,37 @@
 		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
 
 	<!-- Access control -->
+	
+	<!-- TODO: limpiar  -->
 
 	<security:http auto-config="true" use-expressions="true">
 		<security:intercept-url pattern="/" access="permitAll" /> 
 
-		<security:intercept-url pattern="/faviconAcmeConference.ico" access="permitAll" /> 
+		<security:intercept-url pattern="/faviconAcmeWriters.ico" access="permitAll" /> 
 		<security:intercept-url pattern="/images/**" access="permitAll" /> 
 		<security:intercept-url pattern="/scripts/**" access="permitAll" /> 
 		<security:intercept-url pattern="/styles/**" access="permitAll" /> 
 		<security:intercept-url pattern="/search/display.do" access="permitAll" /> 
 		<security:intercept-url pattern="/contest/list.do" access="permitAll" /> 
 		<security:intercept-url pattern="/finder/author/edit.do" access="hasRole('AUTHOR')" /> 
+		<security:intercept-url pattern="/views/misc/index.jsp" access="permitAll" /> 
+
+		<security:intercept-url pattern="/security/login.do" access="permitAll" /> 
+		<security:intercept-url pattern="/security/loginFailure.do" access="permitAll" /> 
+
+		<security:intercept-url pattern="/welcome/index.do" access="permitAll" /> 
+		<security:intercept-url pattern="/dashboard/administrator/display.do" access="hasRole('ADMINISTRATOR')" /> 
 		<security:intercept-url pattern="/misc/termsAndConditions.do" access="permitAll" />
+		
+		<!-- Conference -->
+		
+		<security:intercept-url access="hasRole('ADMINISTRATOR')" pattern="/conference/administrator/**"/>
+		<security:intercept-url pattern="/conference/listConferencePast.do" access="permitAll" />
+		<security:intercept-url pattern="/conference/listConferenceNow.do" access="permitAll" />
+		<security:intercept-url pattern="/conference/listConferenceFuture.do" access="permitAll" />
+		<security:intercept-url pattern="/conference/display.do" access="permitAll" />
+		
+		<!--  -->
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 		

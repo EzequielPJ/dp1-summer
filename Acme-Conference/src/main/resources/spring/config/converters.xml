@@ -28,6 +28,9 @@
 		<bean class="converters.ActorToStringConverter"/>
 		<bean class="converters.StringToActorConverter"/>
 		
+		<bean class="converters.ConferenceToStringConverter"/>
+		<bean class="converters.StringToConferenceConverter"/>
+		
 		<bean class="converters.CategoryToStringConverter"/>
 		<bean class="converters.StringToCategoryConverter"/>
 		
