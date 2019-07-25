@@ -32,6 +32,7 @@ public class Submission extends DomainEntity {
 	private Conference				conference;
 	private Collection<Reviewer>	reviewers;
 	private Ticker					ticker;
+	private Author					author;
 
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -83,6 +84,16 @@ public class Submission extends DomainEntity {
 
 	public void setTicker(final Ticker ticker) {
 		this.ticker = ticker;
+	}
+
+	@Valid
+	@ManyToOne(optional = false)
+	public Author getAuthor() {
+		return this.author;
+	}
+
+	public void setAuthor(final Author author) {
+		this.author = author;
 	}
 
 }
