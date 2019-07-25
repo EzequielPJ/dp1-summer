@@ -27,10 +27,18 @@
 			<display:column titleKey="conference.list.category"><jstl:out value="${conference.category.categoryES}"/></display:column>
 			</jstl:if> --%>
 			
-		
+				<jstl:if test="${!general}">
 				<display:column titleKey="conference.list.seeMore">
 					<acme:button url="conference/administrator/display.do?idConference=${conference.id}" type="button" code="conference.list.seeMore"/>
 				</display:column>
+				</jstl:if>
+				<jstl:if test="${general}">
+				<display:column titleKey="conference.list.seeMore">
+					<acme:button url="conference/display.do?idConference=${conference.id}" type="button" code="conference.list.seeMore"/>
+				</display:column>
+				</jstl:if>
+				
+				<jstl:if test="${!general}">
 				
 				<display:column titleKey="conference.list.edit">
 					<jstl:if test="${conference.finalMode eq false}">
@@ -42,5 +50,7 @@
 						<acme:button url="conference/administrator/delete.do?idConference=${conference.id}" type="button" code="conference.list.delete"/>
 					</jstl:if>
 				</display:column> 
+				
+				</jstl:if>
 				
 </display:table>

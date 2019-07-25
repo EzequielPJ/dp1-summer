@@ -36,6 +36,10 @@ public class ConferenceService {
 		return this.conferenceRepository.findOne(id);
 	}
 
+	public Collection<Conference> findAll(final int id) {
+		return this.conferenceRepository.findAll();
+	}
+
 	public Administrator findByPrincipal(final UserAccount principal) {
 		return this.conferenceRepository.findByPrincipal(principal.getId());
 	}
@@ -60,6 +64,18 @@ public class ConferenceService {
 		return this.conferenceRepository.getConferencesBetweenStartDate(date1, date2);
 	}
 
+	public Collection<Conference> getConferencesPast(final Date date1) {
+		return this.conferenceRepository.getConferencesPast(date1);
+	}
+
+	public Collection<Conference> getConferencesFuture(final Date date1) {
+		return this.conferenceRepository.getConferencesFuture(date1);
+	}
+
+	public Collection<Conference> getConferencesFinalMode() {
+		return this.conferenceRepository.getConferencesFinalMode();
+	}
+
 	public Conference create() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
 		final Conference conference = new Conference();
@@ -81,17 +97,8 @@ public class ConferenceService {
 
 	public void delete(final int id) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-
-		//		Company a;
-		//		a = this.sisitsRepository.findCompanyByUserAccount(LoginService.getPrincipal().getId());
-		//
-		//		Collection<Sisits> colQ;
-		//		colQ = this.sisitsRepository.findSisitsesByCompany(a.getId());
-		//
-		//		Assert.isTrue(colQ.contains(this.sisitsRepository.findOne(id)), "You don't have permission to delete this");
-
-		//TODO borrar todas las referencias a otras clases como activity, comment, etc... (Hacer querys ricas)
-
+		Assert.isTrue(this.conferenceRepository.findOne(id).getAdministrator().equals(this.conferenceRepository.findByPrincipal(LoginService.getPrincipal().getId())));
+		Assert.isTrue(this.conferenceRepository.findOne(id).getFinalMode() == false);
 		this.conferenceRepository.delete(this.conferenceRepository.findOne(id));
 	}
 

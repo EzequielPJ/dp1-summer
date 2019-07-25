@@ -31,4 +31,13 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
 	@Query("select c from Conference c where c.startDate between ?1 AND ?2")
 	Collection<Conference> getConferencesBetweenStartDate(Date date1, Date date2);
+
+	@Query("select c from Conference c where c.finalMode = true and c.startDate < ?1")
+	Collection<Conference> getConferencesPast(Date date1);
+
+	@Query("select c from Conference c where c.finalMode = true and c.endDate > ?1")
+	Collection<Conference> getConferencesFuture(Date date1);
+
+	@Query("select c from Conference c where c.finalMode = true")
+	Collection<Conference> getConferencesFinalMode();
 }

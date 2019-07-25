@@ -1,6 +1,7 @@
 
 package controllers.administrator;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -57,8 +58,12 @@ public class ConferenceAdministratorController extends AbstractController {
 		calendar.add(Calendar.DAY_OF_YEAR, -5);
 		final Date date2 = calendar.getTime();
 
+		final ArrayList<Conference> myConferencesF = new ArrayList<Conference>();
 		final Collection<Conference> myConferences = this.conferenceService.getConferencesBetweenSubmissionDeadline(date1, date2);
-		result.addObject("conferences", myConferences);
+		for (final Conference conf : myConferences)
+			if (conf.getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())))
+				myConferencesF.add(conf);
+		result.addObject("conferences", myConferencesF);
 		result.addObject("requestURI", "conference/administrator/listSubmissionDeadline.do");
 		if (lang == null)
 			result.addObject("lang", "en");
@@ -78,8 +83,12 @@ public class ConferenceAdministratorController extends AbstractController {
 		calendar.add(Calendar.DAY_OF_YEAR, -4);
 		final Date date2 = calendar.getTime();
 
+		final ArrayList<Conference> myConferencesF = new ArrayList<Conference>();
 		final Collection<Conference> myConferences = this.conferenceService.getConferencesBetweenNotificationDeadline(date1, date2);
-		result.addObject("conferences", myConferences);
+		for (final Conference conf : myConferences)
+			if (conf.getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())))
+				myConferencesF.add(conf);
+		result.addObject("conferences", myConferencesF);
 		result.addObject("requestURI", "conference/administrator/listNotificationDeadline.do");
 		if (lang == null)
 			result.addObject("lang", "en");
@@ -99,8 +108,12 @@ public class ConferenceAdministratorController extends AbstractController {
 		calendar.add(Calendar.DAY_OF_YEAR, -4);
 		final Date date2 = calendar.getTime();
 
+		final ArrayList<Conference> myConferencesF = new ArrayList<Conference>();
 		final Collection<Conference> myConferences = this.conferenceService.getConferencesBetweenCameraReadyDeadline(date1, date2);
-		result.addObject("conferences", myConferences);
+		for (final Conference conf : myConferences)
+			if (conf.getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())))
+				myConferencesF.add(conf);
+		result.addObject("conferences", myConferencesF);
 		result.addObject("requestURI", "conference/administrator/listCameraReadyDeadline.do");
 		if (lang == null)
 			result.addObject("lang", "en");
@@ -120,8 +133,12 @@ public class ConferenceAdministratorController extends AbstractController {
 		calendar.add(Calendar.DAY_OF_YEAR, 4);
 		final Date date2 = calendar.getTime();
 
+		final ArrayList<Conference> myConferencesF = new ArrayList<Conference>();
 		final Collection<Conference> myConferences = this.conferenceService.getConferencesBetweenStartDate(date1, date2);
-		result.addObject("conferences", myConferences);
+		for (final Conference conf : myConferences)
+			if (conf.getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())))
+				myConferencesF.add(conf);
+		result.addObject("conferences", myConferencesF);
 		result.addObject("requestURI", "conference/administrator/listNextConference.do");
 		if (lang == null)
 			result.addObject("lang", "en");
@@ -171,6 +188,8 @@ public class ConferenceAdministratorController extends AbstractController {
 
 		if (!conference.getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())))
 			result = new ModelAndView("redirect:list.do");
+		else if (conference.getFinalMode() == true)
+			result = this.listModelAndView("security.error.accessDenied");
 		else
 			result = this.createEditModelAndView(conference);
 
@@ -211,8 +230,14 @@ public class ConferenceAdministratorController extends AbstractController {
 	public ModelAndView delete(@RequestParam(required = true) final int idConference) {
 		ModelAndView result;
 		try {
-			this.conferenceService.delete(idConference);
-			result = new ModelAndView("redirect:list.do");
+			if (this.conferenceService.findOne(idConference).getFinalMode() == true)
+				result = this.listModelAndView("security.error.accessDenied");
+			else if (!this.conferenceService.findOne(idConference).getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())))
+				result = new ModelAndView("redirect:list.do");
+			else {
+				this.conferenceService.delete(idConference);
+				result = new ModelAndView("redirect:list.do");
+			}
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:list.do");
 		}

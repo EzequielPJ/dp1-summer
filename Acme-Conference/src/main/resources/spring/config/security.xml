@@ -120,6 +120,10 @@
 		<!-- Conference -->
 		
 		<security:intercept-url access="hasRole('ADMINISTRATOR')" pattern="/conference/administrator/**"/>
+		<security:intercept-url pattern="/conference/listConferencePast.do" access="permitAll" />
+		<security:intercept-url pattern="/conference/listConferenceNow.do" access="permitAll" />
+		<security:intercept-url pattern="/conference/listConferenceFuture.do" access="permitAll" />
+		<security:intercept-url pattern="/conference/display.do" access="permitAll" />
 		
 		<!--  -->
 	

@@ -50,6 +50,22 @@
 			</li>
 		</security:authorize>
 		
+		<li>
+				<a class="fNiv"><spring:message	code="master.page.listConference" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li>
+						<a href="conference/listConferencePast.do"><spring:message code="master.page.listConferencePast" /></a>
+					</li>
+					<li>
+						<a href="conference/listConferenceNow.do"><spring:message code="master.page.listConferenceNow" /></a>
+					</li>
+					<li>
+						<a href="conference/listConferenceFuture.do"><spring:message code="master.page.listConferenceFuture" /></a>
+					</li>
+				</ul>
+			</li>
+		
 		<!-- Books -->
 		
 		<li>

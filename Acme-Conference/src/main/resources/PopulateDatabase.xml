@@ -85,6 +85,18 @@
         </property>
     </bean>
     
+    <bean id="userAccount7" class="security.UserAccount">
+        <property name="username" value="admin1" />
+        <property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
+        <property name="authorities">
+            <list>
+                <bean class="security.Authority">
+                    <property name="authority" value="ADMINISTRATOR" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
     <!-- User accounts (sponsor)-->
     
     <bean id="userAccount1" class="security.UserAccount">
@@ -177,6 +189,18 @@
         <property name="finder" ref="finder0" />
     </bean>
     
+    <bean class="domain.Administrator" id="admin1">
+        <property value="Christian" name="name" />
+        <property value="Lion" name="middlename"/>
+        <property value="Galves" name="surname"/>
+        <property value="https://photo0.com" name="photoURL" />
+        <property value="Street 0" name="address" />
+        <property value="admin@" name="email" />
+        <property value="+00 000-0000000" name="phoneNumber" />
+        <property name="userAccount" ref="userAccount7" />
+        <property name="finder" ref="finder7" />
+    </bean>
+    
     <!-- Sponsors (sponsor0) -->    
     
     <bean class="domain.ConferenceSponsor" id="sponsor0">
@@ -264,6 +288,15 @@
     <!-- Finders (admin0)-->    
     
     <bean class="domain.Finder" id="finder0">
+        <property name="keyWord" value="System" />
+        <property name="minimumDate" value="06/01/2018" />
+        <property name="maximumDate" value="08/01/2018" />
+        <property name="maximumFee" value="12" />       
+    </bean>
+    
+    <!-- Finders (admin1)-->    
+    
+    <bean class="domain.Finder" id="finder7">
         <property name="keyWord" value="System" />
         <property name="minimumDate" value="06/01/2018" />
         <property name="maximumDate" value="08/01/2018" />
@@ -520,7 +553,7 @@
         <property name="endDate" value="11/19/2018"/>
         <property name="summary" value="Como utilizar la ingeniería en casa"/>
         <property name="fee" value="25"/>
-        <property name="finalMode" value="false"/>
+        <property name="finalMode" value="true"/>
         <property name="administrator" ref="admin" />
         <property name="category" ref="category6" />
     </bean>
@@ -536,7 +569,7 @@
         <property name="endDate" value="07/29/2019"/>
         <property name="summary" value="Aprende a crear videojuegos"/>
         <property name="fee" value="14"/>
-        <property name="finalMode" value="false"/>
+        <property name="finalMode" value="true"/>
         <property name="administrator" ref="admin" />
         <property name="category" ref="category6" />
     </bean>
