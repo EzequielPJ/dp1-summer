@@ -2,12 +2,21 @@
 package services;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
 
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -29,7 +38,12 @@ public class ConferenceService {
 	private ConferenceRepository	conferenceRepository;
 
 	@Autowired
+	private AdminConfigService		adminConfigService;
+
+	@Autowired
 	Validator						validator;
+
+	private final SimpleDateFormat	FORMAT	= new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
 
 	public Conference findOne(final int id) {
@@ -153,6 +167,11 @@ public class ConferenceService {
 
 		return conferenceRec;
 	}
+
+	public Collection<Conference> getFilterConferencesByKeyword(final String keyword) {
+		return this.conferenceRepository.getFilterConferencesByKeyword(keyword);
+	}
+
 	public Collection<Conference> getFilterConferencesByFinder(final String keyWord, final Date minimumDate, final Date maximumDate, final Double maximumFee, final int minCategory, final int maxCategory) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("AUTHOR"));
 		return this.conferenceRepository.getFilterConferencesByFinder(keyWord, minimumDate, maximumDate, maximumFee, minCategory, maxCategory);
@@ -162,9 +181,33 @@ public class ConferenceService {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("AUTHOR"));
 		return this.conferenceRepository.getConferencesByFinder(idFinder);
 	}
-	
-	public Collection<Conference> getFilterConferencesByKeyword(final String keyword) {
-		return this.conferenceRepository.getFilterConferencesByKeyword(keyword);
+
+	public List<String> getConferenceBuzzWords() throws ParseException {
+		final LocalDateTime DATETIMENOW = LocalDateTime.now();
+		final Date date = this.FORMAT.parse((DATETIMENOW.getYear() - 1) + "/" + DATETIMENOW.getMonthOfYear() + "/" + DATETIMENOW.getDayOfMonth() + " " + DATETIMENOW.getHourOfDay() + ":" + LocalDateTime.now().getMinuteOfHour() + ":"
+			+ DATETIMENOW.getSecondOfMinute());
+		final Collection<String> aux = this.conferenceRepository.getTextsOfConferences(date);
+		String texts = "";
+		for (final String string : aux)
+			texts = texts + " " + string;
+		final List<String> textWords = new LinkedList<String>(Arrays.asList(texts.toLowerCase().trim().split("\"|\\s|,|\\.|;|:|!|\'|\\?|¿|¡|\\(|\\)|\\[|\\]|\\{|\\}|\\=|\\<|\\>")));
+		textWords.removeAll(Collections.singleton(""));
+		final Map<String, Integer> wordScores = new HashMap<>();
+		for (final String string : textWords)
+			if (!(this.adminConfigService.getAdminConfig().getVoidWordsEN().contains(string) || this.adminConfigService.getAdminConfig().getVoidWordsES().contains(string)))
+				if (wordScores.containsKey(string.trim()))
+					wordScores.put(string.trim(), wordScores.get(string.trim()) + 1);
+				else
+					wordScores.put(string.trim(), 1);
+		final List<Integer> scores = new ArrayList<>();
+		scores.addAll(wordScores.values());
+		Collections.sort(scores);
+		final Double buzzScore = scores.get(scores.size() - 1) * 0.8;
+		final List<String> res = new ArrayList<>();
+		for (final String string : wordScores.keySet())
+			if (wordScores.get(string) >= buzzScore)
+				res.add(string);
+		return res;
 	}
 
 }

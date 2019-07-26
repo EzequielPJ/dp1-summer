@@ -22,7 +22,10 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
 	@Query("select f.conferences from Finder f where f.id = ?1")
 	Collection<Conference> getConferencesByFinder(int idFinder);
-	
+
+	@Query("select concat(c.title,' ', c.summary) from Conference c where c.startDate > ?1")
+	Collection<String> getTextsOfConferences(Date date);
+
 	@Query("select a from Administrator a where a.userAccount.id = ?1")
 	Administrator findByPrincipal(int principalId);
 
@@ -49,5 +52,4 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
 	@Query("select c from Conference c where c.finalMode = true")
 	Collection<Conference> getConferencesFinalMode();
-	Collection<Conference> getConferencesByFinder(int idFinder);
 }
