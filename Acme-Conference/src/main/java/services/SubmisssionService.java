@@ -1,11 +1,15 @@
 
 package services;
 
+import javax.validation.ValidationException;
+
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.SubmissionRepository;
 import security.LoginService;
@@ -31,25 +35,40 @@ public class SubmisssionService {
 	@Autowired
 	private IntermediaryBetweenTransactions	intermediaryBetweenTransactions;
 
+	@Autowired
+	private Validator						validator;
 
-	public Submission save(final SubmissionPaperForm submissionPaperForm) {
 
-		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("AUTHOR"), "Debe ser un autor para realizar esta acción");
-
-		final Author author = this.authorService.findByPrincipal(LoginService.getPrincipal());
-		final Integer numOfSubmissions = this.getNumberOfSubmissionsOfAuthorByConference(author.getId(), submissionPaperForm.getConference().getId());
-		Assert.isTrue(numOfSubmissions == 0, "Ya se ha hecho una solicitud para la conferencia seleccionada");
-
-		Assert.isTrue(submissionPaperForm.getConference().getFinalMode(), "La conferencia seleccionada no esta disponible");
-		Assert.isTrue(submissionPaperForm.getConference().getSubmissionDeadline().after(DateTime.now().toDate()));
+	public Submission reconstruct(final SubmissionPaperForm submissionPaperForm, final BindingResult bindingResult) {
 
 		final Submission submission = new Submission();
 
+		final Author author = this.authorService.findByPrincipal(LoginService.getPrincipal());
 		submission.setAuthor(author);
 		submission.setConference(submissionPaperForm.getConference());
 		submission.setMoment(DateTime.now().toDate());
 		submission.setStatus("UNDER-REVIEW");
 		submission.setTicker(this.intermediaryBetweenTransactions.generateTicker());
+
+		this.validator.validate(submission, bindingResult);
+
+		if (bindingResult.hasErrors())
+			throw new ValidationException();
+
+		return submission;
+	}
+
+	public Submission save(final Submission submission) {
+
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("AUTHOR"), "Debe ser un autor para realizar esta acción");
+
+		final Author author = this.authorService.findByPrincipal(LoginService.getPrincipal());
+		final Integer numOfSubmissions = this.getNumberOfSubmissionsOfAuthorByConference(author.getId(), submission.getConference().getId());
+		Assert.isTrue(submission.getAuthor().equals(author), "El autor no coincide con el logueado");
+		Assert.isTrue(numOfSubmissions == 0, "Ya se ha hecho una solicitud para la conferencia seleccionada");
+
+		Assert.isTrue(submission.getConference().getFinalMode(), "La conferencia seleccionada no esta disponible");
+		Assert.isTrue(submission.getConference().getSubmissionDeadline().after(DateTime.now().toDate()), "La submission no se puede hacer porque ha pasado su fecha límite");
 
 		return this.submissionRepository.save(submission);
 	}

@@ -27,7 +27,7 @@ public class Paper extends DomainEntity {
 	private boolean				cameraReadyPaper;
 
 	//Relationship
-	private Collection<Author>	author;
+	private Collection<Author>	authors;
 	private Submission			submission;
 
 
@@ -80,12 +80,12 @@ public class Paper extends DomainEntity {
 
 	@Valid
 	@ManyToMany
-	public Collection<Author> getAuthor() {
-		return this.author;
+	public Collection<Author> getAuthors() {
+		return this.authors;
 	}
 
-	public void setAuthor(final Collection<Author> author) {
-		this.author = author;
+	public void setAuthors(final Collection<Author> authors) {
+		this.authors = authors;
 	}
 
 	@Valid

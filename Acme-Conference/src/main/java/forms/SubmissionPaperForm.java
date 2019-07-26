@@ -4,6 +4,7 @@ package forms;
 import java.util.Collection;
 
 import javax.persistence.ElementCollection;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 
@@ -11,6 +12,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.URL;
 
+import domain.Author;
 import domain.Conference;
 
 public class SubmissionPaperForm {
@@ -23,6 +25,7 @@ public class SubmissionPaperForm {
 
 	//Relationship
 	private Conference			conference;
+	private Collection<Author>	authors;
 
 
 	@Valid
@@ -72,6 +75,16 @@ public class SubmissionPaperForm {
 
 	public void setDocumentUrl(final String documentUrl) {
 		this.documentUrl = documentUrl;
+	}
+
+	@Valid
+	@ManyToMany
+	public Collection<Author> getAuthors() {
+		return this.authors;
+	}
+
+	public void setAuthors(final Collection<Author> authors) {
+		this.authors = authors;
 	}
 
 }
