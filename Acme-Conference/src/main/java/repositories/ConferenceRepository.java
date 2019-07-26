@@ -52,4 +52,7 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
 	@Query("select c from Conference c where c.finalMode = true")
 	Collection<Conference> getConferencesFinalMode();
+
+	@Query("select count(*) from Conference c where c.id = ?2 and (c.title LIKE %?1% OR c.summary LIKE %?1%)")
+	Integer getContainsExpertiseKeywords(String string, int conferenceId);
 }

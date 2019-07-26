@@ -9,19 +9,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
 import services.AuthorService;
+import services.SubmissionService;
 
 @Controller
 @RequestMapping("/administrator")
 public class AdministratorController extends AbstractController {
 
 	@Autowired
-	private AuthorService	authorService;
+	private AuthorService		authorService;
+
+	@Autowired
+	private SubmissionService	submissionService;
 
 
-	//
-	// @Autowired
-	// private BookService bookService;
-	//
 	// @Autowired
 	// private SponsorshipService sponsorshipService;
 	//
@@ -84,19 +84,21 @@ public class AdministratorController extends AbstractController {
 
 	}
 
-	// @RequestMapping(value = "/cancelSponsorship", method = RequestMethod.GET)
-	// public ModelAndView cancelSponsorship() {
-	// ModelAndView result;
-	// try {
-	// this.sponsorshipService.cancelSponsorshipCaducate();
-	// result = this.processModelAndView();
-	// } catch (final Exception e) {
-	// result = this.processModelAndView("administrator.commit.error");
-	// }
-	// return result;
-	//
-	// }
-	//
+	@RequestMapping(value = "/assignReviewers", method = RequestMethod.GET)
+	public ModelAndView assignReviewers() {
+		ModelAndView result;
+		try {
+			this.submissionService.assignReviewers();
+			result = this.processModelAndView();
+		} catch (final Exception e) {
+			result = this.processModelAndView("administrator.commit.error");
+			e.printStackTrace();
+
+		}
+		return result;
+
+	}
+
 	protected ModelAndView processModelAndView() {
 		return this.processModelAndView(null);
 	}

@@ -683,6 +683,12 @@
         <property value="reviewer1@gmail.com" name="email" />
         <property value="+00 000-0000005" name="phoneNumber" />
         <property name="userAccount" ref="userAccount5" />
+        <property name="expertiseKeywordsList">
+            <list>
+            <value>ingeniería</value>
+            <value>casa</value>
+            </list>
+        </property> 
         <property name="finder" ref="finder5" />
     </bean>
     
@@ -697,6 +703,11 @@
         <property value="reviewer2@gmail.com" name="email" />
         <property value="+00 000-0000006" name="phoneNumber" />
         <property name="userAccount" ref="userAccount6" />
+         <property name="expertiseKeywordsList">
+            <list>
+            <value>ingeniería</value>
+            </list>
+        </property> 
         <property name="finder" ref="finder6" />
     </bean>
     
@@ -962,10 +973,10 @@
         <property name="acronym" value="IEC" />
         <property name="venue" value="address 56"/>
         <property name="submissionDeadline" value="10/01/2018"/>
-        <property name="notificationDeadline" value="10/02/2018"/>
-        <property name="cameraReadyDeadline" value="10/03/2018"/>
-        <property name="startDate" value="10/04/2018"/>
-        <property name="endDate" value="11/19/2018"/>
+        <property name="notificationDeadline" value="10/11/2019"/>
+        <property name="cameraReadyDeadline" value="10/03/2019"/>
+        <property name="startDate" value="10/11/2019"/>
+        <property name="endDate" value="11/19/2019"/>
         <property name="summary" value="Como utilizar la ingeniería en casa"/>
         <property name="fee" value="25"/>
         <property name="finalMode" value="true"/>
@@ -1082,7 +1093,6 @@
         <property name="conference" ref="conference0" />
         <property name="reviewers">
             <list>
-            <ref bean="reviewer1" />
             <ref bean="reviewer0" />
             </list>
         </property>
@@ -1092,13 +1102,11 @@
      <!-- Submission (author1) -->
     
     <bean class="domain.Submission" id="submission1">
-        <property name="moment" value="09/17/2018" />
-        <property name="status" value="ACCEPTED" />
+        <property name="moment" value="09/17/2019" />
+        <property name="status" value="UNDER-REVIEW" />
         <property name="conference" ref="conference0" />
         <property name="reviewers">
             <list>
-            <ref bean="reviewer1" />
-            <ref bean="reviewer0" />
             </list>
         </property>
         <property name="ticker" ref="ticker1" />     

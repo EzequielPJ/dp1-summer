@@ -183,6 +183,7 @@ public class ConferenceService {
 	}
 
 	public List<String> getConferenceBuzzWords() throws ParseException {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
 		final LocalDateTime DATETIMENOW = LocalDateTime.now();
 		final Date date = this.FORMAT.parse((DATETIMENOW.getYear() - 1) + "/" + DATETIMENOW.getMonthOfYear() + "/" + DATETIMENOW.getDayOfMonth() + " " + DATETIMENOW.getHourOfDay() + ":" + LocalDateTime.now().getMinuteOfHour() + ":"
 			+ DATETIMENOW.getSecondOfMinute());
@@ -207,6 +208,14 @@ public class ConferenceService {
 		for (final String string : wordScores.keySet())
 			if (wordScores.get(string) >= buzzScore)
 				res.add(string);
+		return res;
+	}
+
+	public boolean getContainsExpertiseKeywords(final String string, final int conferenceId) {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		boolean res = false;
+		if (this.conferenceRepository.getContainsExpertiseKeywords(string, conferenceId) == 1)
+			res = true;
 		return res;
 	}
 

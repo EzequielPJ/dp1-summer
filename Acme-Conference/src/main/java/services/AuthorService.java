@@ -14,9 +14,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import repositories.AuthorRepository;
 import security.UserAccount;
+import utiles.AuthorityMethods;
 import domain.Author;
 
 @Service
@@ -38,6 +40,7 @@ public class AuthorService {
 	}
 
 	public void computeScore() throws ParseException {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
 		Double score;
 		final Collection<Author> authors = this.authorRepository.findAll();
 		final List<String> conferenceWords = this.conferenceService.getConferenceBuzzWords();
