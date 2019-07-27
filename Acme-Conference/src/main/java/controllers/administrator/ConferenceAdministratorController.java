@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import security.LoginService;
 import services.CategoryService;
 import services.ConferenceService;
+import services.SubmissionService;
 import controllers.AbstractController;
 import domain.Conference;
 
@@ -32,6 +33,9 @@ public class ConferenceAdministratorController extends AbstractController {
 
 	@Autowired
 	private CategoryService		categoryService;
+
+	@Autowired
+	private SubmissionService	submissionService;
 
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -242,6 +246,21 @@ public class ConferenceAdministratorController extends AbstractController {
 			result = new ModelAndView("redirect:list.do");
 		}
 		return result;
+	}
+
+	@RequestMapping(value = "/decisionMaking", method = RequestMethod.GET)
+	public ModelAndView conferenceDecisionMaking(@RequestParam final int idConference) {
+		ModelAndView result;
+		try {
+			this.submissionService.conferenceDecisionMaking(idConference);
+			result = this.listModelAndView();
+		} catch (final Exception e) {
+			result = this.listModelAndView("decisionMaking.commit.error");
+			e.printStackTrace();
+
+		}
+		return result;
+
 	}
 
 	protected ModelAndView createEditModelAndView(final Conference conference) {
