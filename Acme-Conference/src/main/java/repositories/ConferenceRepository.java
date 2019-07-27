@@ -55,4 +55,7 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
 	@Query("select count(*) from Conference c where c.id = ?2 and (c.title LIKE %?1% OR c.summary LIKE %?1%)")
 	Integer getContainsExpertiseKeywords(String string, int conferenceId);
+
+	@Query("select c.id from Conference c")
+	Collection<Integer> findAllId();
 }
