@@ -270,7 +270,7 @@ public class ConferenceAdministratorController extends AbstractController {
 	public ModelAndView assignReviewers(@RequestParam final int idConference) {
 		ModelAndView result;
 		try {
-			if (!this.conferenceService.getConferencesToDecisionMaking().contains(this.conferenceService.findOne(idConference)))
+			if (!this.conferenceService.getConferencesToAssingReviewers().contains(this.conferenceService.findOne(idConference)))
 				result = this.listModelAndView("decisionMaking.commit.error");
 			else {
 				this.submissionService.assignReviewers(idConference);
