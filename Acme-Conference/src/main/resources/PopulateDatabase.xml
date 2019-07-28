@@ -1155,11 +1155,11 @@
     <!-- Ticker -->
     
     <bean class="domain.Ticker" id="ticker0">
-        <property value="AJT-An7d" name="identifier" />
+        <property value="ASJ-AN7D" name="identifier" />
     </bean>
     
      <bean class="domain.Ticker" id="ticker1">
-        <property value="AQT-An7d" name="identifier" />
+        <property value="AJT-AN7D" name="identifier" />
     </bean>
     
     <!-- Sponsorships -->

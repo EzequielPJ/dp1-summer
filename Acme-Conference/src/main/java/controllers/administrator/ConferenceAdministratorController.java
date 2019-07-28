@@ -251,13 +251,33 @@ public class ConferenceAdministratorController extends AbstractController {
 	@RequestMapping(value = "/decisionMaking", method = RequestMethod.GET)
 	public ModelAndView conferenceDecisionMaking(@RequestParam final int idConference) {
 		ModelAndView result;
-		try {
-			this.submissionService.conferenceDecisionMaking(idConference);
-			result = this.listModelAndView();
-		} catch (final Exception e) {
-			result = this.listModelAndView("decisionMaking.commit.error");
-			e.printStackTrace();
 
+		try {
+			if (!this.conferenceService.getConferencesToDecisionMaking().contains(this.conferenceService.findOne(idConference)))
+				result = this.listModelAndView("decisionMaking.commit.error");
+			else {
+				this.submissionService.conferenceDecisionMaking(idConference);
+				result = new ModelAndView("redirect:list.do");
+			}
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:list.do");
+		}
+		return result;
+
+	}
+
+	@RequestMapping(value = "/assignReviewers", method = RequestMethod.GET)
+	public ModelAndView assignReviewers(@RequestParam final int idConference) {
+		ModelAndView result;
+		try {
+			if (!this.conferenceService.getConferencesToDecisionMaking().contains(this.conferenceService.findOne(idConference)))
+				result = this.listModelAndView("decisionMaking.commit.error");
+			else {
+				this.submissionService.assignReviewers(idConference);
+				result = new ModelAndView("redirect:list.do");
+			}
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:list.do");
 		}
 		return result;
 
@@ -284,8 +304,12 @@ public class ConferenceAdministratorController extends AbstractController {
 
 	protected ModelAndView listModelAndView(final String message) {
 		final ModelAndView result = new ModelAndView("conference/list");
+		final Collection<Conference> conferencesToDecisionMaking = this.conferenceService.getConferencesToDecisionMaking();
+		final Collection<Conference> conferencesToAssingReviewers = this.conferenceService.getConferencesToAssingReviewers();
 
 		result.addObject("message", message);
+		result.addObject("conferencesToDecisionMaking", conferencesToDecisionMaking);
+		result.addObject("conferencesToAssingReviewers", conferencesToAssingReviewers);
 
 		this.configValues(result);
 

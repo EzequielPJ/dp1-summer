@@ -41,6 +41,9 @@ public class ConferenceService {
 	private AdminConfigService		adminConfigService;
 
 	@Autowired
+	private AdministratorService	administratorService;
+
+	@Autowired
 	Validator						validator;
 
 	private final SimpleDateFormat	FORMAT	= new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -217,6 +220,16 @@ public class ConferenceService {
 		if (this.conferenceRepository.getContainsExpertiseKeywords(string, conferenceId) == 1)
 			res = true;
 		return res;
+	}
+
+	public Collection<Conference> getConferencesToDecisionMaking() {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		return this.conferenceRepository.getConferencesToDecisionMaking(this.administratorService.findByPrincipal(LoginService.getPrincipal()).getId());
+	}
+
+	public Collection<Conference> getConferencesToAssingReviewers() {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		return this.conferenceRepository.getConferencesToAssingReviewers(this.administratorService.findByPrincipal(LoginService.getPrincipal()).getId());
 	}
 
 }

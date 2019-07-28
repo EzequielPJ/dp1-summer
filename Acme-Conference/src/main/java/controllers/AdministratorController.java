@@ -41,21 +41,6 @@ public class AdministratorController extends AbstractController {
 
 	}
 
-	@RequestMapping(value = "/assignReviewers", method = RequestMethod.GET)
-	public ModelAndView assignReviewers() {
-		ModelAndView result;
-		try {
-			this.submissionService.assignReviewers();
-			result = this.processModelAndView();
-		} catch (final Exception e) {
-			result = this.processModelAndView("administrator.commit.error");
-			e.printStackTrace();
-
-		}
-		return result;
-
-	}
-
 	protected ModelAndView processModelAndView() {
 		return this.processModelAndView(null);
 	}

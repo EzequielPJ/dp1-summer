@@ -19,8 +19,3 @@
 
 <hr>
 
-<h3>
-	<spring:message code="administrator.process.assignReviewers" />
-</h3>
-
-<acme:button code="administrator.process.assign" type="button" url="administrator/assignReviewers.do" />
