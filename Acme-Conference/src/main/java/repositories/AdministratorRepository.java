@@ -111,4 +111,7 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
 	@Query("select stddev(1*(select count(co) from Comment co where co.activity.id = a.id)) from Activity a")
 	Double getSDOfCommentsPerActivity();
 
+	@Query("select a from Administrator a where a.userAccount.id = ?1")
+	Administrator findByPrincipal(int id);
+
 }

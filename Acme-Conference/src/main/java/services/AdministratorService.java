@@ -8,15 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.AdministratorRepository;
-import security.UserAccountRepository;
+import security.UserAccount;
 import utiles.AuthorityMethods;
+import domain.Administrator;
 
 @Service
 @Transactional
 public class AdministratorService {
-
-	@Autowired
-	private UserAccountRepository	accountRepository;
 
 	@Autowired
 	private AdministratorRepository	adminRepository;
@@ -69,9 +67,9 @@ public class AdministratorService {
 	// return this.adminRepository.findOne(actorId);
 	// }
 	//
-	// public Administrator findByPrincipal(final UserAccount principal) {
-	// return this.adminRepository.findByPrincipal(principal.getId());
-	// }
+	public Administrator findByPrincipal(final UserAccount principal) {
+		return this.adminRepository.findByPrincipal(principal.getId());
+	}
 	//
 	// public Administrator reconstruct(final AdministratorForm adminForm, final BindingResult binding) {
 	//

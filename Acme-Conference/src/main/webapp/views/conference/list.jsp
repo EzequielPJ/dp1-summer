@@ -50,7 +50,16 @@
 						<acme:button url="conference/administrator/delete.do?idConference=${conference.id}" type="button" code="conference.list.delete"/>
 					</jstl:if>
 				</display:column> 
-				
+				<display:column titleKey="conference.list.decisionMakingProcess">
+					<jstl:if test="${conferencesToDecisionMaking.contains(conference)}">
+						<acme:button url="conference/administrator/decisionMaking.do?idConference=${conference.id}" type="button" code="conference.list.decisionMaking"/>
+					</jstl:if>
+				</display:column>
+				<display:column titleKey="administrator.process.assignReviewers" >
+				<jstl:if test="${conferencesToAssingReviewers.contains(conference)}">
+					<acme:button code="administrator.process.assign" type="button" url="conference/administrator/assignReviewers.do?idConference=${conference.id}" />
+				</jstl:if>
+				</display:column>
 				</jstl:if>
 				
 </display:table>

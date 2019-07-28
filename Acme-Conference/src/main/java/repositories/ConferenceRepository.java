@@ -55,4 +55,10 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
 	@Query("select count(*) from Conference c where c.id = ?2 and (c.title LIKE %?1% OR c.summary LIKE %?1%)")
 	Integer getContainsExpertiseKeywords(String string, int conferenceId);
+
+	@Query("select c from Conference c where c.finalMode = true and c.administrator.id = ?1 and (c.submissionDeadline < CURRENT_DATE AND CURRENT_DATE < c.notificationDeadline) and (select count(*) from Submission s where s.status = 'UNDER-REVIEW' and s.conference.id = c.id) != 0")
+	Collection<Conference> getConferencesToDecisionMaking(int idAdministrator);
+
+	@Query("select c from Conference c where c.finalMode = true and c.administrator.id = ?1 and (c.submissionDeadline < CURRENT_DATE AND CURRENT_DATE < c.notificationDeadline) and (select count(*) from Submission s where s.status = 'UNDER-REVIEW' and s.conference.id = c.id and s.reviewers.size < 3) != 0")
+	Collection<Conference> getConferencesToAssingReviewers(int id);
 }

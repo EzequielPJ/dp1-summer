@@ -22,54 +22,11 @@ public class AdministratorController extends AbstractController {
 	private SubmissionService	submissionService;
 
 
-	// @Autowired
-	// private SponsorshipService sponsorshipService;
-	//
-	//
 	@RequestMapping(value = "/process", method = RequestMethod.GET)
 	public ModelAndView process() {
 		return this.processModelAndView();
 	}
-	//
-	// @RequestMapping(value = "/updateSpam", method = RequestMethod.GET)
-	// public ModelAndView updateSpam() {
-	// ModelAndView result;
-	// try {
-	// this.actorService.updateSpam();
-	// result = this.processModelAndView();
-	// } catch (final Throwable oops) {
-	// result = this.processModelAndView("administrator.commit.error");
-	// }
-	// return result;
-	// }
-	//
-	// @RequestMapping(value = "/ban", method = RequestMethod.GET)
-	// public ModelAndView ban(@RequestParam final Integer idActor) {
-	// ModelAndView result;
-	// try {
-	// final Actor actor = this.actorService.getActor(idActor);
-	// this.actorService.ban(actor);
-	// result = this.processModelAndView();
-	// } catch (final Throwable oops) {
-	// result = this.processModelAndView("administrator.commit.error");
-	// }
-	//
-	// return result;
-	// }
-	//
-	// @RequestMapping(value = "/unban", method = RequestMethod.GET)
-	// public ModelAndView unban(@RequestParam final Integer idActor) {
-	// ModelAndView result;
-	// try {
-	// final Actor actor = this.actorService.getActor(idActor);
-	// this.actorService.unban(actor);
-	// result = this.processModelAndView();
-	// } catch (final Throwable oops) {
-	// result = this.processModelAndView("administrator.commit.error");
-	// }
-	// return result;
-	// }
-	//
+
 	@RequestMapping(value = "/computeScore", method = RequestMethod.GET)
 	public ModelAndView computeScore() {
 		ModelAndView result;
@@ -79,21 +36,6 @@ public class AdministratorController extends AbstractController {
 		} catch (final Throwable e) {
 			result = this.processModelAndView("administrator.commit.error");
 			e.printStackTrace();
-		}
-		return result;
-
-	}
-
-	@RequestMapping(value = "/assignReviewers", method = RequestMethod.GET)
-	public ModelAndView assignReviewers() {
-		ModelAndView result;
-		try {
-			this.submissionService.assignReviewers();
-			result = this.processModelAndView();
-		} catch (final Exception e) {
-			result = this.processModelAndView("administrator.commit.error");
-			e.printStackTrace();
-
 		}
 		return result;
 
