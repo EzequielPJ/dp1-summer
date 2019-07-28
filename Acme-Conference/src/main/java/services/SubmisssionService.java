@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.Collection;
+
 import javax.validation.ValidationException;
 
 import org.joda.time.DateTime;
@@ -16,6 +18,7 @@ import security.LoginService;
 import utiles.AuthorityMethods;
 import utiles.IntermediaryBetweenTransactions;
 import domain.Author;
+import domain.Paper;
 import domain.Submission;
 import forms.SubmissionPaperForm;
 
@@ -31,6 +34,9 @@ public class SubmisssionService {
 
 	@Autowired
 	private SubmissionRepository			submissionRepository;
+
+	@Autowired
+	private PaperService					paperService;
 
 	@Autowired
 	private IntermediaryBetweenTransactions	intermediaryBetweenTransactions;
@@ -86,16 +92,32 @@ public class SubmisssionService {
 		return this.submissionRepository.getNumberOfSubmissionsOfAuthor(idAuthor);
 	}
 
-	public Integer getSubmissionsOfAuthor(final int idAuthor) {
+	public Collection<Submission> getSubmissionsOfAuthor(final int idAuthor) {
 		return this.submissionRepository.getSubmissionsOfAuthor(idAuthor);
 	}
 
-	public Integer getSubmissionsOfConference(final int idConference) {
+	public Collection<Submission> getSubmissionsOfConference(final int idConference) {
 		return this.submissionRepository.getSubmissionsOfConference(idConference);
+	}
+
+	public Collection<Submission> getSubmissionsOfAdmin(final int idAdmin) {
+		return this.submissionRepository.getSubmissionsOfAdmin(idAdmin);
 	}
 
 	public Integer getNumberOfSubmissionsOfAuthorByConference(final int idAuthor, final int idConference) {
 		return this.submissionRepository.getNumberOfSubmissionsOfAuthorByConference(idAuthor, idConference);
+	}
+
+	public Submission findOne(final int idSubmission) {
+		return this.submissionRepository.findOne(idSubmission);
+	}
+
+	public Submission save(final SubmissionPaperForm submissionPaperForm, final BindingResult bindingResult) {
+		final Submission submission = this.reconstruct(submissionPaperForm, bindingResult);
+		final Submission submissionSaved = this.save(submission);
+		final Paper paper = this.paperService.reconstruct(submissionPaperForm, submissionSaved, bindingResult);
+		final Paper paperSaved = this.paperService.save(paper);
+		return submissionSaved;
 	}
 
 }

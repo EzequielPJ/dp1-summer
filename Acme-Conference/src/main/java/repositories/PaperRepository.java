@@ -16,4 +16,10 @@ public interface PaperRepository extends JpaRepository<Paper, Integer> {
 	@Query("select count(p) from Paper p where p.submission.id = ?1 and cameraReadyPaper = true")
 	Integer getNumOfCameraVersionPapersOfSubmission(int idSubmission);
 
+	@Query("select p from Paper p where p.submission.id = ?1 and cameraReadyPaper = false")
+	Paper getPaperNonCamerReadyVersionOfSubmission(int idSubmission);
+
+	@Query("select p from Paper p where p.submission.id = ?1 and cameraReadyPaper = true")
+	Paper getPaperCamerReadyVersionOfSubmission(int idSubmission);
+
 }

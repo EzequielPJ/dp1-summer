@@ -79,12 +79,20 @@ public class PaperService {
 
 	}
 
-	Integer getNumOfNonCameraVersionPapersOfSubmission(final int idSubmission) {
+	public Integer getNumOfNonCameraVersionPapersOfSubmission(final int idSubmission) {
 		return this.paperRepository.getNumOfNonCameraVersionPapersOfSubmission(idSubmission);
 	}
 
-	Integer getNumOfCameraVersionPapersOfSubmission(final int idSubmission) {
+	public Integer getNumOfCameraVersionPapersOfSubmission(final int idSubmission) {
 		return this.paperRepository.getNumOfCameraVersionPapersOfSubmission(idSubmission);
+	}
+
+	public Paper getPaperCamerReadyVersionOfSubmission(final int idSubmission) {
+		return this.paperRepository.getPaperCamerReadyVersionOfSubmission(idSubmission);
+	}
+
+	public Paper getPaperNonCamerReadyVersionOfSubmission(final int idSubmission) {
+		return this.paperRepository.getPaperNonCamerReadyVersionOfSubmission(idSubmission);
 	}
 
 }
