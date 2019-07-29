@@ -48,6 +48,7 @@
 		
 		<value>/views/conference/tiles.xml</value>
 		<value>/views/comment/tiles.xml</value>
+		<value>/views/activity/tiles.xml</value>
 		
 	</util:list>
 

@@ -15,4 +15,7 @@ public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 	@Query("select a.id from Activity a")
 	Collection<Integer> findAllId();
 
+	@Query("select a from Activity a where a.conference.id = ?1")
+	Collection<Activity> getActivityByConference(final int id);
+
 }

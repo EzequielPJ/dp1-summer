@@ -31,4 +31,8 @@ public class ActivityService {
 		return this.activityRepository.findOne(id);
 	}
 
+	public Collection<Activity> getActivityByConference(final int id) {
+		return this.activityRepository.getActivityByConference(id);
+	}
+
 }

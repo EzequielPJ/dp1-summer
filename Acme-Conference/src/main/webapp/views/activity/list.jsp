@@ -39,7 +39,7 @@
 						<acme:button url="comment/list.do?idEntity=${activity.id}" type="button" code="conference.list.comment"/>
 					</display:column>
 					<display:column titleKey="activity.list.comment.create">
-						<acme:button url="comment/create.do?idConference=${activity.id}" type="button" code="conference.list.comment.create"/>
+						<acme:button url="comment/create.do?idActivity=${activity.id}" type="button" code="conference.list.comment.create"/>
 					</display:column>
 				</jstl:if>
 				

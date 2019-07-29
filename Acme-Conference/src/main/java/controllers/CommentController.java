@@ -61,9 +61,23 @@ public class CommentController extends AbstractController {
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam(defaultValue = "0") final int idConference, @RequestParam(defaultValue = "0") final int idActivity) {
-		ModelAndView result;
-		final Comment comment = this.commentService.create(idConference, idActivity);
-		result = this.createEditModelAndView(comment);
+		ModelAndView result = null;
+		Boolean fail = false;
+		if (idConference != 0) {
+			if (this.conferenceService.findOne(idConference).getFinalMode() == false) {
+				result = this.listModelAndView("security.error.accessDenied");
+				fail = true;
+			}
+		} else if (idActivity != 0)
+			if (this.activityService.findOne(idActivity).getConference().getFinalMode() == false) {
+				result = this.listModelAndView("security.error.accessDenied");
+				fail = true;
+			}
+
+		if (!fail) {
+			final Comment comment = this.commentService.create(idConference, idActivity);
+			result = this.createEditModelAndView(comment);
+		}
 		return result;
 	}
 

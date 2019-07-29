@@ -63,6 +63,12 @@
 		<security:intercept-url pattern="/comment/**" access="permitAll" />
 		
 		<!--  -->
+		
+		<!-- Activity -->
+		
+		<security:intercept-url pattern="/activity/**" access="permitAll" />
+		
+		<!--  -->
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 		
