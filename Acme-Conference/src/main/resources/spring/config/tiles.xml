@@ -47,6 +47,7 @@
 		<value>/views/opinion/tiles.xml</value>
 		
 		<value>/views/conference/tiles.xml</value>
+		<value>/views/comment/tiles.xml</value>
 		
 	</util:list>
 

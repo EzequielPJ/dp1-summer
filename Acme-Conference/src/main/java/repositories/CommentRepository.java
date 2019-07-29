@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import domain.Actor;
 import domain.Comment;
 
 @Repository
@@ -17,5 +18,8 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
 	@Query("select o from Comment o where o.activity.id = ?1")
 	Collection<Comment> getCommentsByActivity(final int id);
+
+	@Query("select a from Actor a where a.userAccount.id = ?1")
+	Actor findActorPrincipal(int principalId);
 
 }

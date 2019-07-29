@@ -3,8 +3,12 @@ package controllers;
 
 import java.util.Collection;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +34,7 @@ public class CommentController extends AbstractController {
 
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView listConferencePast(@RequestParam final int idEntity) {
+	public ModelAndView listComment(@RequestParam final int idEntity, @CookieValue(value = "language", required = false) final String lang) {
 		final ModelAndView result = this.listModelAndView();
 
 		final Collection<Integer> colConf = this.conferenceService.findAllId();
@@ -43,7 +47,13 @@ public class CommentController extends AbstractController {
 			comments = this.commentService.getCommentsByActivity(idEntity);
 
 		result.addObject("comments", comments);
-		result.addObject("requestURI", "comments/list.do");
+		result.addObject("requestURI", "comment/list.do");
+
+		if (lang == null)
+			result.addObject("anonim", "anonymous");
+		else
+			result.addObject("anonim", "anónimo");
+
 		result.addObject("general", true);
 
 		return result;
@@ -57,12 +67,34 @@ public class CommentController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(final Comment comment, final BindingResult binding) {
+		ModelAndView result;
+		try {
+			final Comment commentRect = this.commentService.reconstruct(comment, binding);
+			this.commentService.save(commentRect);
+
+			Integer i;
+			if (commentRect.getActivity() != null)
+				i = commentRect.getActivity().getId();
+			else
+				i = commentRect.getConference().getId();
+
+			result = new ModelAndView("redirect:list.do?idEntity=" + i);
+		} catch (final ValidationException oops) {
+			result = this.createEditModelAndView(comment);
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(comment, "comment.edit.commit.error");
+		}
+		return result;
+	}
+
 	protected ModelAndView createEditModelAndView(final Comment comment) {
 		return this.createEditModelAndView(comment, null);
 	}
 
 	protected ModelAndView createEditModelAndView(final Comment comment, final String message) {
-		final ModelAndView result = new ModelAndView("conference/edit");
+		final ModelAndView result = new ModelAndView("comment/edit");
 
 		result.addObject("comment", comment);
 		result.addObject("message", message);
@@ -77,7 +109,7 @@ public class CommentController extends AbstractController {
 	}
 
 	protected ModelAndView listModelAndView(final String message) {
-		final ModelAndView result = new ModelAndView("conference/list");
+		final ModelAndView result = new ModelAndView("comment/list");
 
 		result.addObject("message", message);
 

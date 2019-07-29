@@ -33,7 +33,7 @@ public class ConferenceController extends AbstractController {
 			if (conference.getEndDate().before(new Date()))
 				myConferences.add(conference);
 		result.addObject("conferences", myConferences);
-		result.addObject("requestURI", "conference/administrator/list.do");
+		result.addObject("requestURI", "conference/list.do");
 		result.addObject("general", true);
 		if (lang == null)
 			result.addObject("lang", "en");
@@ -52,7 +52,7 @@ public class ConferenceController extends AbstractController {
 			if (conference.getStartDate().before(new Date()) && conference.getEndDate().after(new Date()))
 				myConferences.add(conference);
 		result.addObject("conferences", myConferences);
-		result.addObject("requestURI", "conference/administrator/list.do");
+		result.addObject("requestURI", "conference/list.do");
 		result.addObject("general", true);
 		if (lang == null)
 			result.addObject("lang", "en");
@@ -70,7 +70,7 @@ public class ConferenceController extends AbstractController {
 			if (conference.getStartDate().after(new Date()))
 				myConferences.add(conference);
 		result.addObject("conferences", myConferences);
-		result.addObject("requestURI", "conference/administrator/list.do");
+		result.addObject("requestURI", "conference/list.do");
 		result.addObject("general", true);
 		if (lang == null)
 			result.addObject("lang", "en");

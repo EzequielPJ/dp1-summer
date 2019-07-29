@@ -12,9 +12,9 @@
 			<display:column titleKey="conference.list.title"><jstl:out value="${conference.title}"/></display:column>
 			<display:column titleKey="conference.list.acronym"><jstl:out value="${conference.acronym}"/></display:column>
 			<display:column titleKey="conference.list.venue"><jstl:out value="${conference.venue}"/></display:column>
-			<display:column titleKey="conference.list.submissionDeadline"><jstl:out value="${conference.submissionDeadline}"/></display:column>
+<%-- 			<display:column titleKey="conference.list.submissionDeadline"><jstl:out value="${conference.submissionDeadline}"/></display:column>
 			<display:column titleKey="conference.list.notificationDeadline"><jstl:out value="${conference.notificationDeadline}"/></display:column>
-			<display:column titleKey="conference.list.cameraReadyDeadline"><jstl:out value="${conference.cameraReadyDeadline}"/></display:column>
+			<display:column titleKey="conference.list.cameraReadyDeadline"><jstl:out value="${conference.cameraReadyDeadline}"/></display:column> --%>
 			<display:column titleKey="conference.list.startDate"><jstl:out value="${conference.startDate}"/></display:column>
 			<display:column titleKey="conference.list.endDate"><jstl:out value="${conference.endDate}"/></display:column>
 			<display:column titleKey="conference.list.summary"><jstl:out value="${conference.summary}"/></display:column>
@@ -51,6 +51,19 @@
 					</jstl:if>
 				</display:column> 
 				
+				</jstl:if>
+				
+				<display:column titleKey="conference.list.activity">
+						<acme:button url="activity/list.do?idConference=${conference.id}" type="button" code="conference.list.activity"/>
+				</display:column>
+				
+				<jstl:if test="${general}">
+					<display:column titleKey="conference.list.comment">
+						<acme:button url="comment/list.do?idEntity=${conference.id}" type="button" code="conference.list.comment"/>
+					</display:column>
+					<display:column titleKey="conference.list.comment.create">
+						<acme:button url="comment/create.do?idConference=${conference.id}" type="button" code="conference.list.comment.create"/>
+					</display:column>
 				</jstl:if>
 				
 </display:table>
