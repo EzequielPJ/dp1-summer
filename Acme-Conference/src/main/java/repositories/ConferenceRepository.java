@@ -61,4 +61,7 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
 	@Query("select c from Conference c where c.finalMode = true and c.administrator.id = ?1 and (c.submissionDeadline < CURRENT_DATE AND CURRENT_DATE < c.notificationDeadline) and (select count(*) from Submission s where s.status = 'UNDER-REVIEW' and s.conference.id = c.id and s.reviewers.size < 3) != 0")
 	Collection<Conference> getConferencesToAssingReviewers(int id);
+
+	@Query("select c.id from Conference c")
+	Collection<Integer> findAllId();
 }

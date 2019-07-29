@@ -53,8 +53,12 @@ public class ConferenceService {
 		return this.conferenceRepository.findOne(id);
 	}
 
-	public Collection<Conference> findAll(final int id) {
+	public Collection<Conference> findAll() {
 		return this.conferenceRepository.findAll();
+	}
+
+	public Collection<Integer> findAllId() {
+		return this.conferenceRepository.findAllId();
 	}
 
 	public Administrator findByPrincipal(final UserAccount principal) {

@@ -47,6 +47,8 @@
 		<value>/views/participation/messages</value>
 		
 		<value>/views/conference/messages</value>
+		<value>/views/comment/messages</value>
+		<value>/views/activity/messages</value>
 
 	</util:list>
 

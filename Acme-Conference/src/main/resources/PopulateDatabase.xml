@@ -1195,5 +1195,14 @@
         <property name="submission" ref="submission0" />
 	</bean>
 	
+	<!-- Comments -->
+	
+	<bean id="comment0" class="domain.Comment">
+		<property name="moment" value="2019/07/27" />
+		<property name="title" value="favourite conference" />
+		<property name="text" value="this conference was really good" />
+		<property name="conference" ref="conference0" />
+	</bean>
+	
 </beans>
 
