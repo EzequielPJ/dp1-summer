@@ -25,7 +25,6 @@ public class CategoryService {
 
 
 	public Category save(final Category category) {
-		//ASSERTS
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
 		Assert.isTrue(!category.getCategoryES().equals("CONGRESO") && !category.getCategoryEN().equals("CONFERENCE"));
 		Assert.isTrue(category.getId() != this.categoryRepository.getGeneralCategory().getId());
@@ -36,11 +35,13 @@ public class CategoryService {
 		final Collection<Category> children = this.getChildrenOfACategory(category);
 		Assert.isTrue(!children.contains(parent));
 
-		final Category categoryDB = this.findOne(category.getId());
-
-		System.out.println(categoryDB.equals(category));
-
 		final Category categorySaved = this.categoryRepository.saveAndFlush(category);
+
+		if (category.getId() == 0) {
+			final Category newParent = categorySaved.getParent();
+			newParent.getChildren().add(categorySaved);
+			this.categoryRepository.save(newParent);
+		}
 
 		return categorySaved;
 	}
@@ -56,17 +57,13 @@ public class CategoryService {
 		return this.categoryRepository.findAllMinusCONFERENCE();
 	}
 
-	public Collection<Category> getChildren(final int id) {
-		return this.categoryRepository.getChildren(id);
-	}
-
 	public Collection<Category> getChildrenOfACategory(final Category category) {
 		final Collection<Category> acum = new ArrayList<>();
 		return this.getChildrenOfACategory(category, acum);
 	}
 
 	private Collection<Category> getChildrenOfACategory(final Category category, final Collection<Category> acum) {
-		final Collection<Category> children = this.getChildren(category.getId());
+		final Collection<Category> children = category.getChildren();
 		if (children.size() == 0)
 			acum.add(category);
 		else {
@@ -98,14 +95,16 @@ public class CategoryService {
 
 		if (category.getId() == 0)
 			result = this.create();
-		else
+		else {
 			result = this.findOne(category.getId());
+			final Category oldParent = result.getParent();
+			final Category newParent = category.getParent();
+			if (!oldParent.equals(newParent))
+				this.updateChildrenOfParentOf(result, category);
+		}
 
 		result.setCategoryEN(category.getCategoryEN());
 		result.setCategoryES(category.getCategoryES());
-		result.setChildren(category.getChildren());
-
-		this.updateChildrenOfParentOf(result, category);
 
 		final Category generalCategory = this.categoryRepository.getGeneralCategory();
 		if (category.getParent() == null)
@@ -142,37 +141,46 @@ public class CategoryService {
 			binding.rejectValue("categoryES", "category.error.namelikeOther");
 	}
 
-	private void updateChildrenOfParentOf(final Category categoryDB, final Category newCategory) {
+	private void updateChildrenOfParentOf(final Category oldCategory, final Category newCategory) {
 
-		if (newCategory.getId() == 0) {
-			final Collection<Category> children1 = newCategory.getParent().getChildren();
-			children1.add(newCategory);
+		final Category oldParent = oldCategory.getParent();
+		oldParent.getChildren().remove(oldCategory);
+		this.categoryRepository.saveAndFlush(oldParent);
+
+		final Category newParent = newCategory.getParent();
+		newParent.getChildren().add(newCategory);
+		this.categoryRepository.saveAndFlush(newParent);
+	}
+
+	public void delete(final Category category) {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		final Category generalCategory = this.categoryRepository.getGeneralCategory();
+		Assert.isTrue(category.getId() != generalCategory.getId());
+
+		//		final Collection<Book> bookWithThisGenre = this.bookService.getBooksByGenre(genre.getId());
+		//
+		//		for (final Book book : bookWithThisGenre) {
+		//			book.setGenre(genreParent);
+		//			this.bookService.updateGenre(book);
+		//		}
+		//
+		//		final Collection<Finder> finderWithThisGenre = this.finderService.getFindersByGenre(genre.getId());
+		//
+		//		for (final Finder finder : finderWithThisGenre) {
+		//			finder.setGenre(genreParent);
+		//			this.finderService.updateGenre(finder);
+		//		}
+
+		final Category categoryParent = category.getParent();
+		final Collection<Category> subcategories = category.getChildren();
+
+		for (final Category subcategory : subcategories) {
+			subcategory.setParent(categoryParent);
+			this.categoryRepository.save(subcategory);
 		}
 
-		if (newCategory.getId() != 0 && categoryDB.getParent().equals(newCategory.getParent())) {
-			//NADA
-		}
+		this.categoryRepository.delete(category);
 
-		if (newCategory.getId() != 0 && !categoryDB.getParent().equals(newCategory.getParent())) {
-			final Collection<Category> childrenDB = categoryDB.getParent().getChildren();
-			childrenDB.remove(categoryDB);
-			categoryDB.getParent().setChildren(childrenDB);
-		}
-
-		this.categoryRepository.save(categoryDB.getParent());
-
-		//SAVE
-
-		//		final Category oldParent = this.findOne(category.getId()).getParent();
-		//		final Collection<Category> childrenOldParent = oldParent.getChildren();
-		//		final Category newParent = category.getParent();
-		//		final Collection<Category> childrenNewParent = newParent.getChildren();
-		//		
-		//		childrenOldParent.remove(category);
-		//		childrenNewParent.add(category);
-		//		
-		//		this.categoryRepository.save(oldParent);
-		//		this.categoryRepository.save()
 	}
 
 }

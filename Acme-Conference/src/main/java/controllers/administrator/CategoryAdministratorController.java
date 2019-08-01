@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.CategoryService;
@@ -65,23 +66,23 @@ public class CategoryAdministratorController extends AbstractController {
 
 		return result;
 	}
-	//
-	//	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	//	public ModelAndView delete(@RequestParam final int idCategory) {
-	//		ModelAndView result;
-	//		final Category category = this.categoryService.findOne(idCategory);
-	//
-	//		try {
-	//			this.categoryService.delete(category);
-	//			result = new ModelAndView("redirect:list.do");
-	//		} catch (final Throwable oops) {
-	//			result = this.listModelAndView("category.save.error");
-	//			oops.printStackTrace();
-	//		}
-	//
-	//		return result;
-	//	}
-	//
+
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete(@RequestParam final int idCategory) {
+		ModelAndView result;
+		final Category category = this.categoryService.findOne(idCategory);
+
+		try {
+			this.categoryService.delete(category);
+			result = new ModelAndView("redirect:list.do");
+		} catch (final Throwable oops) {
+			result = this.listModelAndView("category.save.error");
+			oops.printStackTrace();
+		}
+
+		return result;
+	}
+
 	protected ModelAndView listModelAndView() {
 		return this.listModelAndView(null);
 	}

@@ -21,9 +21,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 	@Query("select c.categoryEN from Category c where c.categoryEN != 'CONFERENCE'")
 	Collection<String> getAllNameEN();
 
-	@Query("select c from Category c where c.parent.id = ?1")
-	Collection<Category> getChildren(int id);
-
 	@Query("select c from Category c where c.parent.categoryEN = 'CONFERENCE'")
 	Collection<Category> findAllSuchACONFERENCEParent();
 

@@ -21,7 +21,6 @@
 	
 		<acme:hidden path="id"/>
 		<acme:hidden path="version"/>
-		<acme:hidden path="children"/>
 	
 		<acme:textbox code="category.edit.categoryEN" path="categoryEN"/>
 		<acme:textbox code="category.edit.categoryES" path="categoryES"/>
