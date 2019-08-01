@@ -45,58 +45,26 @@
 
 </section>
 
-<%-- <section id="spamWords">
-
-	<h3><spring:message code="adminConfig.edit.titleManageSpamWord"/></h3>
-
-	<form:form modelAttribute="spamWordForm" action="adminConfig/administrator/addSpamWord.do" method="Post">
-	
-		<acme:textbox code="adminConfig.edit.spamWord" path="spamWord"/>
-	
-		<acme:submit name="save" code="adminConfig.edit.saveSpamWord"/>
-	</form:form>
-
-	<display:table name="spamWords" id="spamWord" requestURI="${requestURI}" pagesize="5" >
-		<display:column titleKey="adminConfig.display.spamWords" ><acme:text value="${spamWord}"/></display:column>
-		<display:column titleKey="adminConfig.edit.delete" ><acme:deleteWithForm  url="adminConfig/administrator/deleteSpamWord.do" name="spamWord" id="${spamWord}" code="adminConfig.edit.delete"/></display:column>
-	</display:table>
-
-</section>
-<br>
- --%>
- 
  <div id="lineavertical"></div>
- 
- <section id="voids">
-	<div>
-	<h3><spring:message code="adminConfig.edit.titleManageMake"/></h3>
+
+<section id="voids">
+
+	<h3><spring:message code="adminConfig.edit.titleManageVoidWord"/></h3>
+
+	<form:form modelAttribute="voidWordForm" action="adminConfig/administrator/addVoidWord.do" method="Post">
 	
-	<form:form modelAttribute="creditCardMakeForm" action="adminConfig/administrator/addCreditCardMake.do" method="Post">
+		<acme:textbox code="adminConfig.edit.voidWord" path="voidWord"/>
 	
-		<acme:textbox code="adminConfig.edit.creditCardMake" path="creditCardMake"/>
-		
-		<acme:submit name="save" code="adminConfig.edit.saveMake"/>
-		
+		<acme:submit name="save" code="adminConfig.edit.saveVoidWord"/>
 	</form:form>
 
-	<display:table name="creditCardMakes" id="creditCardMake" requestURI="${requestURI}" pagesize="5" >
-		<display:column titleKey="adminConfig.edit.creditCardMakes" ><acme:text value="${creditCardMake}"/></display:column>
-		<display:column titleKey="adminConfig.edit.delete" >
-			<jstl:choose>
-				<jstl:when test="${lastMake}">
-					<spring:message code="adminConfig.edit.lastMake" />
-				</jstl:when>
-				<jstl:otherwise>
-					<acme:deleteWithForm  url="adminConfig/administrator/deleteCreditCardMake.do" name="creditCardMake" id="${creditCardMake}" code="adminConfig.edit.delete"/>
-				</jstl:otherwise>
-			</jstl:choose>
-		</display:column>
+	<display:table name="voidWords" id="voidWord" requestURI="${requestURI}" pagesize="5" >
+		<display:column titleKey="adminConfig.display.voidWords" ><acme:text value="${voidWord}"/></display:column>
+		<display:column titleKey="adminConfig.edit.delete" ><acme:deleteWithForm  url="adminConfig/administrator/deleteVoidWord.do" name="voidWord" id="${voidWord}" code="adminConfig.edit.delete"/></display:column>
 	</display:table>
-	
-		</div>
 
 </section>
-
+ 
 <div id="lineavertical"></div>
 
 <section id="makes">

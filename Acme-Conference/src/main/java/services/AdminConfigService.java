@@ -17,6 +17,7 @@ import utiles.AuthorityMethods;
 import domain.AdminConfig;
 import forms.AdminConfigForm;
 import forms.CreditCardMakeForm;
+import forms.VoidWordForm;
 
 @Service
 @Transactional
@@ -57,14 +58,14 @@ public class AdminConfigService {
 		return adminConfig;
 	}
 
-	//	public boolean existSpamWord(final Message message) {
+	//	public boolean existVoidWord(final Message message) {
 	//		boolean exist = false;
-	//		final Collection<String> spamWords = this.getAdminConfig().getSpamWords();
+	//		final Collection<String> voidWords = this.getAdminConfig().getVoidWords();
 	//		final Boolean tagIsEmpty = message.getTags().isEmpty();
 	//
-	//		for (final String spamWord : spamWords) {
-	//			final Integer spam = this.messageService.existsSpamWordInMessage(message.getId(), spamWord, tagIsEmpty);
-	//			if (spam != null) {
+	//		for (final String voidWord : voidWords) {
+	//			final Integer void = this.messageService.existsVoidWordInMessage(message.getId(), voidWord, tagIsEmpty);
+	//			if (void != null) {
 	//				exist = true;
 	//				break;
 	//			}
@@ -73,15 +74,15 @@ public class AdminConfigService {
 	//		return exist;
 	//	}
 
-	//	public void deleteSpamWord(final String spamWord) {
-	//		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-	//		final AdminConfig adminConfig = this.getAdminConfig();
-	//		final Collection<String> spamWords = adminConfig.getSpamWords();
-	//		Assert.isTrue(spamWords.contains(spamWord));
-	//		spamWords.remove(spamWord);
-	//		adminConfig.setSpamWords(spamWords);
-	//		this.save(adminConfig);
-	//	}
+	public void deleteVoidWord(final String voidWord) {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		final AdminConfig adminConfig = this.getAdminConfig();
+		final Collection<String> voidWords = adminConfig.getVoidWords();
+		Assert.isTrue(voidWords.contains(voidWord));
+		voidWords.remove(voidWord);
+		adminConfig.setVoidWords(voidWords);
+		this.save(adminConfig);
+	}
 
 	public void deleteCreditCardMake(final String creditCardMake) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
@@ -98,28 +99,28 @@ public class AdminConfigService {
 		this.adminConfigRepository.flush();
 	}
 
-	//	public AdminConfig addSpamWord(final SpamWordForm spamWordForm, final BindingResult binding) {
-	//		final AdminConfig adminConfig;
-	//
-	//		adminConfig = this.getAdminConfig();
-	//
-	//		final Collection<String> spamWords = adminConfig.getSpamWords();
-	//
-	//		if (!(spamWordForm.getSpamWord().trim().isEmpty())) {
-	//			if (spamWords.contains(spamWordForm.getSpamWord().trim().toLowerCase()))
-	//				binding.rejectValue("spamWord", "adminConfig.error.existSpamWord");
-	//
-	//			spamWords.add(spamWordForm.getSpamWord().toLowerCase());
-	//		}
-	//		adminConfig.setSpamWords(spamWords);
-	//
-	//		this.validator.validate(adminConfig, binding);
-	//
-	//		if (binding.hasErrors())
-	//			throw new ValidationException();
-	//
-	//		return adminConfig;
-	//	}
+	public AdminConfig addVoidWord(final VoidWordForm voidWordForm, final BindingResult binding) {
+		final AdminConfig adminConfig;
+
+		adminConfig = this.getAdminConfig();
+
+		final Collection<String> voidWords = adminConfig.getVoidWords();
+
+		if (!(voidWordForm.getVoidWord().trim().isEmpty())) {
+			if (voidWords.contains(voidWordForm.getVoidWord().trim().toLowerCase()))
+				binding.rejectValue("voidWord", "adminConfig.error.existVoidWord");
+
+			voidWords.add(voidWordForm.getVoidWord().toLowerCase());
+		}
+		adminConfig.setVoidWords(voidWords);
+
+		this.validator.validate(adminConfig, binding);
+
+		if (binding.hasErrors())
+			throw new ValidationException();
+
+		return adminConfig;
+	}
 
 	public AdminConfig addCreditCardMake(final CreditCardMakeForm creditCardMakeForm, final BindingResult binding) {
 		final AdminConfig adminConfig;

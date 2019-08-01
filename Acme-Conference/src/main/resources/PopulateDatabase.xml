@@ -28,7 +28,7 @@
                     <value>DINNERS</value>
                 </list>
             </property>
-            <property name="voidWordsES">
+            <property name="voidWords">
                 <list>
                     <value>a</value>
                     <value>acá</value>
@@ -358,11 +358,7 @@
                      <value>y</value>
                     <value>ya</value>
                     <value>yo</value>
-                </list>
-            </property>
-            <property name="voidWordsEN">
-                <list>
-                          <value>a</value>
+                     <value>a</value>
                     <value>able</value>
                     <value>about</value>
                     <value>across</value>
@@ -483,8 +479,7 @@
                     <value>your</value>
                 </list>
             </property>
-<!--             <property name="flatRate" value="0.5" />
-            <property name="VAT" value="21.0" /> -->
+          
     </bean>
    
    <!-- User accounts (admin) -->

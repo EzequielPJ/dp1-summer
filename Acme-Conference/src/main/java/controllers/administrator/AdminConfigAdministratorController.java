@@ -18,7 +18,7 @@ import controllers.AbstractController;
 import domain.AdminConfig;
 import forms.AdminConfigForm;
 import forms.CreditCardMakeForm;
-import forms.SpamWordForm;
+import forms.VoidWordForm;
 
 @Controller
 @RequestMapping("/adminConfig/administrator")
@@ -67,23 +67,23 @@ public class AdminConfigAdministratorController extends AbstractController {
 		return result;
 	}
 
-	//	@RequestMapping(value = "/addSpamWord", method = RequestMethod.POST, params = "save")
-	//	public ModelAndView addSpamWord(@Valid final SpamWordForm spamWordForm, final BindingResult binding) {
-	//		ModelAndView result;
-	//		result = new ModelAndView("adminConfig/edit");
-	//
-	//		try {
-	//			final AdminConfig adminConfig = this.adminConfigService.addSpamWord(spamWordForm, binding);
-	//			this.adminConfigService.save(adminConfig);
-	//			result = new ModelAndView("redirect:edit.do");
-	//		} catch (final ValidationException oops) {
-	//			result = this.createModelAndView(spamWordForm);
-	//		} catch (final Throwable oops) {
-	//			result = this.createModelAndView(spamWordForm, "adminConfig.save.error");
-	//		}
-	//
-	//		return result;
-	//	}
+	@RequestMapping(value = "/addVoidWord", method = RequestMethod.POST, params = "save")
+	public ModelAndView addVoidWord(@Valid final VoidWordForm voidWordForm, final BindingResult binding) {
+		ModelAndView result;
+		result = new ModelAndView("adminConfig/edit");
+
+		try {
+			final AdminConfig adminConfig = this.adminConfigService.addVoidWord(voidWordForm, binding);
+			this.adminConfigService.save(adminConfig);
+			result = new ModelAndView("redirect:edit.do");
+		} catch (final ValidationException oops) {
+			result = this.createModelAndView(voidWordForm);
+		} catch (final Throwable oops) {
+			result = this.createModelAndView(voidWordForm, "adminConfig.save.error");
+		}
+
+		return result;
+	}
 
 	@RequestMapping(value = "/addCreditCardMake", method = RequestMethod.POST, params = "save")
 	public ModelAndView addCreditCardMake(@Valid final CreditCardMakeForm creditCardMakeForm, final BindingResult binding) {
@@ -104,20 +104,20 @@ public class AdminConfigAdministratorController extends AbstractController {
 		return result;
 	}
 
-	//	@RequestMapping(value = "/deleteSpamWord", method = RequestMethod.POST)
-	//	public ModelAndView deleteSpamWord(final String spamWord) {
-	//		ModelAndView result;
-	//
-	//		try {
-	//			this.adminConfigService.deleteSpamWord(spamWord);
-	//			result = new ModelAndView("redirect:edit.do");
-	//		} catch (final Throwable oops) {
-	//			result = this.createModelAndView("adminConfig.save.error");
-	//		}
-	//
-	//		this.configValues(result);
-	//		return result;
-	//	}
+	@RequestMapping(value = "/deleteVoidWord", method = RequestMethod.POST)
+	public ModelAndView deleteVoidWord(final String voidWord) {
+		ModelAndView result;
+
+		try {
+			this.adminConfigService.deleteVoidWord(voidWord);
+			result = new ModelAndView("redirect:edit.do");
+		} catch (final Throwable oops) {
+			result = this.createModelAndView("adminConfig.save.error");
+		}
+
+		this.configValues(result);
+		return result;
+	}
 
 	@RequestMapping(value = "/deleteCreditCardMake", method = RequestMethod.POST)
 	public ModelAndView deleteCreditCardMake(final String creditCardMake) {
@@ -134,9 +134,9 @@ public class AdminConfigAdministratorController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createModelAndView(final AdminConfigForm adminConfigForm, final CreditCardMakeForm creditCardMakeForm, final SpamWordForm spamWordForm, final String message) {
+	protected ModelAndView createModelAndView(final AdminConfigForm adminConfigForm, final CreditCardMakeForm creditCardMakeForm, final VoidWordForm voidWordForm, final String message) {
 		final ModelAndView result = new ModelAndView("adminConfig/edit");
-		//		final List<String> spamWords = (List<String>) this.adminConfigService.getAdminConfig().getSpamWords();
+		final List<String> voidWords = (List<String>) this.adminConfigService.getAdminConfig().getVoidWords();
 		final List<String> creditCardMakes = (List<String>) this.adminConfigService.getAdminConfig().getCreditCardMakes();
 		Boolean lastMake = false;
 		if (creditCardMakes.size() == 1)
@@ -144,9 +144,9 @@ public class AdminConfigAdministratorController extends AbstractController {
 
 		result.addObject("adminConfigForm", adminConfigForm);
 		result.addObject("creditCardMakeForm", creditCardMakeForm);
-		result.addObject("spamWordForm", spamWordForm);
+		result.addObject("voidWordForm", voidWordForm);
 		result.addObject("requestURI", "adminConfig/administrator/edit.do");
-		//		result.addObject("spamWords", spamWords);
+		result.addObject("voidWords", voidWords);
 		result.addObject("creditCardMakes", creditCardMakes);
 		result.addObject("lastMake", lastMake);
 		result.addObject("message", message);
@@ -156,31 +156,31 @@ public class AdminConfigAdministratorController extends AbstractController {
 	}
 
 	protected ModelAndView createModelAndView(final AdminConfigForm adminConfigForm) {
-		return this.createModelAndView(adminConfigForm, new CreditCardMakeForm(), new SpamWordForm(), null);
+		return this.createModelAndView(adminConfigForm, new CreditCardMakeForm(), new VoidWordForm(), null);
 	}
 
 	protected ModelAndView createModelAndView(final AdminConfigForm adminConfigForm, final String message) {
-		return this.createModelAndView(adminConfigForm, new CreditCardMakeForm(), new SpamWordForm(), message);
+		return this.createModelAndView(adminConfigForm, new CreditCardMakeForm(), new VoidWordForm(), message);
 	}
 
 	protected ModelAndView createModelAndView(final CreditCardMakeForm creditCardMakeForm) {
-		return this.createModelAndView(this.adminConfigService.getAdminConfig().castToForm(), creditCardMakeForm, new SpamWordForm(), null);
+		return this.createModelAndView(this.adminConfigService.getAdminConfig().castToForm(), creditCardMakeForm, new VoidWordForm(), null);
 	}
 
 	protected ModelAndView createModelAndView(final CreditCardMakeForm creditCardMakeForm, final String message) {
-		return this.createModelAndView(this.adminConfigService.getAdminConfig().castToForm(), creditCardMakeForm, new SpamWordForm(), message);
+		return this.createModelAndView(this.adminConfigService.getAdminConfig().castToForm(), creditCardMakeForm, new VoidWordForm(), message);
 	}
 
-	protected ModelAndView createModelAndView(final SpamWordForm spamWordForm) {
-		return this.createModelAndView(this.adminConfigService.getAdminConfig().castToForm(), new CreditCardMakeForm(), spamWordForm, null);
+	protected ModelAndView createModelAndView(final VoidWordForm voidWordForm) {
+		return this.createModelAndView(this.adminConfigService.getAdminConfig().castToForm(), new CreditCardMakeForm(), voidWordForm, null);
 	}
 
-	protected ModelAndView createModelAndView(final SpamWordForm spamWordForm, final String message) {
-		return this.createModelAndView(this.adminConfigService.getAdminConfig().castToForm(), new CreditCardMakeForm(), spamWordForm, message);
+	protected ModelAndView createModelAndView(final VoidWordForm voidWordForm, final String message) {
+		return this.createModelAndView(this.adminConfigService.getAdminConfig().castToForm(), new CreditCardMakeForm(), voidWordForm, message);
 	}
 
 	protected ModelAndView createModelAndView(final String message) {
-		return this.createModelAndView(this.adminConfigService.getAdminConfig().castToForm(), new CreditCardMakeForm(), new SpamWordForm(), message);
+		return this.createModelAndView(this.adminConfigService.getAdminConfig().castToForm(), new CreditCardMakeForm(), new VoidWordForm(), message);
 	}
 
 }
