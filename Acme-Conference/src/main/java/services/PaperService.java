@@ -35,7 +35,7 @@ public class PaperService {
 		textWords.removeAll(Collections.singleton(""));
 		final List<String> res = new ArrayList<>();
 		for (final String string : textWords)
-			if (!(this.adminConfigService.getAdminConfig().getVoidWordsEN().contains(string) || this.adminConfigService.getAdminConfig().getVoidWordsES().contains(string)))
+			if (!(this.adminConfigService.getAdminConfig().getVoidWords().contains(string)))
 				res.add(string.trim());
 		return res;
 	}

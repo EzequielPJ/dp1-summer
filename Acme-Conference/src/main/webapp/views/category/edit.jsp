@@ -17,18 +17,19 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form modelAttribute="genre" action="genre/administrator/save.do" method="Post">
+<form:form modelAttribute="category" action="category/administrator/save.do" method="Post">
 	
 		<acme:hidden path="id"/>
 		<acme:hidden path="version"/>
+		<acme:hidden path="children"/>
 	
-		<acme:textbox code="genre.edit.nameEN" path="nameEN"/>
-		<acme:textbox code="genre.edit.nameES" path="nameES"/>
+		<acme:textbox code="category.edit.categoryEN" path="categoryEN"/>
+		<acme:textbox code="category.edit.categoryES" path="categoryES"/>
 		
-		<acme:select items="${genres}" itemLabel="nameEN" code="genre.edit.parent" path="parent"/>
+		<acme:select items="${posibleParents}" itemLabel="categoryEN" code="category.edit.parent" path="parent"/>
 		
-		<acme:submit name="save" code="genre.edit.save"/>
-		<acme:button url="genre/administrator/list.do" type="button" code="genre.edit.back"/>
+		<acme:submit name="save" code="category.edit.save"/>
+		<acme:button url="category/administrator/list.do" type="button" code="category.edit.back"/>
 
 </form:form>
 

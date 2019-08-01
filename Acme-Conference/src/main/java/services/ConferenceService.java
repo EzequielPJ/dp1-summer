@@ -202,7 +202,7 @@ public class ConferenceService {
 		textWords.removeAll(Collections.singleton(""));
 		final Map<String, Integer> wordScores = new HashMap<>();
 		for (final String string : textWords)
-			if (!(this.adminConfigService.getAdminConfig().getVoidWordsEN().contains(string) || this.adminConfigService.getAdminConfig().getVoidWordsES().contains(string)))
+			if (!(this.adminConfigService.getAdminConfig().getVoidWords().contains(string)))
 				if (wordScores.containsKey(string.trim()))
 					wordScores.put(string.trim(), wordScores.get(string.trim()) + 1);
 				else
