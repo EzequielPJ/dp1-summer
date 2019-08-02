@@ -103,7 +103,6 @@ public class CategoryAdministratorController extends AbstractController {
 		return this.createModelAndView(category, null);
 	}
 
-	//FIXME
 	protected ModelAndView createModelAndView(final Category category, final String message) {
 		final ModelAndView result = new ModelAndView("category/edit");
 

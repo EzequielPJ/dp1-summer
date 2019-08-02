@@ -15,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import repositories.CategoryRepository;
 import utiles.AuthorityMethods;
 import domain.Category;
+import domain.Conference;
+import domain.Finder;
 
 @Service
 @Transactional
@@ -22,6 +24,12 @@ public class CategoryService {
 
 	@Autowired
 	private CategoryRepository	categoryRepository;
+
+	@Autowired
+	private FinderService		finderService;
+
+	@Autowired
+	private ConferenceService	conferenceService;
 
 
 	public Category save(final Category category) {
@@ -157,21 +165,22 @@ public class CategoryService {
 		final Category generalCategory = this.categoryRepository.getGeneralCategory();
 		Assert.isTrue(category.getId() != generalCategory.getId());
 
-		//		final Collection<Book> bookWithThisGenre = this.bookService.getBooksByGenre(genre.getId());
-		//
-		//		for (final Book book : bookWithThisGenre) {
-		//			book.setGenre(genreParent);
-		//			this.bookService.updateGenre(book);
-		//		}
-		//
-		//		final Collection<Finder> finderWithThisGenre = this.finderService.getFindersByGenre(genre.getId());
-		//
-		//		for (final Finder finder : finderWithThisGenre) {
-		//			finder.setGenre(genreParent);
-		//			this.finderService.updateGenre(finder);
-		//		}
-
 		final Category categoryParent = category.getParent();
+
+		final Collection<Conference> conferenceWithThisCategory = this.conferenceService.getConferenceByCategory(category.getId());
+
+		for (final Conference conference : conferenceWithThisCategory) {
+			conference.setCategory(categoryParent);
+			this.conferenceService.updateCategory(conference);
+		}
+
+		final Collection<Finder> finderWithThisCategory = this.finderService.getFindersByCategory(category.getId());
+
+		for (final Finder finder : finderWithThisCategory) {
+			finder.setCategory(categoryParent);
+			this.finderService.updateCategory(finder);
+		}
+
 		final Collection<Category> subcategories = category.getChildren();
 
 		for (final Category subcategory : subcategories) {

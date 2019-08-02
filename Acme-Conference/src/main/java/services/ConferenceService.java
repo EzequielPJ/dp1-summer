@@ -236,4 +236,13 @@ public class ConferenceService {
 		return this.conferenceRepository.getConferencesToAssingReviewers(this.administratorService.findByPrincipal(LoginService.getPrincipal()).getId());
 	}
 
+	public Collection<Conference> getConferenceByCategory(final int idCategory) {
+		return this.conferenceRepository.getConferenceByCategory(idCategory);
+	}
+
+	public Conference updateCategory(final Conference conference) {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		return this.conferenceRepository.save(conference);
+	}
+
 }

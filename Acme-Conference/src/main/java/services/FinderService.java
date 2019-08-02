@@ -1,5 +1,4 @@
 
-
 package services;
 
 import java.text.ParseException;
@@ -108,6 +107,15 @@ public class FinderService {
 		this.validator.validate(finder, binding);
 
 		return finder;
+	}
+
+	public Collection<Finder> getFindersByCategory(final int idCategory) {
+		return this.finderRepository.getFindersByCategory(idCategory);
+	}
+
+	public Finder updateCategory(final Finder finder) {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		return this.finderRepository.save(finder);
 	}
 
 }
