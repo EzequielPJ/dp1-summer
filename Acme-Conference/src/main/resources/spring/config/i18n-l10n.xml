@@ -27,7 +27,7 @@
 		<value>/views/messageBox/messages</value>
 		<value>/views/message/messages</value>
 		<value>/views/adminConfig/messages</value>
-		<value>/views/genre/messages</value>
+		<value>/views/category/messages</value>
 		<value>/views/contest/messages</value>
 		<value>/views/sponsorship/messages</value>
 		

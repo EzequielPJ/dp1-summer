@@ -136,7 +136,7 @@
 						<a href="administrator/administrator/register.do"><spring:message code="master.page.administrator.register" /></a>
 					</li>
 					<li>
-						<a href="genre/administrator/list.do"><spring:message code="master.page.administrator.genres" /></a>
+						<a href="category/administrator/list.do"><spring:message code="master.page.administrator.categories" /></a>
 					</li>
 					<li>
 					    <a href="dashboard/administrator/display.do"><spring:message code="master.page.header.dashboard" /></a>

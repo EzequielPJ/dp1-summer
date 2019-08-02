@@ -48,9 +48,12 @@
 		<security:intercept-url pattern="/dashboard/administrator/display.do" access="hasRole('ADMINISTRATOR')" /> 
 		<security:intercept-url pattern="/misc/termsAndConditions.do" access="permitAll" />
 		
+		
+		<security:intercept-url pattern="/category/administrator/**" access="hasRole('ADMINISTRATOR')" />
+		
 		<!-- Conference -->
 		
-		<security:intercept-url access="hasRole('ADMINISTRATOR')" pattern="/conference/administrator/**"/>
+		<security:intercept-url pattern="/conference/administrator/**" access="hasRole('ADMINISTRATOR')"/>
 		<security:intercept-url pattern="/conference/listConferencePast.do" access="permitAll" />
 		<security:intercept-url pattern="/conference/listConferenceNow.do" access="permitAll" />
 		<security:intercept-url pattern="/conference/listConferenceFuture.do" access="permitAll" />

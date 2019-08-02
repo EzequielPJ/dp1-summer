@@ -64,4 +64,7 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
 	@Query("select c.id from Conference c")
 	Collection<Integer> findAllId();
+
+	@Query("select c from Conference c where c.category.id == ?1")
+	Collection<Conference> getConferenceByCategory(int idCategory);
 }

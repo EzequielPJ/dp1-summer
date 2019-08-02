@@ -202,7 +202,7 @@ public class ConferenceService {
 		textWords.removeAll(Collections.singleton(""));
 		final Map<String, Integer> wordScores = new HashMap<>();
 		for (final String string : textWords)
-			if (!(this.adminConfigService.getAdminConfig().getVoidWordsEN().contains(string) || this.adminConfigService.getAdminConfig().getVoidWordsES().contains(string)))
+			if (!(this.adminConfigService.getAdminConfig().getVoidWords().contains(string)))
 				if (wordScores.containsKey(string.trim()))
 					wordScores.put(string.trim(), wordScores.get(string.trim()) + 1);
 				else
@@ -234,6 +234,15 @@ public class ConferenceService {
 	public Collection<Conference> getConferencesToAssingReviewers() {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
 		return this.conferenceRepository.getConferencesToAssingReviewers(this.administratorService.findByPrincipal(LoginService.getPrincipal()).getId());
+	}
+
+	public Collection<Conference> getConferenceByCategory(final int idCategory) {
+		return this.conferenceRepository.getConferenceByCategory(idCategory);
+	}
+
+	public Conference updateCategory(final Conference conference) {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		return this.conferenceRepository.save(conference);
 	}
 
 }
