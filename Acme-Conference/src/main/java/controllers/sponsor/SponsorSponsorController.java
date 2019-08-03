@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import services.SponsorService;
+import services.ConferenceSponsorService;
 import controllers.AbstractController;
 
 @Controller
@@ -13,7 +13,7 @@ import controllers.AbstractController;
 public class SponsorSponsorController extends AbstractController {
 
 	@Autowired
-	private SponsorService	sponsorService;
+	private ConferenceSponsorService	sponsorService;
 
 	//	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	//	public ModelAndView register() {

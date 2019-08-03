@@ -2,15 +2,16 @@
 package repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import domain.Sponsor;
+import domain.ConferenceSponsor;
 
 @Repository
-public interface SponsorRepository extends JpaRepository<Sponsor, Integer> {
+public interface ConferenceSponsorRepository extends JpaRepository<ConferenceSponsor, Integer> {
 
-	//	@Query("select a from Sponsor a where a.userAccount.id = ?1")
-	//	Sponsor findByPrincipal(int idPrincipal);
+	@Query("select a from ConferenceSponsor a where a.userAccount.id = ?1")
+	ConferenceSponsor findByPrincipal(int idPrincipal);
 	//
 	//	@Query("select s from Sponsor s where (s.creditCard.expirationYear < year(current_date())) or ((s.creditCard.expirationYear = year(current_date())) and s.creditCard.expirationMonth <= month(current_date())))")
 	//	Collection<Actor> findSponsorsWithExpiredCreditCard();

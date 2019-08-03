@@ -6,12 +6,13 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import repositories.SponsorRepository;
-import domain.Sponsor;
+import repositories.ConferenceSponsorRepository;
+import security.UserAccount;
+import domain.ConferenceSponsor;
 
 @Service
 @Transactional
-public class SponsorService {
+public class ConferenceSponsorService {
 
 	// @Autowired
 	// private UserAccountRepository accountRepository;
@@ -26,7 +27,7 @@ public class SponsorService {
 	// private Validator validator;
 
 	@Autowired
-	private SponsorRepository	sponsorRepository;
+	private ConferenceSponsorRepository	sponsorRepository;
 
 
 	// @Autowired
@@ -81,13 +82,13 @@ public class SponsorService {
 	// this.sponsorRepository.flush();
 	// }
 	//
-	public Sponsor findOne(final int auditorId) {
+	public ConferenceSponsor findOne(final int auditorId) {
 		return this.sponsorRepository.findOne(auditorId);
 	}
 	//
-	// public Sponsor findByPrincipal(final UserAccount principal) {
-	// return this.sponsorRepository.findByPrincipal(principal.getId());
-	// }
+	public ConferenceSponsor findByPrincipal(final UserAccount principal) {
+		return this.sponsorRepository.findByPrincipal(principal.getId());
+	}
 	//
 	// public Collection<Sponsor> findAll() {
 	// return this.sponsorRepository.findAll();
