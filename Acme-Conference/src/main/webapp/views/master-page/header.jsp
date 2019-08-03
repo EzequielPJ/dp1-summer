@@ -139,6 +139,9 @@
 						<a href="category/administrator/list.do"><spring:message code="master.page.administrator.categories" /></a>
 					</li>
 					<li>
+						<a href="topic/administrator/list.do"><spring:message code="master.page.administrator.topics" /></a>
+					</li>
+					<li>
 					    <a href="dashboard/administrator/display.do"><spring:message code="master.page.header.dashboard" /></a>
 					</li>
 					<li>

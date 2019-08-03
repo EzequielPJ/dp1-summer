@@ -41,8 +41,8 @@ public class TopicService {
 			namesES.remove(this.findOne(topic.getId()).getTopicES());
 		}
 
-		Assert.isTrue(namesEN.contains(topic.getTopicEN().trim().toUpperCase()));
-		Assert.isTrue(namesES.contains(topic.getTopicES().trim().toUpperCase()));
+		Assert.isTrue(!namesEN.contains(topic.getTopicEN().trim().toUpperCase()));
+		Assert.isTrue(!namesES.contains(topic.getTopicES().trim().toUpperCase()));
 
 		return this.topicRepository.save(topic);
 	}
