@@ -26,13 +26,16 @@ import forms.SubmissionPaperForm;
 public class PaperService {
 
 	@Autowired
-	private Validator		validator;
+	private Validator			validator;
 
 	@Autowired
-	private AuthorService	authorService;
+	private AuthorService		authorService;
 
 	@Autowired
-	PaperRepository			paperRepository;
+	private PaperRepository		paperRepository;
+
+	@Autowired
+	private SubmisssionService	submissionService;
 
 
 	//RECONSTRUCT
@@ -70,6 +73,7 @@ public class PaperService {
 			final Integer numOfPapers = this.getNumOfCameraVersionPapersOfSubmission(paper.getSubmission().getId());
 			Assert.isTrue(numOfPapers == 0, "Ya existe un paper definitivo en esta submission");
 			Assert.isTrue(paper.getSubmission().getConference().getCameraReadyDeadline().after(DateTime.now().toDate()), "La fecha para subir un paper definitivo ha expirado");
+			Assert.isTrue(paper.getSubmission().getStatus().equals("ACCEPTED"), "El estado de la submission debe ser ACCEPTED");
 		}
 
 		final Set<Author> nonRepeatedAuthors = (Set<Author>) paper.getAuthors();
@@ -95,4 +99,15 @@ public class PaperService {
 		return this.paperRepository.getPaperNonCamerReadyVersionOfSubmission(idSubmission);
 	}
 
+	public Paper createPaper(final int idSubmission) {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("AUTHOR"), "Debe ser un autor para realizar esta acción");
+		final Submission submission = this.submissionService.findOne(idSubmission);
+
+		final Author author = this.authorService.findByPrincipal(LoginService.getPrincipal());
+		Assert.isTrue(submission.getAuthor().equals(author), "Debe ser el autor de la submission para agregar un paper");
+
+		final Paper paper = new Paper();
+		paper.setSubmission(submission);
+		return paper;
+	}
 }

@@ -26,13 +26,13 @@ import forms.SubmissionPaperForm;
 public class SubmissionAuthorController {
 
 	@Autowired
-	SubmisssionService		submissionService;
+	private SubmisssionService	submissionService;
 
 	@Autowired
-	private AuthorService	authorService;
+	private AuthorService		authorService;
 
 	@Autowired
-	private PaperService	paperService;
+	private PaperService		paperService;
 
 
 	//Create 
