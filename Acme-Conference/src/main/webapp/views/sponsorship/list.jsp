@@ -15,27 +15,13 @@
 <section id="main">
 
 
-	
-	<jstl:choose>
-		<jstl:when test="${creditCardCaducate}">
-			<p><strong><spring:message code="sponsorship.list.creditCardCaducate"/></strong></p>
-			<acme:button url="actor/edit.do" type="button" code="sponsorship.list.editProfile"/>
-		
-		</jstl:when>
-		
-		<jstl:otherwise>
-			<acme:button url="sponsorship/sponsor/create.do" type="button" code="sponsorship.list.create"/>
-		</jstl:otherwise>
-	
-	</jstl:choose>
+	<acme:button url="sponsorship/sponsor/create.do" type="button" code="sponsorship.list.create"/>
 
 	<section id="displaySponsorships">
 
 		<display:table pagesize="5" name="sponsorships" id="sponsorship" requestURI="${requestURI}">
-			<display:column titleKey="sponsorship.list.target" ><jstl:out value="${sponsorship.targetPageURL}"/> </display:column>
+			<display:column titleKey="sponsorship.list.target" ><jstl:out value="${sponsorship.targetURL}"/> </display:column>
 			<display:column titleKey="sponsorship.list.banner" ><a target="_blank" href="<jstl:out value="${sponsorship.bannerURL}"/>" ><jstl:out value="${sponsorship.bannerURL}"/></a></display:column>
-			<display:column titleKey="sponsorship.list.flatRateApplied" ><jstl:out value="${sponsorship.flatRateApplied}"/></display:column>
-			<display:column titleKey="sponsorship.list.lengthContests" ><jstl:out value="${fn:length(sponsorship.contests)}"/> </display:column>
 			<display:column titleKey="sponsorship.list.display"><acme:button url="sponsorship/sponsor/display.do?idSponsorship=${sponsorship.id}" type="button" code="sponsorship.list.display"/></display:column>	
 			<display:column titleKey="sponsorship.list.update"><acme:button url="sponsorship/sponsor/edit.do?idSponsorship=${sponsorship.id}" type="button" code="sponsorship.list.update"/></display:column>
 			<display:column titleKey="sponsorship.list.delete"><acme:button url="sponsorship/sponsor/delete.do?idSponsorship=${sponsorship.id}" type="button" code="sponsorship.list.delete"/></display:column>

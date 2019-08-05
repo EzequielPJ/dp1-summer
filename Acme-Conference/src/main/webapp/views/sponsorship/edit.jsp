@@ -11,21 +11,21 @@
 
 <section>
 
-	<jstl:if test="${sponsorshipForm.id == 0}">
-		<p><spring:message code="sponsorship.edit.fare" /> <jstl:out value="${flatRate}"/> | <jstl:out value="${flatRateWithVAT}"/> (<spring:message code="sponsorship.edit.withVAT" />) </p>
-	</jstl:if>
-
-	<form:form action="sponsorship/sponsor/edit.do" modelAttribute="sponsorshipForm">
+	<form:form action="sponsorship/sponsor/edit.do" modelAttribute="sponsorship">
 		
 		<acme:hidden path="id"/>
 		
-		<acme:textbox code="sponsorship.edit.targetPageURL" path="targetPageURL"/>
+		<acme:textbox code="sponsorship.edit.targetPageURL" path="targetURL"/>
 		<acme:textbox code="sponsorship.edit.bannerURL" path="bannerURL"/>
-		
 	
-		<acme:select items="${posibleContests}" itemLabel="description" code="sponsorship.edit.contests" path="contests"/>
+		<acme:select items="${conferences}" itemLabel="title" code="sponsorship.edit.conferences" path="conferences"/>
 		
-
+		<acme:textbox code="sponsorship.edit.holder" path="creditCard.holder"/>
+		<acme:textbox code="sponsorship.edit.brandName" path="creditCard.brandName"/>
+		<acme:inputNumber code="sponsorship.edit.number" path="creditCard.number"/>
+		<acme:inputNumber code="sponsorship.edit.expirationMonth" path="creditCard.expirationMonth" />
+		<acme:inputNumber code="sponsorship.edit.expirationYear" path="creditCard.expirationYear" />
+		<acme:inputNumber code="sponsorship.edit.cvv" path="creditCard.cvv"/>
 		
 		<acme:submit name="save" code="sponsorship.edit.save"/>
 		<acme:cancel url="sponsorship/sponsor/list.do" code="sponsorship.edit.cancel"/>

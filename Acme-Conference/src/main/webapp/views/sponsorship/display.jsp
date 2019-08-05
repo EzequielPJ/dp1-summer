@@ -4,8 +4,7 @@
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="security"
-	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
@@ -21,9 +20,8 @@
 		
 		<div>
 		
-		<p><strong><spring:message code="sponsorship.display.status"/></strong> <jstl:out value="${status}"/> | <spring:message code="sponsorship.display.views1"/> <jstl:out value="${sponsorship.views}"/> <spring:message code="sponsorship.display.views2"/></p>
-	 	<strong><spring:message code="sponsorship.display.targetPageURL"/></strong> <a target="_blank" href="${sponsorship.targetPageURL}"> <jstl:out value="${sponsorship.targetPageURL}"></jstl:out></a>
-		<p><strong><spring:message code="sponsorship.display.flatRateApplied"/></strong> <jstl:out value="${sponsorship.flatRateApplied}"></jstl:out> | <strong><spring:message code="sponsorship.display.flatRateAppliedWithVAT"/></strong> <jstl:out value="${flatRateAppliedWithVAT}"></jstl:out> </p>
+		
+	 	<strong><spring:message code="sponsorship.display.targetPageURL"/></strong> <a target="_blank" href="${sponsorship.targetURL}"> <jstl:out value="${sponsorship.targetURL}"></jstl:out></a>
 		<p><strong><spring:message code="sponsorship.display.banner"/></strong></p>
 		<img style="width: 100%;"  src="${sponsorship.bannerURL}"/>
 		
@@ -36,25 +34,38 @@
  
 	</section>
 	
-	<section id="displayContests">
+	<section id="displayConferences">
 		
 	
-		<h3><spring:message code="sponsorship.display.contests"/></h3>
+		<h3><spring:message code="sponsorship.display.conferences"/></h3>
 		<hr>
 		
-		<display:table pagesize="5" name="sponsorship.contests" id="contest" requestURI="${requestURI}">
- 				<display:column titleKey="sponsorship.display.contestTitle"><jstl:out value="${contest.title}"/></display:column>
-	   		 	<display:column titleKey="sponsorship.display.contestDisplay"><acme:button url="contest/display.do?idContest=${contest.id}&urlBack=${requestURI}" type="button" code="sponsorship.display.contestDisplay"/></display:column>
+		<display:table pagesize="5" name="sponsorship.conferences" id="conference" requestURI="${requestURI}">
+ 				<display:column titleKey="sponsorship.display.conferenceTitle"><jstl:out value="${conference.title}"/></display:column>
+	   		 	<display:column titleKey="sponsorship.display.conferenceDisplay"><acme:button url="conference/display.do?idConference=${conference.id}&urlBack=${requestURI}" type="button" code="sponsorship.display.conferenceDisplay"/></display:column>
 		</display:table>
 		
 		<hr>
 	
 	</section>
 	
-	
+	<section id="displayCreditCard">
 		
-
-
+	
+		<h3><spring:message code="sponsorship.display.creditCard"/></h3>
+		<hr>
+		
+		<p><strong><spring:message code="sponsorship.display.brandName"/></strong> <jstl:out value="${sponsorship.creditCard.brandName}"/>
+		<jstl:out value="  |  "/> <strong><spring:message code="sponsorship.display.holder"/></strong> <jstl:out value="${sponsorship.creditCard.holder}"/>
+		<jstl:out value="  |  "/> <strong><spring:message code="sponsorship.display.cvv"/></strong> <jstl:out value="${sponsorship.creditCard.cvv}"/> </p>
+		
+		<p><strong><spring:message code="sponsorship.display.number"/></strong> <jstl:out value="${sponsorship.creditCard.number}"/>
+		<jstl:out value="  |  "/> <strong><spring:message code="sponsorship.display.expirationMonth"/></strong> <jstl:out value="${sponsorship.creditCard.expirationMonth}"/>
+		<jstl:out value="  |  "/> <strong><spring:message code="sponsorship.display.expirationYear"/></strong> <jstl:out value="${sponsorship.creditCard.expirationYear}"/> </p>
+		
+		<hr>
+	
+	</section>
 
 <hr>
 </section>
@@ -78,12 +89,17 @@
 	padding: 1% 2.5%;
 }
 
-#displayContests {
+#displayConferences {
 	float: left;
 	width: 45%;
 	padding: 1% 2.5%;
 }
 
+#displayCreditCard {
+	float: left;
+	width: 45%;
+	padding: 1% 2.5%;
+}
 
  .botones{
   	margin-left: 70px;
