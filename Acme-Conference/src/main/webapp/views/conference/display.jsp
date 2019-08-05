@@ -34,6 +34,12 @@
 <acme:text label="conference.list.category" value="${conference.category.categoryES}"/>
 </jstl:if>
 
+<hr>
+
+<div id="sponsor" style="width: 50px;">
+	<a target="_blank" href="${sponsorshipRandom.targetURL}" ><img style="width: 200px;" src="${sponsorshipRandom.bannerURL}" alt="${sponsorshipRandom.targetURL}"/></a>
+</div>
+
 		
 
 

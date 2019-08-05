@@ -52,7 +52,7 @@
 	</form:label>	
 	<form:select id="${id}" path="${path}" onchange="${onchange}">
 		<jstl:if test="${optional == true}">
-			<form:option value="0" label="----" />				
+			<form:option value="" label="----" />				
 		</jstl:if>
 		<form:options items="${items}" itemValue="id" itemLabel="${itemLabel}" />
 	</form:select>

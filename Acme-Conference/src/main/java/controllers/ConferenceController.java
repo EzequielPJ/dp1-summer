@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ConferenceService;
+import services.SponsorshipService;
 import domain.Conference;
 
 @Controller
@@ -22,6 +23,9 @@ public class ConferenceController extends AbstractController {
 
 	@Autowired
 	private ConferenceService	conferenceService;
+
+	@Autowired
+	private SponsorshipService	sponsorshipService;
 
 
 	@RequestMapping(value = "/listConferencePast", method = RequestMethod.GET)
@@ -89,6 +93,7 @@ public class ConferenceController extends AbstractController {
 		result = new ModelAndView("conference/display");
 
 		result.addObject("conference", conference);
+		result.addObject("sponsorshipRandom", this.sponsorshipService.getRandomOfAConference(idConference));
 		result.addObject("requestURI", "conference/display.do?idConference=" + idConference);
 		result.addObject("general", true);
 		if (lang == null)

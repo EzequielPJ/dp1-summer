@@ -17,6 +17,7 @@ import org.springframework.validation.Validator;
 import repositories.SponsorshipRepository;
 import security.LoginService;
 import utiles.ValidateCreditCard;
+import domain.CreditCard;
 import domain.Sponsorship;
 
 @Service
@@ -39,9 +40,6 @@ public class SponsorshipService {
 
 	public void save(final Sponsorship sponsorship) {
 		Assert.isTrue(LoginService.getPrincipal().equals(sponsorship.getSponsor().getUserAccount()));
-
-		//		if (!(sponsorship.getConferences().contains(null))) //Esto es porque el conference de la vista se lo trae como un [null]
-		//			Assert.isTrue(this.conferenceService.getAllConferenceMinusAnonymous().containsAll(sponsorship.getConferences()));
 
 		Assert.isTrue(!ValidateCreditCard.isCaducate(sponsorship.getCreditCard()));
 
@@ -70,7 +68,11 @@ public class SponsorshipService {
 
 		result.setBannerURL(sponsorship.getBannerURL());
 		result.setTargetURL(sponsorship.getTargetURL());
+		final CreditCard creditCard = this.reconstructCVV(sponsorship.getCreditCard());
+		result.setCreditCard(creditCard);
 		result.setConferences(sponsorship.getConferences());
+
+		ValidateCreditCard.checkGregorianDate(result.getCreditCard(), binding);
 
 		this.validator.validate(result, binding);
 
@@ -107,5 +109,26 @@ public class SponsorshipService {
 
 	public Collection<Sponsorship> getSponsorshipsOfConference(final int idConference) {
 		return this.sponsorshipRepository.getSponsorshipsOfConference(idConference);
+	}
+
+	private CreditCard reconstructCVV(final CreditCard creditCard) {
+		String cvv = creditCard.getCvv();
+
+		switch (cvv.length()) {
+		case 1:
+			cvv = "00" + cvv;
+			break;
+
+		case 2:
+			cvv = "0" + cvv;
+			break;
+
+		default:
+			break;
+		}
+
+		creditCard.setCvv(cvv);
+
+		return creditCard;
 	}
 }
