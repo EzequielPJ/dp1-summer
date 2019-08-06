@@ -69,6 +69,7 @@ public class SubmissionPaperForm {
 
 	@URL
 	@SafeHtml
+	@NotBlank
 	public String getDocumentUrl() {
 		return this.documentUrl;
 	}

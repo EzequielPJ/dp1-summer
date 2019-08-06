@@ -1,6 +1,12 @@
 
 package services;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.ValidationException;
@@ -35,7 +41,10 @@ public class PaperService {
 	private PaperRepository		paperRepository;
 
 	@Autowired
-	private SubmisssionService	submissionService;
+	private SubmissionService	submissionService;
+
+	@Autowired
+	private AdminConfigService	adminConfigService;
 
 
 	//RECONSTRUCT
@@ -110,8 +119,6 @@ public class PaperService {
 		paper.setSubmission(submission);
 		return paper;
 	}
-	@Autowired
-	private AdminConfigService	adminConfigService;
 
 	public List<String> getPaperWords(final int authorId) {
 		final Collection<String> aux = this.paperRepository.getTextsOfPapers(authorId);

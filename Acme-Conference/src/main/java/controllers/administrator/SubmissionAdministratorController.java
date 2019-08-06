@@ -12,8 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
 import services.AdministratorService;
+import services.AuthorService;
 import services.PaperService;
-import services.SubmisssionService;
+import services.SubmissionService;
 import domain.Administrator;
 import domain.Paper;
 import domain.Submission;
@@ -23,7 +24,7 @@ import domain.Submission;
 public class SubmissionAdministratorController {
 
 	@Autowired
-	private SubmisssionService		submissionService;
+	private SubmissionService		submissionService;
 
 	@Autowired
 	private PaperService			paperService;
@@ -44,7 +45,7 @@ public class SubmissionAdministratorController {
 
 		final Submission submission = this.submissionService.findOne(idSubmission);
 		if (submission.getConference().getAdministrator().equals(admin)) {
-			result = new ModelAndView("");
+			result = new ModelAndView("submission/display");
 
 			final Paper nonCameraReadyVersion = this.paperService.getPaperNonCamerReadyVersionOfSubmission(idSubmission);
 			final Paper cameraReadyVersion = this.paperService.getPaperCamerReadyVersionOfSubmission(idSubmission);
@@ -62,7 +63,7 @@ public class SubmissionAdministratorController {
 	//list
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
-		final ModelAndView result = new ModelAndView();
+		final ModelAndView result = new ModelAndView("submission/list");
 		final Administrator admin = this.adminService.findByPrincipal(LoginService.getPrincipal());
 		final Collection<Submission> submissionOfAdmin = this.submissionService.getSubmissionsOfAdmin(admin.getId());
 		result.addObject("submissions", submissionOfAdmin);
@@ -72,7 +73,7 @@ public class SubmissionAdministratorController {
 	//Change Status
 	@RequestMapping(value = "/changeStatus", method = RequestMethod.GET)
 	public ModelAndView changeStatus(@RequestParam final int idSubmission, @RequestParam final String status) {
-		final ModelAndView result;
+		ModelAndView result;
 		final Submission submission = this.submissionService.findOne(idSubmission);
 		try {
 			this.submissionService.changeStatus(submission, status);

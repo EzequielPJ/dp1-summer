@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
+import services.AuthorService;
+import services.ConferenceService;
 import services.PaperService;
-import services.SubmisssionService;
+import services.SubmissionService;
 import domain.Author;
 import domain.Paper;
 import domain.Submission;
@@ -26,7 +28,10 @@ import forms.SubmissionPaperForm;
 public class SubmissionAuthorController {
 
 	@Autowired
-	private SubmisssionService	submissionService;
+	private SubmissionService	submissionService;
+
+	@Autowired
+	private ConferenceService	conferenceService;
 
 	@Autowired
 	private AuthorService		authorService;
@@ -36,12 +41,14 @@ public class SubmissionAuthorController {
 
 
 	//Create 
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		final SubmissionPaperForm submissionPaperForm = new SubmissionPaperForm();
 		return this.createModelAndView(submissionPaperForm);
 	}
 
 	//Save
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public ModelAndView save(@Valid final SubmissionPaperForm submissionPaperForm, final BindingResult bindingResult) {
 		ModelAndView result;
 
@@ -60,10 +67,11 @@ public class SubmissionAuthorController {
 	//Listar las del autor
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
-		final ModelAndView result = new ModelAndView();
+		final ModelAndView result = new ModelAndView("submission/list");
 		final Author author = this.authorService.findByPrincipal(LoginService.getPrincipal());
 		final Collection<Submission> submissionOfAuthor = this.submissionService.getSubmissionsOfAuthor(author.getId());
 		result.addObject("submissions", submissionOfAuthor);
+		result.addObject("submissionsCanAddCameraVersion", this.submissionService.getSubmissionsCanAddCameraReadyPaper(author.getId()));
 		return result;
 	}
 
@@ -76,7 +84,7 @@ public class SubmissionAuthorController {
 
 		final Submission submission = this.submissionService.findOne(idSubmission);
 		if (submission.getAuthor().equals(author)) {
-			result = new ModelAndView("");
+			result = new ModelAndView("submission/display");
 
 			final Paper nonCameraReadyVersion = this.paperService.getPaperNonCamerReadyVersionOfSubmission(idSubmission);
 			final Paper cameraReadyVersion = this.paperService.getPaperCamerReadyVersionOfSubmission(idSubmission);
@@ -96,10 +104,12 @@ public class SubmissionAuthorController {
 	}
 
 	protected ModelAndView createModelAndView(final SubmissionPaperForm submissionPaperForm, final String message) {
-		final ModelAndView result = new ModelAndView();
+		final ModelAndView result = new ModelAndView("submission/create");
 		result.addObject("submissionPaperForm", submissionPaperForm);
 
-		//TODO: Add conferences para seleccionar
+		result.addObject("authors", this.authorService.getAllAuthors());
+		result.addObject("conferences", this.conferenceService.getConferenceCanBeSubmitted());
+		result.addObject("message", message);
 
 		return result;
 	}

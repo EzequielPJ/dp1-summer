@@ -9,17 +9,31 @@
 
 <form:form modelAttribute="submissionPaperForm" action="submission/author/save.do">
 	  	 
+	<p><spring:message code="submission.create.paper.conference"/>:
+	<form:select id="conference" path="conference">
+		<form:options items="${conferences}" itemLabel="title" itemValue="id" />
+	</form:select> 
+	<form:errors cssClass="error" path="conference" />
+	</p>
+	
    	<p>
-   		 <acme:textarea code="submission.create.paper.title" path="title"/>
+   		 <acme:textbox code="submission.create.paper.title" path="title"/>
+   	</p>
+   	<p>
+   		 <acme:textbox code="submission.create.paper.documentUrl" path="documentUrl"/>
    	</p>
    	<p>
    		 <acme:textarea code="submission.create.paper.summary" path="summary"/>
    	</p>
-   	<p>
-   		 <acme:textarea code="submission.create.paper.documentUrl" path="documentUrl"/>
-   	</p>
    	
-	<acme:select items="${authors}" itemLabel="authors" code="submission.create.paper.authors" path="authors" optional="false"/>
+	<p><spring:message code="submission.create.paper.authors"/>:
+	<select name="authors" onchange="javascript: return true;" multiple>
+		<jstl:forEach var="author" items="${authors}">
+			<option value="${author.id}" <jstl:if test="${submissionPaperForm.authors.contains(author)}">selected</jstl:if>><jstl:out value="${author.name} ${author.middlename} ${author.surname}"/></option>	
+		</jstl:forEach>
+	</select>
+	<form:errors cssClass="error" path="authors" />
+	</p>
 	
 	<div id="aliases"> 
 	<spring:message code="submission.create.paper.aliases"/>
@@ -30,6 +44,7 @@
    	<jstl:forEach var="alias" items="${submissionPaperForm.aliases}">
    	   	 <form:input class="textbox" path="aliases" type="text" value="${alias}"/>       	
    	</jstl:forEach>
+   	<form:errors cssClass="error" path="aliases" />
 	</div>
    	 
 

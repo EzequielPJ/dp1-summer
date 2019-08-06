@@ -62,6 +62,7 @@ public class Paper extends DomainEntity {
 
 	@URL
 	@SafeHtml
+	@NotBlank
 	public String getDocumentUrl() {
 		return this.documentUrl;
 	}

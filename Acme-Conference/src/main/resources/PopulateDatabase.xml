@@ -983,9 +983,9 @@
         <property name="title" value="Videojuegos con la informática" />
         <property name="acronym" value="VI" />
         <property name="venue" value="address 66"/>
-        <property name="submissionDeadline" value="07/18/2019"/>
-        <property name="notificationDeadline" value="07/19/2019"/>
-        <property name="cameraReadyDeadline" value="07/20/2019"/>
+        <property name="submissionDeadline" value="09/18/2019"/>
+        <property name="notificationDeadline" value="09/19/2019"/>
+        <property name="cameraReadyDeadline" value="09/20/2019"/>
         <property name="startDate" value="07/25/2019"/>
         <property name="endDate" value="07/29/2019"/>
         <property name="summary" value="Aprende a crear videojuegos"/>
@@ -1091,7 +1091,8 @@
             <ref bean="reviewer0" />
             </list>
         </property>
-        <property name="ticker" ref="ticker0" />     
+        <property name="ticker" ref="ticker0" /> 
+        <property name="author" ref="author0" />     
     </bean>
     
      <!-- Submission (author1) -->
@@ -1104,7 +1105,8 @@
             <list>
             </list>
         </property>
-        <property name="ticker" ref="ticker1" />     
+        <property name="ticker" ref="ticker1" /> 
+        <property name="author" ref="author1" />     
     </bean>
     
     <!-- Paper (author0) -->
@@ -1118,7 +1120,7 @@
         </property>  
         <property name="summary" value="Videojuegos en la informática" />
         <property name="documentUrl" value="http://www.paper.com" />
-        <property name="cameraReadyPaper" value="true" />
+        <property name="cameraReadyPaper" value="false" />
         <property name="authors">
             <list>
             <ref bean="author0" />
@@ -1133,12 +1135,12 @@
         <property name="title" value="La informática en la ingeniería" />
         <property name="aliases">
             <list>
-            <value>aliases</value>
+            <value>Felipe Giro Completo</value>
             </list>
         </property>  
         <property name="summary" value="Breve historia de la informática" />
         <property name="documentUrl" value="http://www.java.com" />
-        <property name="cameraReadyPaper" value="true" />
+        <property name="cameraReadyPaper" value="false" />
         <property name="authors">
             <list>
             <ref bean="author1" />

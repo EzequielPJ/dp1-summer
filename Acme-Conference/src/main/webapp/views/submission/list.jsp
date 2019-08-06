@@ -16,14 +16,21 @@
 	<display:column titleKey="submission.list.status"><jstl:out value="${submission.status}" /></display:column>
 	
 	<display:column titleKey="submission.list.display">
+	<security:authorize access="hasRole('AUTHOR')">  
 		 <acme:button url="submission/author/display.do?idSubmission=${submission.id}" type="button" code="submission.list.display"/>
-	 </display:column>
+	</security:authorize>
+	<security:authorize access="hasRole('ADMINISTRATOR')">  
+		 <acme:button url="submission/administrator/display.do?idSubmission=${submission.id}" type="button" code="submission.list.display"/>
+	</security:authorize>
+	</display:column>
 	 
-	 <display:column titleKey="submission.list.addCameraReadyVersion">
-	 <jstl:if test="${submissionsCanAddCameraVersion.contains(submission)}">
-		 <acme:button url="submission/author/display.do?idSubmission=${submission.id}" type="button" code="submission.list.addCameraReadyVersion"/>
-	 </jstl:if>
-	 </display:column>
+	 <security:authorize access="hasRole('AUTHOR')"> 
+		 <display:column titleKey="submission.list.addCameraReadyVersion">
+			 <jstl:if test="${submissionsCanAddCameraVersion.contains(submission)}">
+				 <acme:button url="paper/author/create.do?idSubmission=${submission.id}" type="button" code="submission.list.addCameraReadyVersion"/>
+			 </jstl:if>
+		 </display:column>
+	 </security:authorize>
 	
 </display:table>
 

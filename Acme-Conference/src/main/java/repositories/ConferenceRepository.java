@@ -67,4 +67,8 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
 	@Query("select c from Conference c where c.category.id = ?1")
 	Collection<Conference> getConferenceByCategory(int idCategory);
+
+	@Query("select c from Conference c where c not in (select distinct (s.conference) from Submission s where s.author.id = ?1) and c.finalMode = true and submissionDeadline > CURRENT_TIMESTAMP")
+	Collection<Conference> getConferenceCanBeSubmitted(int idAuthor);
+
 }

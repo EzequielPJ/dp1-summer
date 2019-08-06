@@ -28,10 +28,10 @@ public class TickerService {
 		String identifier;
 
 		//Codigo con las iniciales
-		final char initialName = author.getName().toUpperCase().charAt(0);
-		final char initialMiddlename = author.getMiddlename() == null ? 'X' : author.getMiddlename().toUpperCase().charAt(0);
-		final char initialSurname = author.getSurname().toUpperCase().charAt(0);
-		identifier = initialName + initialMiddlename + initialSurname + "-";
+		final Character initialName = author.getName().toUpperCase().charAt(0);
+		final Character initialMiddlename = author.getMiddlename() == null ? 'X' : author.getMiddlename().toUpperCase().charAt(0);
+		final Character initialSurname = author.getSurname().toUpperCase().charAt(0);
+		identifier = initialName.toString() + initialMiddlename.toString() + initialSurname.toString() + "-";
 
 		//Cadena alfanumerica
 		final SecureRandom randomGenerator = SecureRandom.getInstance("SHA1PRNG");
