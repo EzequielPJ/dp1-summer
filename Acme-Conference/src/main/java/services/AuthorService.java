@@ -66,4 +66,12 @@ public class AuthorService {
 		}
 	}
 
+	public Collection<Author> getAllAuthors() {
+		return this.authorRepository.findAll();
+	}
+
+	public Author getAuthor(final int idAuthor) {
+		return this.authorRepository.findOne(idAuthor);
+	}
+
 }

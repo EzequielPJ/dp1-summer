@@ -62,6 +62,13 @@
 		<security:intercept-url pattern="/conference/listConferenceFuture.do" access="permitAll" />
 		<security:intercept-url pattern="/conference/display.do" access="permitAll" />
 		
+		<!-- Submission -->
+		<security:intercept-url pattern="/submission/administrator/**" access="hasRole('ADMINISTRATOR')"/>
+		<security:intercept-url pattern="/submission/author/**" access="hasRole('AUTHOR')"/>
+		
+		<!-- Paper -->
+		<security:intercept-url pattern="/paper/author/**" access="hasRole('AUTHOR')"/>
+		
 		<!--  -->
 		
 		<!-- Comment -->

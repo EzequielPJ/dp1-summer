@@ -21,4 +21,19 @@ public interface SubmissionRepository extends JpaRepository<Submission, Integer>
 	@Query("select count(r) from Report r where r.submission.id = ?1 and r.decision = ?2")
 	Integer getNumberOfReportsByStatusAndSubmission(int idSubmission, String status);
 
+	@Query("select count(s) from Submission s where s.author.id = ?1")
+	Integer getNumberOfSubmissionsOfAuthor(int idAuthor);
+
+	@Query("select s from Submission s where s.author.id = ?1")
+	Collection<Submission> getSubmissionsOfAuthor(int idAuthor);
+
+	@Query("select count(s) from Submission s where s.author.id = ?1 and s.conference.id = ?2")
+	Integer getNumberOfSubmissionsOfAuthorByConference(int idAuthor, int idConference);
+
+	@Query("select s from Submission s where s.conference.administrator.id =  ?1")
+	Collection<Submission> getSubmissionsOfAdmin(int idAdmin);
+
+	@Query("select s from Submission s where s.status = 'ACCEPTED' and s.author.id = ?1 and s.conference.cameraReadyDeadline > CURRENT_TIMESTAMP and s.conference.finalMode = true and s not in (select p.submission from Paper p where p.cameraReadyPaper = true and p.submission.author.id = ?1)")
+	Collection<Submission> getSubmissionsCanAddCameraReadyPaper(int idAuthor);
+
 }

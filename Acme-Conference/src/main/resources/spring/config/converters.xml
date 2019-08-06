@@ -39,6 +39,12 @@
 		
 		<bean class="converters.ActivityToStringConverter"/>
 		<bean class="converters.StringToActivityConverter"/>
+		
+		<bean class="converters.AuthorToStringConverter"/>
+		<bean class="converters.StringToAuthorConverter"/>
+		
+		<bean class="converters.SubmissionToStringConverter"/>
+		<bean class="converters.StringToSubmissionConverter"/>
 				
 	</util:list>
 	

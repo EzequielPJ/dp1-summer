@@ -28,6 +28,7 @@ import security.LoginService;
 import security.UserAccount;
 import utiles.AuthorityMethods;
 import domain.Administrator;
+import domain.Author;
 import domain.Conference;
 
 @Service
@@ -45,6 +46,9 @@ public class ConferenceService {
 
 	@Autowired
 	Validator						validator;
+
+	@Autowired
+	private AuthorService			authorService;
 
 	private final SimpleDateFormat	FORMAT	= new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
@@ -243,6 +247,12 @@ public class ConferenceService {
 	public Conference updateCategory(final Conference conference) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
 		return this.conferenceRepository.save(conference);
+	}
+
+	public Collection<Conference> getConferenceCanBeSubmitted() {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("AUTHOR"), "Debe ser un autor para realizar esta acción");
+		final Author author = this.authorService.findByPrincipal(LoginService.getPrincipal());
+		return this.conferenceRepository.getConferenceCanBeSubmitted(author.getId());
 	}
 
 }

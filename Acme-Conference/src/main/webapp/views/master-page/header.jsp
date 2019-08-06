@@ -106,6 +106,19 @@
 		</li> 
 		</security:authorize>
 		
+		<!-- List of contests -->
+		<security:authorize access="hasRole('AUTHOR')">
+		<li>
+			<a class="fNiv" href="submission/author/list.do"><spring:message code="master.page.submission.list" /></a>
+		</li> 
+		</security:authorize>
+		
+		<security:authorize access="hasRole('ADMINISTRATOR')">
+		<li>
+			<a class="fNiv" href="submission/administrator/list.do"><spring:message code="master.page.submission.list" /></a>
+		</li> 
+		</security:authorize>
+		
 
 		
 		<!-- Actors -->

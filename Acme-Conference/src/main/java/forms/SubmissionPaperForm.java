@@ -1,12 +1,9 @@
 
-package domain;
+package forms;
 
 import java.util.Collection;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
@@ -15,21 +12,31 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.URL;
 
-@Entity
-@Access(AccessType.PROPERTY)
-public class Paper extends DomainEntity {
+import domain.Author;
+import domain.Conference;
+
+public class SubmissionPaperForm {
 
 	//Atributes
 	private String				title;
 	private Collection<String>	aliases;
 	private String				summary;
 	private String				documentUrl;
-	private boolean				cameraReadyPaper;
 
 	//Relationship
+	private Conference			conference;
 	private Collection<Author>	authors;
-	private Submission			submission;
 
+
+	@Valid
+	@ManyToOne(optional = false)
+	public Conference getConference() {
+		return this.conference;
+	}
+
+	public void setConference(final Conference conference) {
+		this.conference = conference;
+	}
 
 	@NotBlank
 	@SafeHtml
@@ -71,14 +78,6 @@ public class Paper extends DomainEntity {
 		this.documentUrl = documentUrl;
 	}
 
-	public boolean getCameraReadyPaper() {
-		return this.cameraReadyPaper;
-	}
-
-	public void setCameraReadyPaper(final boolean cameraReadyPaper) {
-		this.cameraReadyPaper = cameraReadyPaper;
-	}
-
 	@Valid
 	@ManyToMany
 	public Collection<Author> getAuthors() {
@@ -87,16 +86,6 @@ public class Paper extends DomainEntity {
 
 	public void setAuthors(final Collection<Author> authors) {
 		this.authors = authors;
-	}
-
-	@Valid
-	@ManyToOne(optional = false)
-	public Submission getSubmission() {
-		return this.submission;
-	}
-
-	public void setSubmission(final Submission submission) {
-		this.submission = submission;
 	}
 
 }
