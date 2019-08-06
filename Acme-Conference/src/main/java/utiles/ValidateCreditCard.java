@@ -69,7 +69,7 @@ public class ValidateCreditCard {
 	}
 
 	public static void checkMakeCreditCard(final CreditCard card, final Collection<String> makes, final BindingResult binding) {
-		final String make = card.getMake();
+		final String make = card.getBrandName();
 
 		final Collection<String> makers = makes;
 

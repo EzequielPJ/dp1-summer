@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!-- 
- * tiles.xml
+ * tiles_es.xml
  *
  * Copyright (C) 2019 Universidad de Sevilla
  * 
@@ -13,12 +13,13 @@
 <!DOCTYPE tiles-definitions PUBLIC
        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
-       
+      
 <tiles-definitions>
 
-	<definition name="publisher/edit" extends="master.page">	
-		<put-attribute name="title" value="Edit Publisher" />
-		<put-attribute name="body" value="/views/publisher/edit.jsp" />
+	<definition name="author/edit" extends="master.page">	
+		<put-attribute name="title" value="Editar Author" />
+		<put-attribute name="body" value="/views/author/edit.jsp" />
 	</definition>
+	
 	
 </tiles-definitions>

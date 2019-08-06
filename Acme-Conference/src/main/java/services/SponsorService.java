@@ -18,13 +18,11 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
-import utiles.AddPhoneCC;
 import utiles.AuthorityMethods;
 import utiles.EmailValidator;
 import utiles.ValidateCreditCard;
 import domain.Actor;
 import domain.Sponsor;
-import domain.Sponsorship;
 import forms.SponsorForm;
 
 @Service
@@ -35,27 +33,16 @@ public class SponsorService {
 	private UserAccountRepository	accountRepository;
 
 	@Autowired
-	private AdminConfigService		adminConfigService;
-
-	@Autowired
-	private MessageBoxService		messageBoxService;
-
-	@Autowired
 	private Validator				validator;
 
 	@Autowired
 	private SponsorRepository		sponsorRepository;
 
-	@Autowired
-	private SponsorshipService		sponsorshipService;
-
 
 	public Sponsor create() {
 		final Sponsor res = new Sponsor();
 
-		res.setSpammer(null);
-		res.setBanned(false);
-		res.setMessageBoxes(this.messageBoxService.initializeNewUserBoxes());
+		//TODO: res.setMessageBoxes(this.messageBoxService.initializeNewUserBoxes());
 
 		return res;
 	}
@@ -77,22 +64,23 @@ public class SponsorService {
 		} else {
 			Assert.isTrue(AuthorityMethods.checkIsSomeoneLogged());
 			Assert.isTrue(AuthorityMethods.chechAuthorityLogged(Authority.SPONSOR));
-			Assert.isTrue(!sponsor.getBanned());
-			this.activateSponsorship(sponsor);
+			//TODO: this.activateSponsorship(sponsor);
 		}
 
 		final Sponsor res = this.sponsorRepository.save(sponsor);
 		return res;
 	}
 
-	private void activateSponsorship(final Sponsor sponsor) {
-		final Collection<Sponsorship> sponsorships = this.sponsorshipService.findAllBySponsor(sponsor.getId());
-
-		for (final Sponsorship sponsorship : sponsorships)
-			sponsorship.setCancelled(false);
-		this.sponsorshipService.save(sponsorships);
-
-	}
+	/*
+	 * private void activateSponsorship(final Sponsor sponsor) {
+	 * final Collection<Sponsorship> sponsorships = this.sponsorshipService.findAllBySponsor(sponsor.getId());
+	 * 
+	 * for (final Sponsorship sponsorship : sponsorships)
+	 * sponsorship.setCancelled(false);
+	 * this.sponsorshipService.save(sponsorships);
+	 * 
+	 * }
+	 */
 
 	public void flush() {
 		this.sponsorRepository.flush();
@@ -123,7 +111,7 @@ public class SponsorService {
 
 		sponsorForm.setCreditCard(ValidateCreditCard.checkNumeroAnno(sponsorForm.getCreditCard()));
 		ValidateCreditCard.checkGregorianDate(sponsorForm.getCreditCard(), binding);
-		ValidateCreditCard.checkMakeCreditCard(sponsorForm.getCreditCard(), this.adminConfigService.getAdminConfig().getCreditCardMakes(), binding);
+		//ValidateCreditCard.checkMakeCreditCard(sponsorForm.getCreditCard(), this.adminConfigService.getAdminConfig().getCreditCardMakes(), binding);
 
 		final Sponsor result;
 		result = this.create();
@@ -138,7 +126,7 @@ public class SponsorService {
 		result.setAddress(sponsorForm.getAddress());
 		result.setEmail(sponsorForm.getEmail());
 		result.setName(sponsorForm.getName());
-		result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), sponsorForm.getPhoneNumber()));
+		//result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), sponsorForm.getPhoneNumber()));
 		result.setPhotoURL(sponsorForm.getPhotoURL());
 		result.setSurname(sponsorForm.getSurname());
 		result.setCompanyName(sponsorForm.getCompanyName());
@@ -160,7 +148,7 @@ public class SponsorService {
 
 		sponsor.setCreditCard(ValidateCreditCard.checkNumeroAnno(sponsor.getCreditCard()));
 		ValidateCreditCard.checkGregorianDate(sponsor.getCreditCard(), binding);
-		ValidateCreditCard.checkMakeCreditCard(sponsor.getCreditCard(), this.adminConfigService.getAdminConfig().getCreditCardMakes(), binding);
+		//ValidateCreditCard.checkMakeCreditCard(sponsor.getCreditCard(), this.adminConfigService.getAdminConfig().getCreditCardMakes(), binding);
 
 		final Sponsor result;
 		result = this.findByPrincipal(LoginService.getPrincipal());
@@ -168,7 +156,7 @@ public class SponsorService {
 		result.setAddress(sponsor.getAddress());
 		result.setEmail(sponsor.getEmail());
 		result.setName(sponsor.getName());
-		result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), sponsor.getPhoneNumber()));
+		//result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), sponsor.getPhoneNumber()));
 		result.setPhotoURL(sponsor.getPhotoURL());
 		result.setSurname(sponsor.getSurname());
 		result.setCompanyName(sponsor.getCompanyName());
@@ -191,12 +179,6 @@ public class SponsorService {
 
 	public Collection<Actor> findSponsorsWithExpiredCreditCard() {
 		return this.sponsorRepository.findSponsorsWithExpiredCreditCard();
-	}
-
-	public void saveAnonymize(final Sponsor anonymousSponsor) {
-		Assert.isTrue(anonymousSponsor != null);
-		Assert.isTrue(AuthorityMethods.chechAuthorityLogged(Authority.ADMINISTRATOR) || AuthorityMethods.chechAuthorityLogged(Authority.BAN));
-		this.sponsorRepository.save(anonymousSponsor);
 	}
 
 }

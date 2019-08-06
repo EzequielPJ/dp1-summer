@@ -138,42 +138,6 @@
 
 	</jstl:when>
 	
-	<jstl:when test="${authority == 'PUBLISHER'}">
-		<b><spring:message code="actor.name" /></b>:
-		<jstl:out value="${publisher.name }" />
-		<br />
-		<b><spring:message code="actor.surname" /></b>:
-			<jstl:out value="${publisher.surname }" />
-		<br />
-		<b><spring:message code="actor.publisher.commercialName" /></b>:
-		<jstl:out value="${publisher.commercialName }" />
-		<br />
-		<b><spring:message code="actor.photoURL" /></b>:
-			<img style="width: 200px;" src="${publisher.photoURL }" alt="${publisher.photoURL }"/>
-		<br />
-		<b><spring:message code="actor.email" /></b>:
-		<jstl:out value="${publisher.email }" />
-		<br />
-		<b><spring:message code="actor.address" /></b>:
-		<jstl:out value="${publisher.address }" />
-		<br />
-		<b><spring:message code="actor.phoneNumber" /></b>:
-		<jstl:out value="${publisher.phoneNumber }" />
-		<br/>
-		<security:authorize access="hasRole('ADMINISTRATOR')">
-			<b><spring:message code="actor.spammer" /></b>
-			<jstl:if test="${ publisher.spammer eq null}">
-				<jstl:out value="N/A" />
-			</jstl:if>
-			<jstl:if test="${ publisher.spammer != null }">
-				<jstl:out value="${publisher.spammer }" />
-			</jstl:if>
-		</security:authorize>
-
-		<br />
-
-	</jstl:when>
-	
 	<jstl:when test="${authority == 'SPONSOR'}">
 		<b><spring:message code="actor.name" /></b>:
 		<jstl:out value="${sponsor.name }" />

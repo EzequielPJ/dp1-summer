@@ -22,6 +22,7 @@
 	<form:form action="sponsor/sponsor/save.do"
 		modelAttribute="sponsor">
 		<acme:textbox code="sponsor.edit.name" path="name" />
+		<acme:textbox code="sponsor.edit.middlename" path="middlename" />
 		<acme:textbox code="sponsor.edit.surname" path="surname" />
 		<acme:textbox code="sponsor.edit.photoURL" path="photoURL" />
 		<acme:textbox code="sponsor.edit.address" path="address" />
@@ -29,18 +30,6 @@
 		<acme:textbox code="sponsor.edit.email" path="email" />
 		<acme:textbox code="sponsor.edit.phoneNumber" path="phoneNumber" id="phone" />
 		<br />
-		<acme:textbox code="sponsor.edit.creditcard.holder" path="creditCard.holder"/>
-		<form:label path="creditCard.make"><spring:message code="sponsor.edit.creditcard.make"/></form:label> 
-     			<form:select path="creditCard.make" multiple="false" > 
-	     			<jstl:forEach items="${makers }" var="make"> 
-	     				<form:option value="${ make}" label="${make}" /> 
-	     			</jstl:forEach> 
-   				</form:select> 
-		<acme:inputNumber code="sponsor.edit.creditcard.number" path="creditCard.number"/>
-		<acme:inputNumber code="sponsor.edit.creditcard.expirationMonth" path="creditCard.expirationMonth" />
-		<acme:inputNumber code="sponsor.edit.creditcard.expirationYear" path="creditCard.expirationYear" />
-		<acme:inputNumber code="sponsor.edit.creditcard.CVV" path="creditCard.cvv"/>
-		<br/>
 		<spring:message code="sponsor.edit.submit" var="submit"/>
 		<input type="submit" name="submit" onclick="return checkPhone(this.form.phone.value)" value="${ submit}" />
 		<acme:cancel url="/actor/display.do" code="sponsor.edit.cancel" />
@@ -57,6 +46,7 @@
 			path="confirmPassword" />
 
 		<acme:textbox code="sponsor.edit.name" path="name" />
+		<acme:textbox code="sponsor.edit.middlename" path="middlename" />
 		<acme:textbox code="sponsor.edit.surname" path="surname" />
 		<acme:textbox code="sponsor.edit.photoURL" path="photoURL" />
 		<acme:textbox code="sponsor.edit.address" path="address" />
@@ -65,18 +55,7 @@
 		<acme:textbox code="sponsor.edit.phoneNumber" path="phoneNumber"
 			id="phone" />
 		<br />
-		<acme:textbox code="sponsor.edit.creditcard.holder" path="creditCard.holder"/>
-		<form:label path="creditCard.make"><spring:message code="sponsor.edit.creditcard.make"/></form:label> 
-     			<form:select path="creditCard.make" multiple="false" > 
-	     			<jstl:forEach items="${makers }" var="make"> 
-	     				<form:option value="${ make}" label="${make}" /> 
-	     			</jstl:forEach> 
-   				</form:select> 
-		<acme:inputNumber code="sponsor.edit.creditcard.number" path="creditCard.number"/>
-		<acme:inputNumber code="sponsor.edit.creditcard.expirationMonth" path="creditCard.expirationMonth" />
-		<acme:inputNumber code="sponsor.edit.creditcard.expirationYear" path="creditCard.expirationYear" />
-		<acme:inputNumber code="sponsor.edit.creditcard.CVV" path="creditCard.cvv"/>
-		<br/>
+		
 		<form:checkbox path="termsAndConditions" />
 		<b><spring:message code="sponsor.edit.termsAndConditions" /></b>
 		<form:errors path="termsAndConditions" cssClass="error" />

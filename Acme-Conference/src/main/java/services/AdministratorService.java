@@ -19,7 +19,6 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
-import utiles.AddPhoneCC;
 import utiles.AuthorityMethods;
 import utiles.EmailValidator;
 import domain.Administrator;
@@ -36,20 +35,12 @@ public class AdministratorService {
 	private AdministratorRepository	adminRepository;
 
 	@Autowired
-	private AdminConfigService		adminConfigService;
-
-	@Autowired
-	private MessageBoxService		messageBoxService;
-
-	@Autowired
 	private Validator				validator;
 
 
 	public Administrator create() {
 		final Administrator res = new Administrator();
-		res.setSpammer(null);
-		res.setBanned(false);
-		res.setMessageBoxes(this.messageBoxService.initializeNewUserBoxes());
+		//TODO: res.setMessageBoxes(this.messageBoxService.initializeNewUserBoxes());
 		return res;
 	}
 
@@ -58,7 +49,6 @@ public class AdministratorService {
 		Assert.isTrue(admin != null);
 		Assert.isTrue(AuthorityMethods.checkIsSomeoneLogged());
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged(Authority.ADMINISTRATOR));
-		Assert.isTrue(!admin.getBanned());
 
 		if (admin.getId() == 0) {
 			final UserAccount userAccount = admin.getUserAccount();
@@ -110,7 +100,7 @@ public class AdministratorService {
 		result.setAddress(adminForm.getAddress());
 		result.setEmail(adminForm.getEmail());
 		result.setName(adminForm.getName());
-		result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), adminForm.getPhoneNumber()));
+		//result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), adminForm.getPhoneNumber()));
 		result.setPhotoURL(adminForm.getPhotoURL());
 
 		result.setSurname(adminForm.getSurname());
@@ -131,7 +121,7 @@ public class AdministratorService {
 		result.setAddress(admin.getAddress());
 		result.setEmail(admin.getEmail());
 		result.setName(admin.getName());
-		result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), admin.getPhoneNumber()));
+		//result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), admin.getPhoneNumber()));
 		result.setPhotoURL(admin.getPhotoURL());
 		result.setSurname(admin.getSurname());
 
@@ -304,7 +294,6 @@ public class AdministratorService {
 
 	public void saveAnonymize(final Administrator anonymousAdmin) {
 		Assert.isTrue(anonymousAdmin != null);
-		Assert.isTrue(AuthorityMethods.chechAuthorityLogged(Authority.ADMINISTRATOR) || AuthorityMethods.chechAuthorityLogged(Authority.BAN));
 		this.adminRepository.save(anonymousAdmin);
 	}
 
