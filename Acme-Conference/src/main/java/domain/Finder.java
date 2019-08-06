@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.DecimalMin;
 
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -61,7 +61,7 @@ public class Finder extends DomainEntity {
 		this.maximumDate = maximumDate;
 	}
 
-	@Min(0)
+	@DecimalMin("0.0")
 	public Double getMaximumFee() {
 		return this.maximumFee;
 	}
