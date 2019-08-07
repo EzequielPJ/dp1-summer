@@ -59,7 +59,7 @@ public class ConferenceAdministratorController extends AbstractController {
 		final Date date1 = new Date();
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
-		calendar.add(Calendar.DAY_OF_YEAR, -5);
+		calendar.add(Calendar.DAY_OF_YEAR, -6);
 		final Date date2 = calendar.getTime();
 
 		final ArrayList<Conference> myConferencesF = new ArrayList<Conference>();
@@ -69,14 +69,15 @@ public class ConferenceAdministratorController extends AbstractController {
 				myConferencesF.add(conf);
 		result.addObject("conferences", myConferencesF);
 		result.addObject("requestURI", "conference/administrator/listSubmissionDeadline.do");
-		if (lang == null)
+		if (lang == null) {
 			result.addObject("lang", "en");
-		else
+			result.addObject("tit", "Conference whose submission deadline elapsed in the last five days");
+		} else {
 			result.addObject("lang", lang);
-
+			result.addObject("tit", "Conferencias cuya fecha de presentación haya vencido en los últimos 5 días");
+		}
 		return result;
 	}
-
 	@RequestMapping(value = "/listNotificationDeadline", method = RequestMethod.GET)
 	public ModelAndView listNotificationDeadline(@CookieValue(value = "language", required = false) final String lang) {
 		final ModelAndView result = this.listModelAndView();
@@ -84,7 +85,7 @@ public class ConferenceAdministratorController extends AbstractController {
 		final Date date1 = new Date();
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
-		calendar.add(Calendar.DAY_OF_YEAR, -4);
+		calendar.add(Calendar.DAY_OF_YEAR, -5);
 		final Date date2 = calendar.getTime();
 
 		final ArrayList<Conference> myConferencesF = new ArrayList<Conference>();
@@ -94,11 +95,13 @@ public class ConferenceAdministratorController extends AbstractController {
 				myConferencesF.add(conf);
 		result.addObject("conferences", myConferencesF);
 		result.addObject("requestURI", "conference/administrator/listNotificationDeadline.do");
-		if (lang == null)
+		if (lang == null) {
 			result.addObject("lang", "en");
-		else
+			result.addObject("tit", "Conference whose notification deadline elapsed in less than five days");
+		} else {
 			result.addObject("lang", lang);
-
+			result.addObject("tit", "Conferencias cuya fecha de notificaión expire en menos de 5 días");
+		}
 		return result;
 	}
 
@@ -109,7 +112,7 @@ public class ConferenceAdministratorController extends AbstractController {
 		final Date date1 = new Date();
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
-		calendar.add(Calendar.DAY_OF_YEAR, -4);
+		calendar.add(Calendar.DAY_OF_YEAR, -5);
 		final Date date2 = calendar.getTime();
 
 		final ArrayList<Conference> myConferencesF = new ArrayList<Conference>();
@@ -119,11 +122,13 @@ public class ConferenceAdministratorController extends AbstractController {
 				myConferencesF.add(conf);
 		result.addObject("conferences", myConferencesF);
 		result.addObject("requestURI", "conference/administrator/listCameraReadyDeadline.do");
-		if (lang == null)
+		if (lang == null) {
 			result.addObject("lang", "en");
-		else
+			result.addObject("tit", "Conference whose camera-ready deadline elapsed in less than five days");
+		} else {
 			result.addObject("lang", lang);
-
+			result.addObject("tit", "Conferencias cuya fecha de presentación final expire en menos de 5 días");
+		}
 		return result;
 	}
 
@@ -134,7 +139,7 @@ public class ConferenceAdministratorController extends AbstractController {
 		final Date date1 = new Date();
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
-		calendar.add(Calendar.DAY_OF_YEAR, 4);
+		calendar.add(Calendar.DAY_OF_YEAR, 5);
 		final Date date2 = calendar.getTime();
 
 		final ArrayList<Conference> myConferencesF = new ArrayList<Conference>();
@@ -144,16 +149,18 @@ public class ConferenceAdministratorController extends AbstractController {
 				myConferencesF.add(conf);
 		result.addObject("conferences", myConferencesF);
 		result.addObject("requestURI", "conference/administrator/listNextConference.do");
-		if (lang == null)
+		if (lang == null) {
 			result.addObject("lang", "en");
-		else
+			result.addObject("tit", "Conference that are going to be organised in less than five days");
+		} else {
 			result.addObject("lang", lang);
-
+			result.addObject("tit", "Conferencias que se organizarán en menos de 5 días");
+		}
 		return result;
 	}
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int idConference, @CookieValue(value = "language", required = false) final String lang) {
+	public ModelAndView display(@RequestParam final int idConference, @CookieValue(value = "language", required = false) final String lang, @RequestParam final String url) {
 		ModelAndView result = null;
 
 		final Conference conference = this.conferenceService.findOne(idConference);
@@ -162,6 +169,7 @@ public class ConferenceAdministratorController extends AbstractController {
 
 		result.addObject("conference", conference);
 		result.addObject("requestURI", "conference/administrator/display.do?idConference=" + idConference);
+		result.addObject("url", url);
 		if (lang == null)
 			result.addObject("lang", "en");
 		else
@@ -306,8 +314,10 @@ public class ConferenceAdministratorController extends AbstractController {
 		final ModelAndView result = new ModelAndView("conference/list");
 		final Collection<Conference> conferencesToDecisionMaking = this.conferenceService.getConferencesToDecisionMaking();
 		final Collection<Conference> conferencesToAssingReviewers = this.conferenceService.getConferencesToAssingReviewers();
+		final Collection<Conference> myConferencesF = this.conferenceService.getYoursConference(this.conferenceService.findByPrincipal(LoginService.getPrincipal()).getId());
 
 		result.addObject("message", message);
+		result.addObject("conferences", myConferencesF);
 		result.addObject("conferencesToDecisionMaking", conferencesToDecisionMaking);
 		result.addObject("conferencesToAssingReviewers", conferencesToAssingReviewers);
 

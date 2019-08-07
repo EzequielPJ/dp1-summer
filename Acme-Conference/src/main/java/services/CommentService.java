@@ -79,7 +79,7 @@ public class CommentService {
 		} catch (final Throwable oops) {
 
 		}
-
+		comment.setMoment(new Date());
 		this.validator.validate(commentRec, binding);
 		if (binding.hasErrors())
 			throw new ValidationException();
