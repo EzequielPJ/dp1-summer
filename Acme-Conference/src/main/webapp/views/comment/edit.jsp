@@ -27,9 +27,6 @@
 			<acme:textarea code="comment.list.title" path="title"/>
 		</p>
 		<p>
-			<acme:textarea code="comment.list.moment" path="moment" readonly="true"/>
-		</p>
-		<p>
 			<acme:textarea code="comment.list.text" path="text"/>
 		</p>
 		
