@@ -1,3 +1,4 @@
+
 package controllers;
 
 import java.util.Collection;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ConferenceService;
+
+import com.itextpdf.text.pdf.codec.Base64;
+
 import domain.Conference;
 import forms.SearchForm;
 
@@ -31,7 +35,8 @@ public class SearchController extends AbstractController {
 		final ModelAndView result;
 
 		final SearchForm searchForm = new SearchForm();
-		searchForm.setKeyword(keyword);
+		if (keyword != null)
+			searchForm.setKeyword(new String(Base64.decode(keyword)));
 
 		result = this.createEditModelAndView(searchForm);
 		return result;
@@ -45,7 +50,7 @@ public class SearchController extends AbstractController {
 		else
 			try {
 				result = new ModelAndView("redirect:display.do");
-				response.addCookie(new Cookie("keyword", searchForm.getKeyword()));
+				response.addCookie(new Cookie("keyword", Base64.encodeBytes(searchForm.getKeyword().getBytes())));
 
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(searchForm, "search.commit.error");
