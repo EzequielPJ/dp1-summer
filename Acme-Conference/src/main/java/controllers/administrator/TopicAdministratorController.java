@@ -43,10 +43,14 @@ public class TopicAdministratorController extends AbstractController {
 	public ModelAndView edit(final int idTopic) {
 		ModelAndView result;
 		final Topic topic = this.topicService.findOne(idTopic);
-		result = this.createModelAndView(topic);
+
+		if (topic.equals(this.topicService.findOtherTopic()))
+			result = this.listModelAndView("security.error.accessDenied");
+		else
+			result = this.createModelAndView(topic);
+
 		return result;
 	}
-
 	@RequestMapping(value = "/save", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final Topic topic, final BindingResult binding) {
 		ModelAndView result;
@@ -72,13 +76,15 @@ public class TopicAdministratorController extends AbstractController {
 		ModelAndView result;
 		final Topic topic = this.topicService.findOne(idTopic);
 
-		try {
-			this.topicService.delete(topic);
-			result = new ModelAndView("redirect:list.do");
-		} catch (final Throwable oops) {
-			result = this.listModelAndView("topic.save.error");
-			oops.printStackTrace();
-		}
+		if (topic.equals(this.topicService.findOtherTopic()))
+			result = this.listModelAndView("security.error.accessDenied");
+		else
+			try {
+				this.topicService.delete(topic);
+				result = new ModelAndView("redirect:list.do");
+			} catch (final Throwable oops) {
+				result = this.listModelAndView("topic.save.error");
+			}
 
 		return result;
 	}

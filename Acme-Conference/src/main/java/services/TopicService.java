@@ -35,7 +35,8 @@ public class TopicService {
 
 	public Topic save(final Topic topic) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		Assert.isTrue(topic.getTopicEN().trim().toUpperCase() != "OTHERS" && topic.getTopicES().trim().toUpperCase() != "OTROS");
+		Assert.isTrue(topic.getTopicEN().trim().toUpperCase() != "OTHER" && topic.getTopicES().trim().toUpperCase() != "OTROS");
+		Assert.isTrue(!topic.equals(this.findOtherTopic()));
 
 		final Collection<String> namesEN = this.getAllNameEN();
 		final Collection<String> namesES = this.getAllNameES();
