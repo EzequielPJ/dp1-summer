@@ -4,8 +4,11 @@ package controllers.administrator;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +32,7 @@ public class ActivityAdministratorController extends AbstractController {
 		Collection<Activity> colAct;
 		colAct = this.activityService.getActivityByConference(idConference);
 		result.addObject("activities", colAct);
-		result.addObject("requestURI", "activity/administrator/list.do");
+		result.addObject("requestURI", "activity/administrator/list.do?idConference=" + idConference);
 
 		return result;
 	}
@@ -45,6 +48,77 @@ public class ActivityAdministratorController extends AbstractController {
 		colType.add("PRESENTATION");
 		result.addObject("typeList", colType);
 		result.addObject("idConference", idConference);
+		result.addObject("authors", this.activityService.getAuthorsWithSubmissionAcceptedInConference(idConference));
+		return result;
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(final Activity activity, final BindingResult binding) {
+		ModelAndView result;
+		try {
+			final Activity activityRect = this.activityService.reconstruct(activity, binding);
+			if (activityRect.getAuthors().contains(null) && activityRect.getAuthors().size() >= 2)
+				activityRect.getAuthors().remove(null);
+			this.activityService.save(activityRect);
+			result = new ModelAndView("redirect:list.do?idConference=" + activity.getConference().getId());
+		} catch (final ValidationException oops) {
+			final Collection<String> colType = new ArrayList<>();
+			colType.add("TUTORIAL");
+			colType.add("PANEL");
+			colType.add("PRESENTATION");
+			result = this.createEditModelAndView(activity);
+			result.addObject("typeList", colType);
+			result.addObject("authors", this.activityService.getAuthorsWithSubmissionAcceptedInConference(activity.getConference().getId()));
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(activity, "activity.edit.commit.error");
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam(required = true) final int idActivity) {
+		ModelAndView result;
+
+		final Activity act = this.activityService.findOne(idActivity);
+		result = this.createEditModelAndView(act);
+
+		final Collection<String> colType = new ArrayList<>();
+		colType.add("TUTORIAL");
+		colType.add("PANEL");
+		colType.add("PRESENTATION");
+		result.addObject("typeList", colType);
+		result.addObject("authors", this.activityService.getAuthorsWithSubmissionAcceptedInConference(act.getConference().getId()));
+
+		return result;
+	}
+
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete(@RequestParam(required = true) final int idActivity) {
+		ModelAndView result;
+		try {
+			final Integer a = this.activityService.findOne(idActivity).getConference().getId();
+			this.activityService.delete(idActivity);
+			result = new ModelAndView("redirect:list.do?idConference=" + a);
+		} catch (final Throwable oops) {
+			final Integer a = this.activityService.findOne(idActivity).getConference().getId();
+			result = new ModelAndView("redirect:list.do?idConference=" + a);
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public ModelAndView display(@RequestParam final int idActivity, @RequestParam final String url) {
+		ModelAndView result = null;
+
+		final Activity act = this.activityService.findOne(idActivity);
+
+		result = new ModelAndView("activity/display");
+
+		result.addObject("activity", act);
+		result.addObject("requestURI", "activity/administrator/display.do?idActivity=" + idActivity);
+		result.addObject("url", url);
+
+		this.configValues(result);
 		return result;
 	}
 
@@ -57,6 +131,13 @@ public class ActivityAdministratorController extends AbstractController {
 
 		result.addObject("activity", activity);
 		result.addObject("message", message);
+
+		final Collection<String> colType = new ArrayList<>();
+		colType.add("TUTORIAL");
+		colType.add("PANEL");
+		colType.add("PRESENTATION");
+		result.addObject("typeList", colType);
+		result.addObject("authors", this.activityService.getAuthorsWithSubmissionAcceptedInConference(activity.getConference().getId()));
 
 		this.configValues(result);
 

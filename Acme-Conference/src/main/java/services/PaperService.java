@@ -47,6 +47,10 @@ public class PaperService {
 	private AdminConfigService	adminConfigService;
 
 
+	public Paper findOne(final int id) {
+		return this.paperRepository.findOne(id);
+	}
+
 	//RECONSTRUCT
 	public Paper reconstruct(final SubmissionPaperForm submissionPaperForm, final Submission submission, final BindingResult bindingResult) {
 

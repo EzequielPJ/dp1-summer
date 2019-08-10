@@ -61,11 +61,7 @@
 				</display:column>
 				</jstl:if>
 				
-				<jstl:if test="${general}">
-				<display:column titleKey="conference.list.activity">
-						<acme:button url="activity/list.do?idConference=${conference.id}" type="button" code="conference.list.activity"/>
-				</display:column>
-				</jstl:if>
+			
 				<jstl:if test="${!general}">
 				<display:column titleKey="conference.list.activity">
 						<acme:button url="activity/administrator/list.do?idConference=${conference.id}" type="button" code="conference.list.activity"/>

@@ -21,6 +21,8 @@
 <form:form modelAttribute="activity" action="activity/administrator/edit.do">
 		<acme:hidden path="id"/>
 		<acme:hidden path="conference"/>
+		<acme:hidden path="authors"/>
+		<acme:hidden path="paper"/>
 		
 		<p><spring:message code="activity.list.type"/>:
 		<select name="type" onchange="javascript: return true;">
@@ -30,6 +32,17 @@
 		</select>
 		<form:errors cssClass="error" path="type" />
 		</p>
+		
+		<p><spring:message code="activity.list.authors"/>:
+		<select name="authors" onchange="javascript: return true;" multiple>
+		<jstl:forEach var="author" items="${authors}">
+		<%-- <option value="${author.id}"><jstl:out value="${author.name} ${author.middlename} ${author.surname}"/></option> --%>
+			 <option value="${author.id}" <jstl:if test="${paper.authors.contains(author)}">selected</jstl:if>><jstl:out value="${author.name} ${author.middlename} ${author.surname}"/></option>	
+		</jstl:forEach>
+		</select>
+		<form:errors cssClass="error" path="authors" />
+		</p>
+		
 		<p>
 			<acme:textarea code="activity.list.title" path="title"/>
 		</p>
