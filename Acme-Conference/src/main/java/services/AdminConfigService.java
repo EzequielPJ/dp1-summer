@@ -58,22 +58,6 @@ public class AdminConfigService {
 		return adminConfig;
 	}
 
-	//	public boolean existVoidWord(final Message message) {
-	//		boolean exist = false;
-	//		final Collection<String> voidWords = this.getAdminConfig().getVoidWords();
-	//		final Boolean tagIsEmpty = message.getTags().isEmpty();
-	//
-	//		for (final String voidWord : voidWords) {
-	//			final Integer void = this.messageService.existsVoidWordInMessage(message.getId(), voidWord, tagIsEmpty);
-	//			if (void != null) {
-	//				exist = true;
-	//				break;
-	//			}
-	//		}
-	//
-	//		return exist;
-	//	}
-
 	public void deleteVoidWord(final String voidWord) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
 		final AdminConfig adminConfig = this.getAdminConfig();

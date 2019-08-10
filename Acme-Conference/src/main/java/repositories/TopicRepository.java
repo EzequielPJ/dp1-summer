@@ -18,4 +18,7 @@ public interface TopicRepository extends JpaRepository<Topic, Integer> {
 	@Query("select t.topicEN from Topic t")
 	Collection<String> getAllNameEN();
 
+	@Query("select t from Topic t where t.topicES = 'OTROS'")
+	Topic findOtherTopic();
+
 }
