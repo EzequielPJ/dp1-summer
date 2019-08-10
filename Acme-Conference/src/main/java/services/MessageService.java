@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.util.Assert;
 import repositories.MessageRepository;
 import utiles.AuthorityMethods;
 import domain.Message;
+import domain.Topic;
 
 @Service
 @Transactional
@@ -17,6 +20,9 @@ public class MessageService {
 
 	@Autowired
 	private MessageRepository	messageRepository;
+
+	@Autowired
+	private TopicService		topicService;
 
 
 	//	@Autowired
@@ -198,7 +204,7 @@ public class MessageService {
 	//
 	//	public Message notifySponsorshipCancelled(final Collection<Actor> recipients) throws ParseException {
 	//		final Actor sender = this.administratorService.getOne();
-	//		final String body = "Le informamos que todos sus patrocinios han sido cancelados ya que su tarjeta de crédito se encuentra caducada. " + "Cuando usted actualice su tarjeta de crédito estos volverán a estar disponibles. Muchas gracias. | "
+	//		final String body = "Le informamos que todos sus patrocinios han sido cancelados ya que su tarjeta de crï¿½dito se encuentra caducada. " + "Cuando usted actualice su tarjeta de crï¿½dito estos volverï¿½n a estar disponibles. Muchas gracias. | "
 	//			+ "We inform you that all your sponsorships have been cancelled as your credit card has expired. " + "When you update your credit card they will be available again. Thank you very much.";
 	//
 	//		final Message message = this.initializeNotification(sender, recipients, body);
@@ -306,4 +312,18 @@ public class MessageService {
 	//		return result;
 	//	}
 
+	public Collection<Message> findByTopic(final int idTopic) {
+		return this.messageRepository.findByTopic(idTopic);
+	}
+
+	public void updateMessageWithThisTopic(final Topic topic) {
+		final Collection<Message> messageWithTopic = this.findByTopic(topic.getId());
+		for (final Message message : messageWithTopic) {
+			final Collection<Topic> topics = message.getTopics();
+			topics.remove(topic);
+			if (topics.size() == 0)
+				topics.add(this.topicService.findOtherTopic());
+		}
+		this.messageRepository.save(messageWithTopic);
+	}
 }

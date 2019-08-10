@@ -1165,7 +1165,7 @@
 		<property name="bannerURL" value="https://contents.mediadecathlon.com/s719549/k$fd3f50b8bd18127fbbe9659a4f091c94/s48_CONT_02_encuentra-tu-tienda.jpg?f=650x650" />
 		<property name="targetURL" value="https://www.decathlon.es/es/store-locator" />
 		<property name="creditCard" ref="creditcard2" />
-		<property name="sponsor" ref="sponsor0" />
+		<property name="conferenceSponsor" ref="sponsor0" />
 		<property name="conferences" ref="conference0" />
 	</bean>
 	
@@ -1173,7 +1173,7 @@
 		<property name="bannerURL" value="https://contents.mediadecathlon.com/s719549/k$fd3f50b8bd18127fbbe9659a4f091c94/s48_CONT_02_encuentra-tu-tienda.jpg?f=650x650" />
 		<property name="targetURL" value="https://www.decathlon.es/es/store-locator" />
 		<property name="creditCard" ref="creditcard1" />
-		<property name="sponsor" ref="sponsor1" />
+		<property name="conferenceSponsor" ref="sponsor1" />
 		<property name="conferences" ref="conference0" />
 	</bean>
 	

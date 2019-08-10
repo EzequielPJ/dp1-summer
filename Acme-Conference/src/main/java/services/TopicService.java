@@ -21,6 +21,9 @@ public class TopicService {
 	@Autowired
 	private TopicRepository	topicRepository;
 
+	@Autowired
+	private MessageService	messageService;
+
 
 	public Topic create() {
 		return new Topic();
@@ -32,6 +35,8 @@ public class TopicService {
 
 	public Topic save(final Topic topic) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		Assert.isTrue(topic.getTopicEN().trim().toUpperCase() != "OTHER" && topic.getTopicES().trim().toUpperCase() != "OTROS");
+		Assert.isTrue(!topic.equals(this.findOtherTopic()));
 
 		final Collection<String> namesEN = this.getAllNameEN();
 		final Collection<String> namesES = this.getAllNameES();
@@ -52,8 +57,15 @@ public class TopicService {
 
 	public void delete(final Topic topic) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		Assert.isTrue(!topic.equals(this.findOtherTopic()));
+
+		this.messageService.updateMessageWithThisTopic(topic);
 
 		this.topicRepository.delete(topic);
+	}
+
+	public Topic findOtherTopic() {
+		return this.topicRepository.findOtherTopic();
 	}
 
 	public void validateTopicName(final Topic topic, final BindingResult binding) {
