@@ -15,13 +15,14 @@ import services.AdministratorService;
 import services.AuthorService;
 import services.PaperService;
 import services.SubmissionService;
+import controllers.AbstractController;
 import domain.Administrator;
 import domain.Paper;
 import domain.Submission;
 
 @Controller
 @RequestMapping("/submission/administrator")
-public class SubmissionAdministratorController {
+public class SubmissionAdministratorController extends AbstractController {
 
 	@Autowired
 	private SubmissionService		submissionService;
@@ -57,17 +58,37 @@ public class SubmissionAdministratorController {
 		} else
 			result = new ModelAndView("redirect:list.do");
 
+		this.configValues(result);
 		return result;
 	}
 
 	//list
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
-		final ModelAndView result = new ModelAndView("submission/list");
 		final Administrator admin = this.adminService.findByPrincipal(LoginService.getPrincipal());
-		final Collection<Submission> submissionOfAdmin = this.submissionService.getSubmissionsOfAdmin(admin.getId());
-		result.addObject("submissions", submissionOfAdmin);
-		return result;
+		final Collection<Submission> submissions = this.submissionService.getSubmissionsOfAdmin(admin.getId());
+		return this.listModelAndView("submission.list.all", submissions);
+	}
+
+	@RequestMapping(value = "/listAccepted", method = RequestMethod.GET)
+	public ModelAndView listAccepted() {
+		final Administrator admin = this.adminService.findByPrincipal(LoginService.getPrincipal());
+		final Collection<Submission> submissions = this.submissionService.getSubmissionsOfAdminAccepted(admin.getId());
+		return this.listModelAndView("submission.list.accepted", submissions);
+	}
+
+	@RequestMapping(value = "/listRejected", method = RequestMethod.GET)
+	public ModelAndView listRejected() {
+		final Administrator admin = this.adminService.findByPrincipal(LoginService.getPrincipal());
+		final Collection<Submission> submissions = this.submissionService.getSubmissionsOfAdminRejected(admin.getId());
+		return this.listModelAndView("submission.list.rejected", submissions);
+	}
+
+	@RequestMapping(value = "/listUnderReview", method = RequestMethod.GET)
+	public ModelAndView listUnderReview() {
+		final Administrator admin = this.adminService.findByPrincipal(LoginService.getPrincipal());
+		final Collection<Submission> submissions = this.submissionService.getSubmissionsOfAdminUnderReview(admin.getId());
+		return this.listModelAndView("submission.list.underReview", submissions);
 	}
 
 	//Change Status
@@ -83,6 +104,8 @@ public class SubmissionAdministratorController {
 			result = this.displayModelAndView(submission, "cannot.change.status");
 
 		}
+
+		this.configValues(result);
 		return result;
 	}
 
@@ -99,6 +122,17 @@ public class SubmissionAdministratorController {
 		result.addObject("nonCameraReadyVersion", nonCameraReadyVersion);
 		result.addObject("cameraReadyVersion", cameraReadyVersion);
 		result.addObject("message", message);
+
+		this.configValues(result);
+		return result;
+	}
+
+	public ModelAndView listModelAndView(final String title, final Collection<Submission> submissions) {
+		final ModelAndView result = new ModelAndView("submission/list");
+		result.addObject("submissions", submissions);
+		result.addObject("title", title);
+
+		this.configValues(result);
 		return result;
 	}
 

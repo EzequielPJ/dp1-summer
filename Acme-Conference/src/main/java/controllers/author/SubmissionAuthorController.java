@@ -18,6 +18,7 @@ import services.AuthorService;
 import services.ConferenceService;
 import services.PaperService;
 import services.SubmissionService;
+import controllers.AbstractController;
 import domain.Author;
 import domain.Paper;
 import domain.Submission;
@@ -25,7 +26,7 @@ import forms.SubmissionPaperForm;
 
 @Controller
 @RequestMapping("/submission/author")
-public class SubmissionAuthorController {
+public class SubmissionAuthorController extends AbstractController {
 
 	@Autowired
 	private SubmissionService	submissionService;
@@ -61,18 +62,42 @@ public class SubmissionAuthorController {
 			} catch (final Throwable oops) {
 				result = this.createModelAndView(submissionPaperForm, "cannot.save.submission");
 			}
+
+		this.configValues(result);
 		return result;
 	}
 
 	//Listar las del autor
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
-		final ModelAndView result = new ModelAndView("submission/list");
 		final Author author = this.authorService.findByPrincipal(LoginService.getPrincipal());
-		final Collection<Submission> submissionOfAuthor = this.submissionService.getSubmissionsOfAuthor(author.getId());
-		result.addObject("submissions", submissionOfAuthor);
-		result.addObject("submissionsCanAddCameraVersion", this.submissionService.getSubmissionsCanAddCameraReadyPaper(author.getId()));
-		return result;
+		final Collection<Submission> submissions = this.submissionService.getSubmissionsOfAuthor(author.getId());
+
+		return this.listModelAndView("submission.list.all", submissions);
+	}
+
+	@RequestMapping(value = "/listAccepted", method = RequestMethod.GET)
+	public ModelAndView listAccepted() {
+		final Author author = this.authorService.findByPrincipal(LoginService.getPrincipal());
+		final Collection<Submission> submissions = this.submissionService.getSubmissionsOfAuthorAccepted(author.getId());
+
+		return this.listModelAndView("submission.list.accepted", submissions);
+	}
+
+	@RequestMapping(value = "/listRejected", method = RequestMethod.GET)
+	public ModelAndView listRejected() {
+		final Author author = this.authorService.findByPrincipal(LoginService.getPrincipal());
+		final Collection<Submission> submissions = this.submissionService.getSubmissionsOfAuthorRejected(author.getId());
+
+		return this.listModelAndView("submission.list.rejected", submissions);
+	}
+
+	@RequestMapping(value = "/listUnderReview", method = RequestMethod.GET)
+	public ModelAndView listUnderReview() {
+		final Author author = this.authorService.findByPrincipal(LoginService.getPrincipal());
+		final Collection<Submission> submissions = this.submissionService.getSubmissionsOfAuthorUnderReview(author.getId());
+
+		return this.listModelAndView("submission.list.underReview", submissions);
 	}
 
 	//Display
@@ -96,6 +121,7 @@ public class SubmissionAuthorController {
 		} else
 			result = new ModelAndView("redirect:list.do");
 
+		this.configValues(result);
 		return result;
 	}
 
@@ -111,6 +137,18 @@ public class SubmissionAuthorController {
 		result.addObject("conferences", this.conferenceService.getConferenceCanBeSubmitted());
 		result.addObject("message", message);
 
+		this.configValues(result);
+		return result;
+	}
+
+	public ModelAndView listModelAndView(final String title, final Collection<Submission> submissions) {
+		final ModelAndView result = new ModelAndView("submission/list");
+		final Author author = this.authorService.findByPrincipal(LoginService.getPrincipal());
+		result.addObject("submissions", submissions);
+		result.addObject("title", title);
+		result.addObject("submissionsCanAddCameraVersion", this.submissionService.getSubmissionsCanAddCameraReadyPaper(author.getId()));
+
+		this.configValues(result);
 		return result;
 	}
 }

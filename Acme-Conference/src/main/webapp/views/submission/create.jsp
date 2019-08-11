@@ -54,7 +54,7 @@
 
 <button class="addTag" onclick="addComment('aliases','aliases', 'textbox')"><spring:message code="submission.create.paper.addAlias" /></button>
 
-<%-- <acme:button code="book.edit.cancel" type="button" url="/book/writer/list.do"/> --%>
+<acme:button code="submision.create.cancel" type="button" url="/submission/author/list.do"/>
 
 
 
