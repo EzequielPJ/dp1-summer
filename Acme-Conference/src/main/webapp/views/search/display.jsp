@@ -28,7 +28,7 @@
 			<display:column titleKey="search.conference.startDate"><jstl:out value="${conference.startDate}"/></display:column>
 			<display:column titleKey="search.conference.endDate"><jstl:out value="${conference.endDate}"/></display:column>
 			<display:column titleKey="search.conference.display">
-				<acme:button url="conference/display.do?idConference=${conference.id}" type="button" code="search.conference.display"/>
+				<acme:button url="conference/display.do?idConference=${conference.id}&url=${requestURI}" type="button" code="search.conference.display"/>
 			</display:column>
 			
 		</display:table>

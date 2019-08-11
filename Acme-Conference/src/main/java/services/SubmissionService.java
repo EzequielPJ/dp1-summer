@@ -179,4 +179,28 @@ public class SubmissionService {
 		return submissionSaved;
 	}
 
+	public Collection<Submission> getSubmissionsOfAuthorAccepted(final int idAuthor) {
+		return this.submissionRepository.getSubmissionsOfAuthorAccepted(idAuthor);
+	}
+
+	public Collection<Submission> getSubmissionsOfAuthorRejected(final int idAuthor) {
+		return this.submissionRepository.getSubmissionsOfAuthorRejected(idAuthor);
+	}
+
+	public Collection<Submission> getSubmissionsOfAuthorUnderReview(final int idAuthor) {
+		return this.submissionRepository.getSubmissionsOfAuthorUnderReview(idAuthor);
+	}
+
+	public Collection<Submission> getSubmissionsOfAdminAccepted(final int idAdmin) {
+		return this.submissionRepository.getSubmissionsOfAdminAccepted(idAdmin);
+	}
+
+	public Collection<Submission> getSubmissionsOfAdminRejected(final int idAdmin) {
+		return this.submissionRepository.getSubmissionsOfAdminRejected(idAdmin);
+	}
+
+	public Collection<Submission> getSubmissionsOfAdminUnderReview(final int idAdmin) {
+		return this.submissionRepository.getSubmissionsOfAdminUnderReview(idAdmin);
+	}
+
 }

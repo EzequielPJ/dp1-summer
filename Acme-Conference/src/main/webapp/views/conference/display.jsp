@@ -8,12 +8,8 @@
 
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<jstl:if test="${!general}">
-<acme:cancel url="conference/administrator/list.do" code="conference.display.back"/> 
-</jstl:if>
-<jstl:if test="${general}">
-<acme:cancel url="welcome/index.do" code="conference.display.back"/> 
-</jstl:if>
+
+<acme:cancel url="${url}" code="conference.display.back"/> 
 
 <acme:text label="conference.list.title" value="${conference.title}"/>
 <acme:text label="conference.list.acronym" value="${conference.acronym}"/>
@@ -35,6 +31,20 @@
 </jstl:if>
 
 <hr>
+<%-- <display:table pagesize="5" name="comments" id="comment" requestURI="${requestURI}">
+
+			<display:column titleKey="comment.list.title"><jstl:out value="${comment.title}"/></display:column>
+			<display:column titleKey="comment.list.moment"><jstl:out value="${comment.moment}"/></display:column>
+			<display:column titleKey="comment.list.text"><jstl:out value="${comment.text}"/></display:column>
+			<jstl:if test="${comment.actor.name == null}">
+			<display:column titleKey="comment.list.actor"><jstl:out value="${anonim}"/></display:column>
+			</jstl:if>
+			<jstl:if test="${comment.actor.name != null}">
+			<display:column titleKey="comment.list.actor"><jstl:out value="${comment.actor.name}"/></display:column>
+			</jstl:if>	
+				
+</display:table> --%>
+
 
 <div id="sponsor" style="width: 50px;">
 	<a target="_blank" href="${sponsorshipRandom.targetURL}" ><img style="width: 200px;" src="${sponsorshipRandom.bannerURL}" alt="${sponsorshipRandom.targetURL}"/></a>

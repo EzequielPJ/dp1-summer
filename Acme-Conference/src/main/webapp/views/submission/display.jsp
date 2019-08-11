@@ -7,6 +7,9 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<button onclick="window.location.href=document.referrer"><spring:message code="submission.display.back"/></button>
+
+
  <security:authorize access="hasRole('ADMINISTRATOR')">
  	<jstl:if test="${submission.status == 'UNDER-REVIEW'}">
 	 <acme:button url="/submission/administrator/changeStatus.do?idSubmission=${submission.id}&status=ACCEPTED" type="button" code="submission.display.changeStatus.accepted"/>
@@ -26,7 +29,7 @@
 		<li><jstl:out value="${reviewer.name} ${reviewer.middlename} ${reviewer.surname}"/></li>
 	</jstl:forEach>
 </ul>
-</p>
+
 
 <acme:text label="submission.display.ticker" value="${submission.ticker.identifier}"/>
 <acme:text label="submission.display.author" value="${submission.author.name} ${submission.author.middlename} ${submission.author.surname}"/>
@@ -51,7 +54,7 @@
 		<li><jstl:out value="${alias}"/></li>
 	</jstl:forEach>
 </ul>
-</p>
+
 
 
 <!-- Details of camera ready paper  -->
@@ -78,7 +81,7 @@
 				<li><jstl:out value="${alias}"/></li>
 			</jstl:forEach>
 		</ul>
-		</p>
+
 
 	</jstl:otherwise>
 </jstl:choose>

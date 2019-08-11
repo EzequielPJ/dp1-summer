@@ -39,7 +39,7 @@ public class SponsorshipService {
 	}
 
 	public void save(final Sponsorship sponsorship) {
-		Assert.isTrue(LoginService.getPrincipal().equals(sponsorship.getSponsor().getUserAccount()));
+		Assert.isTrue(LoginService.getPrincipal().equals(sponsorship.getConferenceSponsor().getUserAccount()));
 
 		Assert.isTrue(!ValidateCreditCard.isCaducate(sponsorship.getCreditCard()));
 
@@ -53,7 +53,7 @@ public class SponsorshipService {
 
 	public Sponsorship findOne(final int idSponsorship) {
 		final Sponsorship sponsorship = this.sponsorshipRepository.findOne(idSponsorship);
-		Assert.isTrue(LoginService.getPrincipal().equals(sponsorship.getSponsor().getUserAccount()));
+		Assert.isTrue(LoginService.getPrincipal().equals(sponsorship.getConferenceSponsor().getUserAccount()));
 		return sponsorship;
 	}
 
@@ -62,7 +62,7 @@ public class SponsorshipService {
 
 		if (sponsorship.getId() == 0) {
 			result = this.create();
-			result.setSponsor(this.sponsorService.findByPrincipal(LoginService.getPrincipal()));
+			result.setConferenceSponsor(this.sponsorService.findByPrincipal(LoginService.getPrincipal()));
 		} else
 			result = this.findOne(sponsorship.getId());
 
@@ -99,7 +99,7 @@ public class SponsorshipService {
 	}
 
 	public void delete(final Sponsorship sponsorship) {
-		Assert.isTrue(LoginService.getPrincipal().equals(sponsorship.getSponsor().getUserAccount()));
+		Assert.isTrue(LoginService.getPrincipal().equals(sponsorship.getConferenceSponsor().getUserAccount()));
 		this.sponsorshipRepository.delete(sponsorship);
 	}
 

@@ -7,34 +7,25 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<h3><jstl:out value="${tit}"></jstl:out></h3>
+
 <display:table pagesize="5" name="conferences" id="conference" requestURI="${requestURI}">
 
 			<display:column titleKey="conference.list.title"><jstl:out value="${conference.title}"/></display:column>
-			<display:column titleKey="conference.list.acronym"><jstl:out value="${conference.acronym}"/></display:column>
-			<display:column titleKey="conference.list.venue"><jstl:out value="${conference.venue}"/></display:column>
-<%-- 			<display:column titleKey="conference.list.submissionDeadline"><jstl:out value="${conference.submissionDeadline}"/></display:column>
-			<display:column titleKey="conference.list.notificationDeadline"><jstl:out value="${conference.notificationDeadline}"/></display:column>
-			<display:column titleKey="conference.list.cameraReadyDeadline"><jstl:out value="${conference.cameraReadyDeadline}"/></display:column> --%>
 			<display:column titleKey="conference.list.startDate"><jstl:out value="${conference.startDate}"/></display:column>
 			<display:column titleKey="conference.list.endDate"><jstl:out value="${conference.endDate}"/></display:column>
 			<display:column titleKey="conference.list.summary"><jstl:out value="${conference.summary}"/></display:column>
 			<display:column titleKey="conference.list.fee"><jstl:out value="${conference.fee}"/></display:column>
-			
-<%-- 			<jstl:if test="${lang eq 'en' }">
-			<display:column titleKey="conference.list.category"><jstl:out value="${conference.category.categoryEN}"/></display:column>
-			</jstl:if>
-			<jstl:if test="${lang eq 'es' }">
-			<display:column titleKey="conference.list.category"><jstl:out value="${conference.category.categoryES}"/></display:column>
-			</jstl:if> --%>
+		
 			
 				<jstl:if test="${!general}">
 				<display:column titleKey="conference.list.seeMore">
-					<acme:button url="conference/administrator/display.do?idConference=${conference.id}" type="button" code="conference.list.seeMore"/>
+					<acme:button url="conference/administrator/display.do?idConference=${conference.id}&url=${requestURI}" type="button" code="conference.list.seeMore"/>
 				</display:column>
 				</jstl:if>
 				<jstl:if test="${general}">
 				<display:column titleKey="conference.list.seeMore">
-					<acme:button url="conference/display.do?idConference=${conference.id}" type="button" code="conference.list.seeMore"/>
+					<acme:button url="conference/display.do?idConference=${conference.id}&url=${requestURI}" type="button" code="conference.list.seeMore"/>
 				</display:column>
 				</jstl:if>
 				

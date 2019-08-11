@@ -13,7 +13,7 @@ import domain.Sponsorship;
 @Repository
 public interface SponsorshipRepository extends JpaRepository<Sponsorship, Integer> {
 
-	@Query("select sp from Sponsorship sp where sp.sponsor.id = ?1")
+	@Query("select sp from Sponsorship sp where sp.conferenceSponsor.id = ?1")
 	Collection<Sponsorship> findAllBySponsor(int idSponsor);
 
 	@Query("select sp from Sponsorship sp join sp.conferences p where p.id = ?1")

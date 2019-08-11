@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.URL;
 
@@ -81,6 +82,7 @@ public class Paper extends DomainEntity {
 
 	@Valid
 	@ManyToMany
+	@NotEmpty
 	public Collection<Author> getAuthors() {
 		return this.authors;
 	}

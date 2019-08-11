@@ -83,7 +83,7 @@ public class CommentController extends AbstractController {
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(final Comment comment, final BindingResult binding) {
-		ModelAndView result;
+		ModelAndView result = null;
 		try {
 			final Comment commentRect = this.commentService.reconstruct(comment, binding);
 			this.commentService.save(commentRect);
@@ -93,7 +93,7 @@ public class CommentController extends AbstractController {
 				i = commentRect.getActivity().getId();
 			else
 				i = commentRect.getConference().getId();
-
+			//				result = new ModelAndView("redirect:../conference/display.do?idConference" + i + "&url=conference/list.do");
 			result = new ModelAndView("redirect:list.do?idEntity=" + i);
 		} catch (final ValidationException oops) {
 			result = this.createEditModelAndView(comment);

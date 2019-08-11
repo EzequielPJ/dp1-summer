@@ -24,9 +24,14 @@
 		<display:table name="topics" id="topic" pagesize="5" requestURI="${requestURI}">
 		
 			<display:column titleKey="topic.list.name" ><jstl:out value="${topic.topicEN}"/> / <jstl:out value="${topic.topicES}"/></display:column>
+			
+			<jstl:if test="${topic.topicES != 'OTROS'}">
+				
+				<display:column titleKey="topic.list.edit" ><acme:button url="topic/administrator/edit.do?idTopic=${topic.id}" type="button" code="topic.list.edit"/></display:column>
+				<display:column titleKey="topic.list.delete" ><acme:button url="topic/administrator/delete.do?idTopic=${topic.id}" type="button" code="topic.list.delete"/></display:column>
+			
+			</jstl:if>	
 		
-			<display:column titleKey="topic.list.edit" ><acme:button url="topic/administrator/edit.do?idTopic=${topic.id}" type="button" code="topic.list.edit"/></display:column>
-			<display:column titleKey="topic.list.delete" ><acme:button url="topic/administrator/delete.do?idTopic=${topic.id}" type="button" code="topic.list.delete"/></display:column>
 			
 		</display:table>
 

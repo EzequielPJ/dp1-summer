@@ -12,11 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.AuthorService;
 import services.PaperService;
+import controllers.AbstractController;
 import domain.Paper;
 
 @Controller
 @RequestMapping("/paper/author")
-public class PaperAuthorController {
+public class PaperAuthorController extends AbstractController {
 
 	@Autowired
 	private AuthorService	authorService;
@@ -47,7 +48,7 @@ public class PaperAuthorController {
 		else
 			try {
 				this.paperService.save(paper);
-				result = new ModelAndView("redirect:/author/submission/list.do");
+				result = new ModelAndView("redirect:/submission/author/list.do");
 			} catch (final Throwable oops) {
 				result = this.createModelAndView(paper, "cannot.save.paper");
 			}
@@ -65,6 +66,7 @@ public class PaperAuthorController {
 		result.addObject("authors", this.authorService.getAllAuthors());
 		result.addObject("message", message);
 
+		super.configValues(result);
 		return result;
 	}
 }
