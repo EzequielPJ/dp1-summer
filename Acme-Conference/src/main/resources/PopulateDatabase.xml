@@ -596,7 +596,6 @@
         <property value="admin@" name="email" />
         <property value="+00 000-0000000" name="phoneNumber" />
         <property name="userAccount" ref="userAccount0" />
-        <property name="finder" ref="finder0" />
     </bean>
     
     <bean class="domain.Administrator" id="admin1">
@@ -608,7 +607,6 @@
         <property value="admin@" name="email" />
         <property value="+00 000-0000000" name="phoneNumber" />
         <property name="userAccount" ref="userAccount7" />
-        <property name="finder" ref="finder7" />
     </bean>
     
     <!-- Sponsors (sponsor0) -->    
@@ -622,7 +620,6 @@
         <property value="sponsor0@gmail.com" name="email" />
         <property value="+00 000-0000001" name="phoneNumber" />
         <property name="userAccount" ref="userAccount1" />
-        <property name="finder" ref="finder1" />
     </bean>
 
     <!-- Sponsors (sponsor1) -->    
@@ -636,7 +633,6 @@
         <property value="sponsor1@gmail.com" name="email" />
         <property value="+00 000-0000002" name="phoneNumber" />
         <property name="userAccount" ref="userAccount2" />
-        <property name="finder" ref="finder2" />
     </bean>
     
     <!-- Authors (author0) -->    
@@ -650,7 +646,7 @@
         <property value="author0@gmail.com" name="email" />
         <property value="+00 000-0000003" name="phoneNumber" />
         <property name="userAccount" ref="userAccount3" />
-        <property name="finder" ref="finder3" />
+        <property name="finder" ref="finder0" />
     </bean>
 
     <!-- Authors (author1) -->    
@@ -664,7 +660,7 @@
         <property value="author1@gmail.com" name="email" />
         <property value="+00 000-0000004" name="phoneNumber" />
         <property name="userAccount" ref="userAccount4" />
-        <property name="finder" ref="finder4" />
+        <property name="finder" ref="finder1" />
     </bean>
     
     <!-- Reviewers (reviewer0) -->    
@@ -684,7 +680,6 @@
             <value>casa</value>
             </list>
         </property> 
-        <property name="finder" ref="finder5" />
     </bean>
     
     <!-- Reviewers (reviewer1) -->    
@@ -703,81 +698,19 @@
             <value>ingeniería</value>
             </list>
         </property> 
-        <property name="finder" ref="finder6" />
-    </bean>
+     </bean>
     
-    <!-- Finders (admin0)-->    
-    
-    <bean class="domain.Finder" id="finder0">
-        <property name="keyWord" value="System" />
-        <property name="minimumDate" value="06/01/2018" />
-        <property name="maximumDate" value="08/01/2018" />
-        <property name="maximumFee" value="12" />       
-    </bean>
-    
-    <!-- Finders (admin1)-->    
-    
-    <bean class="domain.Finder" id="finder7">
-        <property name="keyWord" value="System" />
-        <property name="minimumDate" value="06/01/2018" />
-        <property name="maximumDate" value="08/01/2018" />
-        <property name="maximumFee" value="12" />       
-    </bean>
-    
-    <!-- Finders (sponsor0)-->    
-    
-    <bean class="domain.Finder" id="finder1">
-        <property name="keyWord" value="System" />
-        <property name="minimumDate" value="09/01/2018" />
-        <property name="maximumDate" value="12/01/2018" />
-        <property name="maximumFee" value="18" />       
-    </bean>
-    
-    <!-- Finders (sponsor1)-->    
-    
-    <bean class="domain.Finder" id="finder2">
-        <property name="keyWord" value="System" />
-        <property name="minimumDate" value="07/01/2018" />
-        <property name="maximumDate" value="10/01/2018" />
-        <property name="maximumFee" value="45" />       
-    </bean>
+
     
     <!-- Finders (author0)-->    
     
-    <bean class="domain.Finder" id="finder3">
-        <property name="keyWord" value="System" />
-        <property name="minimumDate" value="10/01/2018" />
-        <property name="maximumDate" value="12/01/2018" />
-        <property name="maximumFee" value="22" />       
+    <bean class="domain.Finder" id="finder0">     
     </bean>
     
     <!-- Finders (author1)-->    
     
-    <bean class="domain.Finder" id="finder4">
-        <property name="keyWord" value="System" />
-        <property name="minimumDate" value="07/01/2018" />
-        <property name="maximumDate" value="10/02/2018" />
-        <property name="maximumFee" value="23" />       
+    <bean class="domain.Finder" id="finder1">      
     </bean>
-    
-    <!-- Finders (reviewer0)-->    
-    
-    <bean class="domain.Finder" id="finder5">
-        <property name="keyWord" value="System" />
-        <property name="minimumDate" value="10/01/2018" />
-        <property name="maximumDate" value="12/02/2018" />
-        <property name="maximumFee" value="16" />       
-    </bean>
-    
-    <!-- Finders (reviewer1)-->    
-    
-    <bean class="domain.Finder" id="finder6">
-        <property name="keyWord" value="System" />
-        <property name="minimumDate" value="07/01/2018" />
-        <property name="maximumDate" value="11/02/2018" />
-        <property name="maximumFee" value="13" />       
-    </bean>
-    
     
     <!-- Topics -->
     
