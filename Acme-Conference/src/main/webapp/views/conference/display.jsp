@@ -8,12 +8,8 @@
 
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<jstl:if test="${!general}">
+
 <acme:cancel url="${url}" code="conference.display.back"/> 
-</jstl:if>
-<jstl:if test="${general}">
-<acme:cancel url="${url}" code="conference.display.back"/> 
-</jstl:if>
 
 <acme:text label="conference.list.title" value="${conference.title}"/>
 <acme:text label="conference.list.acronym" value="${conference.acronym}"/>

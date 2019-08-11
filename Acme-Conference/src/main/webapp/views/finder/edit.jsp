@@ -62,7 +62,7 @@
 				</jstl:choose>
 			</display:column>
 			<display:column titleKey="finder.edit.conference.display">
-				<acme:button url="conference/display.do?idConference=${conference.id}" type="button" code="finder.edit.conference.display"/>
+				<acme:button url="conference/display.do?idConference=${conference.id}&url=${requestURI}" type="button" code="finder.edit.conference.display"/>
 			</display:column>
 			
 		</display:table>
