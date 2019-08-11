@@ -34,7 +34,6 @@ public abstract class Actor extends DomainEntity {
 
 	//Relationship
 	private UserAccount	userAccount;
-	private Finder		finder;
 
 
 	//Atributes getters and setters
@@ -115,13 +114,4 @@ public abstract class Actor extends DomainEntity {
 		this.userAccount = userAccount;
 	}
 
-	@Valid
-	@OneToOne(optional = false)
-	public Finder getFinder() {
-		return this.finder;
-	}
-
-	public void setFinder(final Finder finder) {
-		this.finder = finder;
-	}
 }
