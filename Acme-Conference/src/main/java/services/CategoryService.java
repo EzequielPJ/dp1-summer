@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.CategoryRepository;
 import utiles.AuthorityMethods;
@@ -31,6 +32,16 @@ public class CategoryService {
 	@Autowired
 	private ConferenceService	conferenceService;
 
+	@Autowired
+	private Validator			validator;
+
+
+	public Category reconstructAndSave(Category category, final BindingResult binding) {
+		category = this.reconstruct(category, binding);
+		this.save(category);
+
+		return category;
+	}
 
 	public Category save(final Category category) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
@@ -72,7 +83,7 @@ public class CategoryService {
 
 	private Collection<Category> getChildrenOfACategory(final Category category, final Collection<Category> acum) {
 		final Collection<Category> children = category.getChildren();
-		if (children.size() == 0)
+		if (children == null || children.size() == 0)
 			acum.add(category);
 		else {
 			for (final Category child : children)
@@ -111,8 +122,8 @@ public class CategoryService {
 				this.updateChildrenOfParentOf(result, category);
 		}
 
-		result.setCategoryEN(category.getCategoryEN());
-		result.setCategoryES(category.getCategoryES());
+		result.setCategoryEN(category.getCategoryEN().toUpperCase());
+		result.setCategoryES(category.getCategoryES().toUpperCase());
 
 		final Category generalCategory = this.categoryRepository.getGeneralCategory();
 		if (category.getParent() == null)
@@ -121,6 +132,8 @@ public class CategoryService {
 			result.setParent(category.getParent());
 
 		this.validateCategoryName(category, binding);
+
+		this.validator.validate(result, binding);
 
 		if (binding.hasErrors())
 			throw new ValidationException();
@@ -136,16 +149,16 @@ public class CategoryService {
 			namesES.remove(this.findOne(category.getId()).getCategoryES());
 		}
 
-		if (category.getCategoryEN().toUpperCase().trim().equals("GENRE") || category.getCategoryEN().toUpperCase().trim().equals("CONFERENCE") || category.getCategoryEN().toUpperCase().trim().equals("CONGRESO"))
+		if (category.getCategoryEN().toUpperCase().trim().equals("CONFERENCE") || category.getCategoryEN().toUpperCase().trim().equals("CONGRESO"))
 			binding.rejectValue("categoryEN", "category.error.namelikeConference");
 
-		if (category.getCategoryES().toUpperCase().trim().equals("GNERO") || category.getCategoryES().toUpperCase().trim().equals("CONGRESO") || category.getCategoryES().toUpperCase().trim().equals("CONFERENCE"))
+		if (category.getCategoryES().toUpperCase().trim().equals("CONGRESO") || category.getCategoryES().toUpperCase().trim().equals("CONFERENCE"))
 			binding.rejectValue("categoryES", "category.error.namelikeConference");
 
-		if (namesEN.contains(category.getCategoryEN().trim().toLowerCase()))
+		if (namesEN.contains(category.getCategoryEN().trim().toUpperCase()))
 			binding.rejectValue("categoryEN", "category.error.namelikeOther");
 
-		if (namesES.contains(category.getCategoryES().trim().toLowerCase()))
+		if (namesES.contains(category.getCategoryES().trim().toUpperCase()))
 			binding.rejectValue("categoryES", "category.error.namelikeOther");
 	}
 
@@ -155,7 +168,9 @@ public class CategoryService {
 		oldParent.getChildren().remove(oldCategory);
 		this.categoryRepository.saveAndFlush(oldParent);
 
-		final Category newParent = newCategory.getParent();
+		Category newParent = newCategory.getParent();
+		if (newParent == null)
+			newParent = this.categoryRepository.getGeneralCategory();
 		newParent.getChildren().add(newCategory);
 		this.categoryRepository.saveAndFlush(newParent);
 	}
@@ -187,6 +202,12 @@ public class CategoryService {
 			subcategory.setParent(categoryParent);
 			this.categoryRepository.save(subcategory);
 		}
+
+		final Collection<Category> children = categoryParent.getChildren();
+		children.remove(category);
+		children.addAll(subcategories);
+		categoryParent.setChildren(children);
+		this.categoryRepository.save(categoryParent);
 
 		this.categoryRepository.delete(category);
 

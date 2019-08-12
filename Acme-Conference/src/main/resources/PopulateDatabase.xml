@@ -753,19 +753,20 @@
     </bean>
     
     <bean class="domain.Category" id="category1">
-        <property name="categoryEN" value="Computer Science" />
-        <property name="categoryES" value="Ciencias de la computación" />
+        <property name="categoryEN" value="COMPUTER SCIENCE" />
+        <property name="categoryES" value="CIENCIAS DE LA COMPUTACIÓN" />
         <property name="parent" ref="category0" />
         <property name="children">
             <list>
-            <ref bean="category2" />
+            	<ref bean="category2" />
+             	<ref bean="category6" />
             </list>
         </property>   
     </bean>
     
     <bean class="domain.Category" id="category2">
-        <property name="categoryEN" value="Artificial Intelligence" />
-        <property name="categoryES" value="Inteligenci Artificial" />
+        <property name="categoryEN" value="ARTIFICIAL INTELLIGENCE" />
+        <property name="categoryES" value="INTELIGENCIA ARTIFICIAL" />
         <property name="parent" ref="category1" />
         <property name="children">
             <list>
@@ -777,26 +778,26 @@
     </bean>
     
      <bean class="domain.Category" id="category3">
-        <property name="categoryEN" value="Deep Learning" />
-        <property name="categoryES" value="Aprendizaje Exhaustivo" />
+        <property name="categoryEN" value="DEEP LEARNING" />
+        <property name="categoryES" value="APRENDIZAJE EXHAUSTIVO" />
         <property name="parent" ref="category2" />    
     </bean>
     
      <bean class="domain.Category" id="category4">
-        <property name="categoryEN" value="Instance-based learning" />
-        <property name="categoryES" value="Aprendizaje Basado en la Instancia" />
+        <property name="categoryEN" value="INSTANCE-BASED LEARNING" />
+        <property name="categoryES" value="APRENDIZAJE BASADO EN LA INSTANCIA" />
         <property name="parent" ref="category2" />    
     </bean>
     
      <bean class="domain.Category" id="category5">
-        <property name="categoryEN" value="Regression" />
-        <property name="categoryES" value="Regresión" />
+        <property name="categoryEN" value="REGRESSION" />
+        <property name="categoryES" value="REGRESIÓN" />
         <property name="parent" ref="category2" />    
     </bean>
     
     <bean class="domain.Category" id="category6">
-        <property name="categoryEN" value="Software Engineering" />
-        <property name="categoryES" value="Ingeniería de Software" />
+        <property name="categoryEN" value="SOFTWARE ENGINEERING" />
+        <property name="categoryES" value="INGENIERÍA DE SOFTWARE" />
         <property name="parent" ref="category1" />
         <property name="children">
             <list>
@@ -809,32 +810,32 @@
     </bean>
     
     <bean class="domain.Category" id="category7">
-        <property name="categoryEN" value="Big Data" />
-        <property name="categoryES" value="Big Data" />
+        <property name="categoryEN" value="BIG DATA" />
+        <property name="categoryES" value="BIG DATA" />
         <property name="parent" ref="category6" />    
     </bean>
     
     <bean class="domain.Category" id="category8">
-        <property name="categoryEN" value="Big Processing" />
-        <property name="categoryES" value="Big Processing" />
+        <property name="categoryEN" value="BIG PROCESSING" />
+        <property name="categoryES" value="BIG PROCESSING" />
         <property name="parent" ref="category6" />    
     </bean>
     
     <bean class="domain.Category" id="category9">
-        <property name="categoryEN" value="Methods" />
-        <property name="categoryES" value="Métodos" />
+        <property name="categoryEN" value="METHODS" />
+        <property name="categoryES" value="MÉTODOS" />
         <property name="parent" ref="category6" />    
     </bean>
     
     <bean class="domain.Category" id="category10">
-        <property name="categoryEN" value="Tools" />
-        <property name="categoryES" value="Herramientas" />
+        <property name="categoryEN" value="TOOLS" />
+        <property name="categoryES" value="HERRAMIENTAS" />
         <property name="parent" ref="category6" />    
     </bean>
     
     <bean class="domain.Category" id="category11">
-        <property name="categoryEN" value="Physics" />
-        <property name="categoryES" value="Físicas" />
+        <property name="categoryEN" value="PHYSICS" />
+        <property name="categoryES" value="FÍSICAS" />
         <property name="parent" ref="category0" />
         <property name="children">
             <list>
@@ -846,26 +847,26 @@
     </bean>
     
     <bean class="domain.Category" id="category12">
-        <property name="categoryEN" value="Cinematic" />
-        <property name="categoryES" value="Cinematicas" />
+        <property name="categoryEN" value="CINEMATIC" />
+        <property name="categoryES" value="CINEMÁTICAS" />
         <property name="parent" ref="category11" />    
     </bean>
     
     <bean class="domain.Category" id="category13">
-        <property name="categoryEN" value="Electricity" />
-        <property name="categoryES" value="Electricidad" />
+        <property name="categoryEN" value="ELECTRICITY" />
+        <property name="categoryES" value="ELECTRICIDAD" />
         <property name="parent" ref="category11" />    
     </bean>
     
     <bean class="domain.Category" id="category14">
-        <property name="categoryEN" value="Electronics" />
-        <property name="categoryES" value="Electrónicas" />
+        <property name="categoryEN" value="ELECTRONICS" />
+        <property name="categoryES" value="ELECTRÓNICAS" />
         <property name="parent" ref="category11" />    
     </bean>
     
     <bean class="domain.Category" id="category15">
-        <property name="categoryEN" value="Biology" />
-        <property name="categoryES" value="Biología" />
+        <property name="categoryEN" value="BIOLOGY" />
+        <property name="categoryES" value="BIOLOGÍA" />
         <property name="parent" ref="category0" />
         <property name="children">
             <list>
@@ -877,20 +878,20 @@
     </bean>
     
     <bean class="domain.Category" id="category16">
-        <property name="categoryEN" value="Animals" />
-        <property name="categoryES" value="Animales" />
+        <property name="categoryEN" value="ANIMALS" />
+        <property name="categoryES" value="ANIMALES" />
         <property name="parent" ref="category15" />    
     </bean>
     
     <bean class="domain.Category" id="category17">
-        <property name="categoryEN" value="Plants" />
-        <property name="categoryES" value="Plantas" />
+        <property name="categoryEN" value="PLANTS" />
+        <property name="categoryES" value="PLANTAS" />
         <property name="parent" ref="category15" />    
     </bean>
     
     <bean class="domain.Category" id="category18">
-        <property name="categoryEN" value="Fungi" />
-        <property name="categoryES" value="Hongos" />
+        <property name="categoryEN" value="FUNGI" />
+        <property name="categoryES" value="HONGOS" />
         <property name="parent" ref="category15" />    
     </bean>
     
