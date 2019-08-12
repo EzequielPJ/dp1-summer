@@ -74,4 +74,8 @@ public class AuthorService {
 		return this.authorRepository.findOne(idAuthor);
 	}
 
+	public void flush() {
+		this.authorRepository.flush();
+	}
+
 }
