@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
+import services.AdminConfigService;
 import services.ConferenceService;
 import services.ConferenceSponsorService;
 import services.SponsorshipService;
@@ -31,6 +32,9 @@ public class SponsorshipSponsorController extends AbstractController {
 
 	@Autowired
 	private SponsorshipService			sponsorshipService;
+
+	@Autowired
+	private AdminConfigService			adminConfigService;
 
 	@Autowired
 	private ConferenceService			conferenceService;
@@ -50,6 +54,7 @@ public class SponsorshipSponsorController extends AbstractController {
 			Assert.notNull(sponsorship);
 			result = new ModelAndView("sponsorship/display");
 			result.addObject("sponsorship", sponsorship);
+			result.addObject("anonymizedNumber", "*************" + sponsorship.getCreditCard().getNumber().substring(13));
 			result.addObject("requestURI", "/sponsorship/sponsor/display.do?idSponsorship=" + idSponsorship);
 		} catch (final Exception e) {
 			result = this.listModelAndView("security.error.accessDenied");
@@ -58,7 +63,6 @@ public class SponsorshipSponsorController extends AbstractController {
 		this.configValues(result);
 		return result;
 	}
-
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		final ModelAndView result;
@@ -147,6 +151,7 @@ public class SponsorshipSponsorController extends AbstractController {
 
 		result.addObject("sponsorship", sponsorship);
 		result.addObject("conferences", this.conferenceService.findAll());
+		result.addObject("makers", this.adminConfigService.getAdminConfig().getCreditCardMakes());
 		result.addObject("message", messageCode);
 
 		this.configValues(result);

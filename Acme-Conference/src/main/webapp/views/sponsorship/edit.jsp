@@ -20,8 +20,13 @@
 	
 		<acme:select items="${conferences}" itemLabel="title" code="sponsorship.edit.conferences" path="conferences"/>
 		
-		<acme:textbox code="sponsorship.edit.holder" path="creditCard.holder"/>
-		<acme:textbox code="sponsorship.edit.brandName" path="creditCard.brandName"/>
+		<acme:textbox code="sponsorship.edit.holder" path="creditCard.holder"/>	
+		<form:label path="creditCard.brandName"><spring:message code="sponsorship.edit.brandName"/></form:label> 
+     	<form:select path="creditCard.brandName" multiple="false" > 
+	     		<jstl:forEach items="${makers }" var="make"> 
+	     			<form:option value="${make}" label="${make}" /> 
+	     		</jstl:forEach> 
+   		</form:select> 	
 		<acme:inputNumber code="sponsorship.edit.number" path="creditCard.number"/>
 		<acme:inputNumber code="sponsorship.edit.expirationMonth" path="creditCard.expirationMonth" />
 		<acme:inputNumber code="sponsorship.edit.expirationYear" path="creditCard.expirationYear" />
