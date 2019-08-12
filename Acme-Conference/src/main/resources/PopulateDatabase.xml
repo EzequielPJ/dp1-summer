@@ -1134,5 +1134,41 @@
 		<property name="conference" ref="conference0" />
 	</bean>
 	
+	<!-- Message -->
+	<bean id="message0" class="domain.Message">
+		<property name="moment" value="2019/07/27" />
+		<property name="subject" value="Vamos a hablar" />
+		<property name="body" value="Hola. Estoy descontento." />
+		<property name="sender" ref="author0"/>
+        <property name="recipients">
+            <list>
+            <ref bean="admin" />
+            </list>
+        </property>
+        <property name="actors">
+            <list>
+            <ref bean="author0" />
+            <ref bean="admin" />
+            </list>
+        </property>
+	</bean>
+	
+	<bean id="message1" class="domain.Message">
+		<property name="moment" value="2019/07/27" />
+		<property name="subject" value="MENSAJE DE PRUEBA" />
+		<property name="body" value="Cuerpo de prueba de un mensaje" />
+		<property name="sender" ref="author0"/>
+        <property name="recipients">
+            <list>
+            <ref bean="admin" />
+            </list>
+        </property>
+        <property name="actors">
+            <list>
+            <ref bean="author0" />
+            </list>
+        </property>
+	</bean>
+	
 </beans>
 

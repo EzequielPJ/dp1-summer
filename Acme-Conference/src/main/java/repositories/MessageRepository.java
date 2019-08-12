@@ -15,16 +15,6 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
 	@Query("select m from Message m join m.topics t where t.id = ?1")
 	Collection<Message> findByTopic(int idTopic);
 
-	//	@Query("select m from Message m where m.sender.id = ?1")
-	//	Collection<Message> findAllByActor(int actorId);
-	//
-	//	@Query("select m.recipients from Message m where m.id = ?1")
-	//	Collection<Actor> getRecipients(int idMessage);
-	//
-	//	@Query("select m.id from Message m join m.tags t where (m.subject LIKE %?1% or m.body LIKE %?1% or t LIKE %?1%) and m.id = ?2")
-	//	Integer existsSpamWordInMessage(String spamWord, int idMessage);
-	//
-	//	@Query("select m.id from Message m where (m.subject LIKE %?1% or m.body LIKE %?1%) and m.id = ?2")
-	//	Integer existsSpamWordInMessageWithoutTag(String spamWord, int idMessage);
-
+	@Query("select m from Message m inner join m.actors a where a.id = ?1")
+	Collection<Message> findByUser(int idActor);
 }

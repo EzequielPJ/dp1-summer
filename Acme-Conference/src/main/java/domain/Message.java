@@ -7,11 +7,9 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.Index;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -24,9 +22,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-@Table(indexes = {
-	@Index(columnList = "sender")
-})
 public class Message extends DomainEntity {
 
 	private Date				moment;
@@ -37,7 +32,7 @@ public class Message extends DomainEntity {
 	private Collection<Topic>	topics;
 	private Actor				sender;
 	private Collection<Actor>	recipients;
-	private Collection<MessageBox> messageBox;
+	private Collection<Actor>	actors;
 
 
 	@Valid
@@ -59,6 +54,17 @@ public class Message extends DomainEntity {
 
 	public void setRecipients(final Collection<Actor> recipients) {
 		this.recipients = recipients;
+	}
+
+	@ManyToMany
+	@NotNull
+	@Valid
+	public Collection<Actor> getActors() {
+		return this.actors;
+	}
+
+	public void setActors(final Collection<Actor> actors) {
+		this.actors = actors;
 	}
 
 	@Past
@@ -104,15 +110,4 @@ public class Message extends DomainEntity {
 		this.topics = topics;
 	}
 
-	@ManyToMany
-	public Collection<MessageBox> getMessageBox() {
-		return messageBox;
-	}
-
-	
-	public void setMessageBox(Collection<MessageBox> messageBox) {
-		this.messageBox = messageBox;
-	}
-
-	
 }

@@ -2,11 +2,14 @@
 
 package services;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import repositories.ActorRepository;
+import security.LoginService;
 import security.UserAccount;
 import domain.Actor;
 
@@ -83,9 +86,14 @@ public class ActorService {
 	//		return this.actorRepository.findNonEliminatedActors();
 	//	}
 	//
-	//	public Collection<Actor> findAll() {
-	//		return this.actorRepository.findAll();
-	//	}
+	public Collection<Actor> findAll() {
+		return this.actorRepository.findAll();
+	}
+
+	public Collection<Actor> findAllExceptLogged() {
+		final Actor actor = this.findByUserAccount(LoginService.getPrincipal());
+		return this.actorRepository.findAllExceptLogged(actor.getId());
+	}
 
 	// Workaround for the problem of hibernate with inheritances
 	public Actor getActor(final int idActor) {
