@@ -99,6 +99,7 @@ public class MessageService {
 
 		return message;
 	}
+
 	public Message save(final Message message) {
 		final Actor actorLogged = this.actorService.findByUserAccount(LoginService.getPrincipal());
 		Assert.isTrue(message.getSender().equals(actorLogged), "Debe estar logueado para realizar esta accion");
@@ -107,7 +108,13 @@ public class MessageService {
 		return this.messageRepository.save(message);
 	}
 
-	public void delete(final Message message) {
+	public Message save(final MessageForm messageForm, final BindingResult bindingResult) {
+		final Message message = this.reconstruct(messageForm, bindingResult);
+		return this.save(message);
+	}
+
+	public void delete(final int idMessage) {
+		final Message message = this.findOne(idMessage);
 		final Actor actorLogged = this.actorService.findByUserAccount(LoginService.getPrincipal());
 		Assert.isTrue(message.getActors().contains(actorLogged), "No puede borrar este mensaje porque ya no existe");
 
@@ -135,5 +142,10 @@ public class MessageService {
 				topics.add(this.topicService.findOtherTopic());
 		}
 		this.messageRepository.save(messageWithTopic);
+	}
+
+	public Collection<Message> getMessagesOfActorLogged() {
+		final Actor actorLogged = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		return this.messageRepository.getMessagesOfActor(actorLogged.getId());
 	}
 }

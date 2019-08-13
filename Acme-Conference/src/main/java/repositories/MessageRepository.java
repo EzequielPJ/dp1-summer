@@ -15,6 +15,6 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
 	@Query("select m from Message m join m.topics t where t.id = ?1")
 	Collection<Message> findByTopic(int idTopic);
 
-	@Query("select m from Message m inner join m.actors a where a.id = ?1")
-	Collection<Message> findByUser(int idActor);
+	@Query("select m from Message m inner join m.actors a where a.id = ?1 order by m.moment desc")
+	Collection<Message> getMessagesOfActor(int idActor);
 }

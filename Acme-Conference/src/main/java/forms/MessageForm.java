@@ -18,9 +18,12 @@ import domain.Topic;
 
 public class MessageForm extends DomainEntity {
 
-	private String	subject;
-	private String	body;
-	private String	broadcastType;
+	private String				subject;
+	private String				body;
+	private String				broadcastType;
+
+	private Collection<Topic>	topics;
+	private Collection<Actor>	recipients;
 
 
 	@Pattern(regexp = "^ALL-ACTORS|ALL-AUTHORS|AUTHORS-WITH-REGISTRATIONS|AUTHORS-WITH-SUBMISSIONS$")
@@ -32,11 +35,7 @@ public class MessageForm extends DomainEntity {
 		this.broadcastType = broadcastType;
 	}
 
-
 	//Relationships
-	private Collection<Topic>	topics;
-	private Collection<Actor>	recipients;
-
 
 	@ManyToMany
 	@NotNull
