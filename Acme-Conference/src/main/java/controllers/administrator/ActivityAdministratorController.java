@@ -68,6 +68,7 @@ public class ActivityAdministratorController extends AbstractController {
 			colType.add("PANEL");
 			colType.add("PRESENTATION");
 			result = this.createEditModelAndView(activity);
+			result.addObject("typ", activity.getType());
 			result.addObject("typeList", colType);
 			result.addObject("authors", this.activityService.getAuthorsWithSubmissionAcceptedInConference(activity.getConference().getId()));
 			result.addObject("papers", this.activityService.getPapersInCameraReadyFromConference(activity.getConference().getId()));
@@ -82,16 +83,16 @@ public class ActivityAdministratorController extends AbstractController {
 		ModelAndView result;
 
 		final Activity act = this.activityService.findOne(idActivity);
-		result = this.createEditModelAndView(act);
-
 		final Collection<String> colType = new ArrayList<>();
 		colType.add("TUTORIAL");
 		colType.add("PANEL");
 		colType.add("PRESENTATION");
+		result = this.createEditModelAndView(act);
+
+		result.addObject("typ", act.getType());
 		result.addObject("typeList", colType);
 		result.addObject("authors", this.activityService.getAuthorsWithSubmissionAcceptedInConference(act.getConference().getId()));
 		result.addObject("papers", this.activityService.getPapersInCameraReadyFromConference(act.getConference().getId()));
-		result.addObject("typ", act.getType());
 		result.addObject("idConference", act.getConference().getId());
 		return result;
 	}
