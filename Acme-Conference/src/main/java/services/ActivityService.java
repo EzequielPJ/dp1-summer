@@ -108,7 +108,8 @@ public class ActivityService {
 			activityRec = activity;
 			activityRec.setStartMoment(new Date());
 			if (activity.getType().equals("PRESENTATION"))
-				activityRec.setAuthors(this.activityRepository.getAuthorByPaperId(activity.getPaper().getId()));
+				if (activity.getPaper() != null)
+					activityRec.setAuthors(this.activityRepository.getAuthorByPaperId(activity.getPaper().getId()));
 		} else {
 			activityRec = this.activityRepository.findOne(activity.getId());
 			activityRec.setType(activity.getType());
@@ -119,7 +120,8 @@ public class ActivityService {
 			activityRec.setAttachments(activity.getAttachments());
 			if (activity.getType().equals("PRESENTATION")) {
 				activityRec.setPaper(activity.getPaper());
-				activityRec.setAuthors(this.activityRepository.getAuthorByPaperId(activity.getPaper().getId()));
+				if (activity.getPaper() != null)
+					activityRec.setAuthors(this.activityRepository.getAuthorByPaperId(activity.getPaper().getId()));
 			}
 			if (!activity.getType().equals("PRESENTATION")) {
 				activityRec.setAuthors(activity.getAuthors());

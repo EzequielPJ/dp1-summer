@@ -203,4 +203,9 @@ public class SubmissionService {
 		return this.submissionRepository.getSubmissionsOfAdminUnderReview(idAdmin);
 	}
 
+	public void flush() {
+		this.submissionRepository.flush();
+
+	}
+
 }

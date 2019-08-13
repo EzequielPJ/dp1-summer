@@ -80,7 +80,9 @@
 		</jstl:forEach>
 		</select>
 		<form:errors cssClass="error" path="paper" />
-		</p></div>
+		</p>
+		<jstl:if test="${empty papers}"><strong><spring:message code="activity.paper.no"/></strong></jstl:if>
+		</div>
 		
 		<p>
 			<acme:textarea code="activity.list.title" path="title"/>
