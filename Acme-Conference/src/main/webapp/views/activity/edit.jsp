@@ -18,30 +18,69 @@
 
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<script>
+	function change(o) {
+		if (o.value == 'PANEL' || o.value == 'TUTORIAL') {
+			document.getElementById("speakers").style.display = 'block';
+			document.getElementById("ready").style.display = 'none';
+		} else if (o.value == 'PRESENTATION') {
+			document.getElementById("speakers").style.display = 'none';
+			document.getElementById("ready").style.display = 'block';
+		} else {
+			document.getElementById("speakers").style.display = 'none';
+			document.getElementById("ready").style.display = 'none';
+		}
+	}
+	
+	function load() {
+		document.getElementById("speakers").style.display = 'block';
+		document.getElementById("ready").style.display = 'none';
+	}
+	function load2() {
+		document.getElementById("speakers").style.display = 'none';
+		document.getElementById("ready").style.display = 'block';
+	}
+</script>
+
 <form:form modelAttribute="activity" action="activity/administrator/edit.do">
 		<acme:hidden path="id"/>
 		<acme:hidden path="conference"/>
-		<acme:hidden path="authors"/>
-		<acme:hidden path="paper"/>
+		
+		<jstl:if test="${!typ.equals('PRESENTATION')}">
+			<body onload="load();"></body>
+		</jstl:if>
+		<jstl:if test="${typ.equals('PRESENTATION')}">
+			<body onload="load2();"></body>
+		</jstl:if>
 		
 		<p><spring:message code="activity.list.type"/>:
-		<select name="type" onchange="javascript: return true;">
+		<select name="type" onchange="change(this);">
 		<jstl:forEach var="type" items="${typeList}">
-			<option value="${type}"><jstl:out value="${type}"/></option>
+			<option value="${type}"<jstl:if test="${typ.equals(type)}">selected</jstl:if>><jstl:out value="${type}"/></option>
 		</jstl:forEach>
 		</select>
 		<form:errors cssClass="error" path="type" />
 		</p>
 		
-		<p><spring:message code="activity.list.authors"/>:
+		
+		<div id="speakers"><p><spring:message code="activity.list.authors"/>:<p>
 		<select name="authors" onchange="javascript: return true;" multiple>
 		<jstl:forEach var="author" items="${authors}">
-		<%-- <option value="${author.id}"><jstl:out value="${author.name} ${author.middlename} ${author.surname}"/></option> --%>
 			 <option value="${author.id}" <jstl:if test="${paper.authors.contains(author)}">selected</jstl:if>><jstl:out value="${author.name} ${author.middlename} ${author.surname}"/></option>	
 		</jstl:forEach>
 		</select>
 		<form:errors cssClass="error" path="authors" />
 		</p>
+		</div>
+		
+		<div id="ready"><p><spring:message code="activity.list.paper"/>:<p>
+		<select name="paper" onchange="javascript: return true;">
+		<jstl:forEach var="paper" items="${papers}">
+			 <option value="${paper.id}" <jstl:if test="${paper eq paper}">selected</jstl:if>><jstl:out value="${paper.title}"/></option>	
+		</jstl:forEach>
+		</select>
+		<form:errors cssClass="error" path="paper" />
+		</p></div>
 		
 		<p>
 			<acme:textarea code="activity.list.title" path="title"/>

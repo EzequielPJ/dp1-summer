@@ -56,6 +56,14 @@ public class ActivityService {
 		return this.activityRepository.getAuthorsWithSubmissionAcceptedInConference(id);
 	}
 
+	public Collection<Paper> getPapersInCameraReadyFromConference(final int id) {
+		return this.activityRepository.getPapersInCameraReadyFromConference(id);
+	}
+
+	public Collection<Author> getAuthorByPaperId(final int id) {
+		return this.activityRepository.getAuthorByPaperId(id);
+	}
+
 	public Activity create(final int idConference) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
 		final Activity activity = new Activity();
@@ -99,25 +107,38 @@ public class ActivityService {
 		if (activity.getId() == 0) {
 			activityRec = activity;
 			activityRec.setStartMoment(new Date());
+			if (activity.getType().equals("PRESENTATION"))
+				activityRec.setAuthors(this.activityRepository.getAuthorByPaperId(activity.getPaper().getId()));
 		} else {
 			activityRec = this.activityRepository.findOne(activity.getId());
 			activityRec.setType(activity.getType());
-			activityRec.setAuthors(activity.getAuthors());
 			activityRec.setTitle(activity.getTitle());
 			activityRec.setDuration(activity.getDuration());
 			activityRec.setRoom(activity.getRoom());
 			activityRec.setSummary(activity.getSummary());
 			activityRec.setAttachments(activity.getAttachments());
-			if (activity.getType().equals("TUTORIAL"))
+			if (activity.getType().equals("PRESENTATION")) {
 				activityRec.setPaper(activity.getPaper());
+				activityRec.setAuthors(this.activityRepository.getAuthorByPaperId(activity.getPaper().getId()));
+			}
+			if (!activity.getType().equals("PRESENTATION")) {
+				activityRec.setAuthors(activity.getAuthors());
+				activityRec.setPaper(null);
+			}
 		}
 
 		if (activityRec.getDuration() == 0)
 			binding.rejectValue("duration", "activity.duration.bad");
-		if (activityRec.getAuthors().isEmpty())
-			binding.rejectValue("authors", "activity.authors.bad");
+		if (!activity.getType().equals("PRESENTATION"))
+			if (activityRec.getAuthors() == null)
+				binding.rejectValue("authors", "activity.authors.bad");
 		if (activityRec.getAttachments().contains("<script>"))
 			binding.rejectValue("attachments", "activity.attachments.bad");
+		if (activityRec.getType().equals("---"))
+			binding.rejectValue("type", "activity.type.bad");
+		if (activity.getType().equals("PRESENTATION"))
+			if (activityRec.getPaper() == null)
+				binding.rejectValue("paper", "activity.paper.bad");
 
 		this.validator.validate(activityRec, binding);
 		if (binding.hasErrors())

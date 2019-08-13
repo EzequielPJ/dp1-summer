@@ -49,6 +49,7 @@ public class ActivityAdministratorController extends AbstractController {
 		result.addObject("typeList", colType);
 		result.addObject("idConference", idConference);
 		result.addObject("authors", this.activityService.getAuthorsWithSubmissionAcceptedInConference(idConference));
+		result.addObject("papers", this.activityService.getPapersInCameraReadyFromConference(idConference));
 		return result;
 	}
 
@@ -69,6 +70,7 @@ public class ActivityAdministratorController extends AbstractController {
 			result = this.createEditModelAndView(activity);
 			result.addObject("typeList", colType);
 			result.addObject("authors", this.activityService.getAuthorsWithSubmissionAcceptedInConference(activity.getConference().getId()));
+			result.addObject("papers", this.activityService.getPapersInCameraReadyFromConference(activity.getConference().getId()));
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(activity, "activity.edit.commit.error");
 		}
@@ -88,7 +90,9 @@ public class ActivityAdministratorController extends AbstractController {
 		colType.add("PRESENTATION");
 		result.addObject("typeList", colType);
 		result.addObject("authors", this.activityService.getAuthorsWithSubmissionAcceptedInConference(act.getConference().getId()));
-
+		result.addObject("papers", this.activityService.getPapersInCameraReadyFromConference(act.getConference().getId()));
+		result.addObject("typ", act.getType());
+		result.addObject("idConference", act.getConference().getId());
 		return result;
 	}
 
