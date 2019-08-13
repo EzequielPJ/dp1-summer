@@ -1054,7 +1054,7 @@
         </property>  
         <property name="summary" value="Videojuegos en la informática" />
         <property name="documentUrl" value="http://www.paper.com" />
-        <property name="cameraReadyPaper" value="false" />
+        <property name="cameraReadyPaper" value="true" />
         <property name="authors">
             <list>
             <ref bean="author0" />

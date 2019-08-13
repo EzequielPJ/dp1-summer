@@ -16,7 +16,15 @@
 			<display:column titleKey="conference.list.endDate"><jstl:out value="${conference.endDate}"/></display:column>
 			<display:column titleKey="conference.list.summary"><jstl:out value="${conference.summary}"/></display:column>
 			<display:column titleKey="conference.list.fee"><jstl:out value="${conference.fee}"/></display:column>
-		
+			<jstl:if test="${!general}">
+			<jstl:if test="${lang eq 'en' }">
+			<display:column titleKey="conference.list.category" sortable="true"><jstl:out value="${conference.category.categoryEN}"/></display:column>
+			</jstl:if>
+			<jstl:if test="${lang eq 'es' }">
+			<display:column titleKey="conference.list.category" sortable="true"><jstl:out value="${conference.category.categoryES}"/></display:column>
+			</jstl:if>
+			</jstl:if>
+			
 			
 				<jstl:if test="${!general}">
 				<display:column titleKey="conference.list.seeMore">
@@ -53,9 +61,15 @@
 				</display:column>
 				</jstl:if>
 				
+			
+				<jstl:if test="${!general}">
 				<display:column titleKey="conference.list.activity">
-						<acme:button url="activity/list.do?idConference=${conference.id}" type="button" code="conference.list.activity"/>
+						<acme:button url="activity/administrator/list.do?idConference=${conference.id}" type="button" code="conference.list.activity"/>
 				</display:column>
+				<display:column titleKey="conference.list.activity.create">
+						<acme:button url="activity/administrator/create.do?idConference=${conference.id}" type="button" code="conference.list.activity.create"/>
+				</display:column>
+				</jstl:if>
 				
 				<jstl:if test="${general}">
 					<display:column titleKey="conference.list.comment">

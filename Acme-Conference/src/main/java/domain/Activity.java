@@ -8,6 +8,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,6 +36,7 @@ public class Activity extends DomainEntity {
 	//Relationship
 	private Paper				paper;
 	private Conference			conference;
+	private Collection<Author>	authors;
 
 
 	@NotBlank
@@ -68,7 +70,7 @@ public class Activity extends DomainEntity {
 		this.startMoment = startMoment;
 	}
 
-	@Min(0)
+	@Min(1)
 	public Integer getDuration() {
 		return this.duration;
 	}
@@ -124,6 +126,16 @@ public class Activity extends DomainEntity {
 
 	public void setConference(final Conference conference) {
 		this.conference = conference;
+	}
+
+	@Valid
+	@ManyToMany
+	public Collection<Author> getAuthors() {
+		return this.authors;
+	}
+
+	public void setAuthors(final Collection<Author> authors) {
+		this.authors = authors;
 	}
 
 }

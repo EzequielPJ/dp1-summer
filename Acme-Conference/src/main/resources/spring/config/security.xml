@@ -80,6 +80,7 @@
 		<!-- Activity -->
 		
 		<security:intercept-url pattern="/activity/**" access="permitAll" />
+		<security:intercept-url pattern="/activity/administrator/**" access="hasRole('ADMINISTRATOR')" />
 		
 		<!--  -->
 	

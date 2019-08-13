@@ -45,6 +45,9 @@
 		
 		<bean class="converters.SubmissionToStringConverter"/>
 		<bean class="converters.StringToSubmissionConverter"/>
+		
+		<bean class="converters.PaperToStringConverter"/>
+		<bean class="converters.StringToPaperConverter"/>
 				
 	</util:list>
 	
