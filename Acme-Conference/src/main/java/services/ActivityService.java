@@ -69,6 +69,7 @@ public class ActivityService {
 
 	public Activity create(final int idConference) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		Assert.isTrue(this.conferenceService.findOne(idConference).getFinalMode() == true);
 		final Activity activity = new Activity();
 		activity.setType("");
 		activity.setTitle("");
@@ -113,6 +114,13 @@ public class ActivityService {
 					activityRec.setAuthors(this.activityRepository.getAuthorByPaperId(activity.getPaper().getId()));
 		} else {
 			activityRec = this.activityRepository.findOne(activity.getId());
+
+			if (activityRec.getType().equals("TUTORIAL") && !activity.getType().equals("TUTORIAL")) {
+				final Collection<Section> colS = this.sectionService.getSectionByActivity(activityRec.getId());
+				for (final Section sect : colS)
+					this.sectionService.delete(sect.getId());
+			}
+
 			activityRec.setType(activity.getType());
 			activityRec.setTitle(activity.getTitle());
 			activityRec.setDuration(activity.getDuration());

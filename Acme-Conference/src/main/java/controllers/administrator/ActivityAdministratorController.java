@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActivityService;
+import services.ConferenceService;
 import services.SectionService;
 import controllers.AbstractController;
 import domain.Activity;
@@ -24,10 +25,13 @@ import domain.Activity;
 public class ActivityAdministratorController extends AbstractController {
 
 	@Autowired
-	private ActivityService	activityService;
+	private ActivityService		activityService;
 
 	@Autowired
-	private SectionService	sectionService;
+	private SectionService		sectionService;
+
+	@Autowired
+	private ConferenceService	conferenceService;
 
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -44,19 +48,22 @@ public class ActivityAdministratorController extends AbstractController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam final int idConference) {
 		ModelAndView result;
-		final Activity activity = this.activityService.create(idConference);
-		result = this.createEditModelAndView(activity);
-		final Collection<String> colType = new ArrayList<>();
-		colType.add("TUTORIAL");
-		colType.add("PANEL");
-		colType.add("PRESENTATION");
-		result.addObject("typeList", colType);
-		result.addObject("idConference", idConference);
-		result.addObject("authors", this.activityService.getAuthorsWithSubmissionAcceptedInConference(idConference));
-		result.addObject("papers", this.activityService.getPapersInCameraReadyFromConference(idConference));
+		if (this.conferenceService.findOne(idConference).getFinalMode() == false) {
+			result = new ModelAndView("redirect:../../conference/administrator/list.do");
+		} else {
+			final Activity activity = this.activityService.create(idConference);
+			result = this.createEditModelAndView(activity);
+			final Collection<String> colType = new ArrayList<>();
+			colType.add("TUTORIAL");
+			colType.add("PANEL");
+			colType.add("PRESENTATION");
+			result.addObject("typeList", colType);
+			result.addObject("idConference", idConference);
+			result.addObject("authors", this.activityService.getAuthorsWithSubmissionAcceptedInConference(idConference));
+			result.addObject("papers", this.activityService.getPapersInCameraReadyFromConference(idConference));
+		}
 		return result;
 	}
-
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(final Activity activity, final BindingResult binding) {
 		ModelAndView result;
@@ -65,12 +72,6 @@ public class ActivityAdministratorController extends AbstractController {
 			if (activityRect.getAuthors().contains(null) && activityRect.getAuthors().size() >= 2)
 				activityRect.getAuthors().remove(null);
 			this.activityService.save(activityRect);
-			//			if (ty.equals("TUTORIAL") && !activityRect.getType().equals("TUTORIAL")) {
-			//				final Activity a = this.activityService.findOne(activityRect.getId());
-			//				final Collection<Section> colS = this.sectionService.getSectionByActivity(a.getId());
-			//				for (final Section sect : colS)
-			//					this.sectionService.delete(sect.getId());
-			//			}
 			result = new ModelAndView("redirect:list.do?idConference=" + activity.getConference().getId());
 		} catch (final ValidationException oops) {
 			final Collection<String> colType = new ArrayList<>();
