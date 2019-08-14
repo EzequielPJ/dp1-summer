@@ -30,20 +30,16 @@
 </p>
 
 <hr>
-<%-- <display:table pagesize="5" name="comments" id="comment" requestURI="${requestURI}">
+<jstl:if test="${activity.type eq 'TUTORIAL'}">
+<display:table pagesize="5" name="sections" id="section" requestURI="${requestURI}">
 
-			<display:column titleKey="comment.list.title"><jstl:out value="${comment.title}"/></display:column>
-			<display:column titleKey="comment.list.moment"><jstl:out value="${comment.moment}"/></display:column>
-			<display:column titleKey="comment.list.text"><jstl:out value="${comment.text}"/></display:column>
-			<jstl:if test="${comment.actor.name == null}">
-			<display:column titleKey="comment.list.actor"><jstl:out value="${anonim}"/></display:column>
-			</jstl:if>
-			<jstl:if test="${comment.actor.name != null}">
-			<display:column titleKey="comment.list.actor"><jstl:out value="${comment.actor.name}"/></display:column>
-			</jstl:if>	
+			<display:column titleKey="section.list.title"><jstl:out value="${section.title}"/></display:column>
+			<display:column titleKey="section.list.summary"><jstl:out value="${section.summary}"/></display:column>
+			<display:column titleKey="section.list.pictures"><jstl:out value="${section.pictures}"/></display:column>
 				
-</display:table> --%>
-
+</display:table>
+<acme:button url="section/administrator/create.do?idActivity=${activity.id}" type="button" code="section.list.create"/>
+</jstl:if>
 
 <div id="sponsor" style="width: 50px;">
 	<a target="_blank" href="${sponsorshipRandom.targetURL}" ><img style="width: 200px;" src="${sponsorshipRandom.bannerURL}" alt="${sponsorshipRandom.targetURL}"/></a>

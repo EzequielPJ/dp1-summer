@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActivityService;
+import services.SectionService;
 import controllers.AbstractController;
 import domain.Activity;
 
@@ -24,6 +25,9 @@ public class ActivityAdministratorController extends AbstractController {
 
 	@Autowired
 	private ActivityService	activityService;
+
+	@Autowired
+	private SectionService	sectionService;
 
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -61,6 +65,12 @@ public class ActivityAdministratorController extends AbstractController {
 			if (activityRect.getAuthors().contains(null) && activityRect.getAuthors().size() >= 2)
 				activityRect.getAuthors().remove(null);
 			this.activityService.save(activityRect);
+			//			if (ty.equals("TUTORIAL") && !activityRect.getType().equals("TUTORIAL")) {
+			//				final Activity a = this.activityService.findOne(activityRect.getId());
+			//				final Collection<Section> colS = this.sectionService.getSectionByActivity(a.getId());
+			//				for (final Section sect : colS)
+			//					this.sectionService.delete(sect.getId());
+			//			}
 			result = new ModelAndView("redirect:list.do?idConference=" + activity.getConference().getId());
 		} catch (final ValidationException oops) {
 			final Collection<String> colType = new ArrayList<>();
@@ -72,6 +82,7 @@ public class ActivityAdministratorController extends AbstractController {
 			result.addObject("typeList", colType);
 			result.addObject("authors", this.activityService.getAuthorsWithSubmissionAcceptedInConference(activity.getConference().getId()));
 			result.addObject("papers", this.activityService.getPapersInCameraReadyFromConference(activity.getConference().getId()));
+			result.addObject("idConference", activity.getConference().getId());
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(activity, "activity.edit.commit.error");
 		}
@@ -122,6 +133,7 @@ public class ActivityAdministratorController extends AbstractController {
 		result.addObject("activity", act);
 		result.addObject("requestURI", "activity/administrator/display.do?idActivity=" + idActivity);
 		result.addObject("url", url);
+		result.addObject("sections", this.sectionService.getSectionByActivity(idActivity));
 
 		this.configValues(result);
 		return result;
