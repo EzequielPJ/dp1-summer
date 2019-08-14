@@ -30,10 +30,8 @@ public class AdminConfigService {
 	private Validator				validator;
 
 
-	public AdminConfig getAdminConfig() {
-		return this.adminConfigRepository.findAll().get(0);
-	}
-
+	// CRUD methods
+	//---------------------------------------------------------------------------------------
 	public AdminConfig save(final AdminConfig adminConfig) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
 		return this.adminConfigRepository.save(adminConfig);
@@ -79,22 +77,19 @@ public class AdminConfigService {
 		this.save(adminConfig);
 	}
 
-	public void flush() {
-		this.adminConfigRepository.flush();
-	}
-
 	public AdminConfig addVoidWord(final VoidWordForm voidWordForm, final BindingResult binding) {
 		final AdminConfig adminConfig;
 
 		adminConfig = this.getAdminConfig();
 
 		final Collection<String> voidWords = adminConfig.getVoidWords();
+		final String voidWordName = voidWordForm.getVoidWord().trim().toLowerCase().replaceAll(" +", " ");
 
-		if (!(voidWordForm.getVoidWord().trim().isEmpty())) {
-			if (voidWords.contains(voidWordForm.getVoidWord().trim().toLowerCase()))
+		if (!(voidWordName.isEmpty())) {
+			if (voidWords.contains(voidWordName))
 				binding.rejectValue("voidWord", "adminConfig.error.existVoidWord");
 
-			voidWords.add(voidWordForm.getVoidWord().toLowerCase());
+			voidWords.add(voidWordName);
 		}
 		adminConfig.setVoidWords(voidWords);
 
@@ -112,12 +107,13 @@ public class AdminConfigService {
 		adminConfig = this.getAdminConfig();
 
 		final Collection<String> creditCardMakes = adminConfig.getCreditCardMakes();
+		final String makeName = creditCardMakeForm.getCreditCardMake().trim().toUpperCase().replaceAll(" +", " ");
 
-		if (!(creditCardMakeForm.getCreditCardMake().trim().isEmpty())) {
-			if (creditCardMakes.contains(creditCardMakeForm.getCreditCardMake().trim().toUpperCase()))
+		if (!(makeName.isEmpty())) {
+			if (creditCardMakes.contains(makeName))
 				binding.rejectValue("creditCardMake", "adminConfig.error.existCreditCardMake");
 
-			creditCardMakes.add(creditCardMakeForm.getCreditCardMake().toUpperCase());
+			creditCardMakes.add(makeName);
 		}
 		adminConfig.setCreditCardMakes(creditCardMakes);
 
@@ -128,4 +124,18 @@ public class AdminConfigService {
 
 		return adminConfig;
 	}
+
+	//---------------------------------------------------------------------------------------
+
+	// Auxiliar methods
+	//---------------------------------------------------------------------------------------
+	public AdminConfig getAdminConfig() {
+		return this.adminConfigRepository.findAll().get(0);
+	}
+
+	public void flush() {
+		this.adminConfigRepository.flush();
+	}
+	//---------------------------------------------------------------------------------------
+
 }

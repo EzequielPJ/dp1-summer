@@ -34,6 +34,8 @@ public class SponsorshipService {
 	private Validator					validator;
 
 
+	// CRUD methods
+	//---------------------------------------------------------------------------------------
 	public Sponsorship create() {
 		return new Sponsorship();
 	}
@@ -44,17 +46,6 @@ public class SponsorshipService {
 		Assert.isTrue(!ValidateCreditCard.isCaducate(sponsorship.getCreditCard()));
 
 		this.sponsorshipRepository.save(sponsorship);
-	}
-
-	public Collection<Sponsorship> findAllBySponsor(final int idSponsor) {
-		Assert.isTrue(this.sponsorService.findOne(idSponsor).getUserAccount().equals(LoginService.getPrincipal()));
-		return this.sponsorshipRepository.findAllBySponsor(idSponsor);
-	}
-
-	public Sponsorship findOne(final int idSponsorship) {
-		final Sponsorship sponsorship = this.sponsorshipRepository.findOne(idSponsorship);
-		Assert.isTrue(LoginService.getPrincipal().equals(sponsorship.getConferenceSponsor().getUserAccount()));
-		return sponsorship;
 	}
 
 	public Sponsorship reconstruct(final Sponsorship sponsorship, final BindingResult binding) {
@@ -80,6 +71,20 @@ public class SponsorshipService {
 			throw new ValidationException();
 
 		return result;
+	}
+	//---------------------------------------------------------------------------------------
+
+	// Auxiliar methods
+	//---------------------------------------------------------------------------------------
+	public Collection<Sponsorship> findAllBySponsor(final int idSponsor) {
+		Assert.isTrue(this.sponsorService.findOne(idSponsor).getUserAccount().equals(LoginService.getPrincipal()));
+		return this.sponsorshipRepository.findAllBySponsor(idSponsor);
+	}
+
+	public Sponsorship findOne(final int idSponsorship) {
+		final Sponsorship sponsorship = this.sponsorshipRepository.findOne(idSponsorship);
+		Assert.isTrue(LoginService.getPrincipal().equals(sponsorship.getConferenceSponsor().getUserAccount()));
+		return sponsorship;
 	}
 
 	public Sponsorship getRandomOfAConference(final int idConference) {
@@ -131,4 +136,6 @@ public class SponsorshipService {
 
 		return creditCard;
 	}
+	//---------------------------------------------------------------------------------------
+
 }

@@ -36,6 +36,12 @@ public class CategoryService {
 	private Validator			validator;
 
 
+	// CRUD
+	//---------------------------------------------------------------------------------------
+	public Category create() {
+		return new Category();
+	}
+
 	public Category reconstructAndSave(Category category, final BindingResult binding) {
 		category = this.reconstruct(category, binding);
 		this.save(category);
@@ -43,9 +49,42 @@ public class CategoryService {
 		return category;
 	}
 
+	public Category reconstruct(final Category category, final BindingResult binding) {
+		final Category result;
+
+		if (category.getId() == 0)
+			result = this.create();
+		else {
+			result = this.findOne(category.getId());
+			final Category oldParent = result.getParent();
+			final Category newParent = category.getParent();
+			if (!oldParent.equals(newParent))
+				this.updateChildrenOfParentOf(result, category);
+		}
+
+		result.setCategoryEN(category.getCategoryEN().toUpperCase().replaceAll(" +", " "));
+		result.setCategoryES(category.getCategoryES().toUpperCase().replaceAll(" +", " "));
+
+		final Category generalCategory = this.categoryRepository.getGeneralCategory();
+		if (category.getParent() == null)
+			result.setParent(generalCategory);
+		else
+			result.setParent(category.getParent());
+
+		this.validateCategoryName(category, binding);
+
+		this.validator.validate(result, binding);
+
+		if (binding.hasErrors())
+			throw new ValidationException();
+
+		return result;
+	}
+
 	public Category save(final Category category) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		Assert.isTrue(!category.getCategoryES().equals("CONGRESO") && !category.getCategoryEN().equals("CONFERENCE"));
+		Assert.isTrue(!category.getCategoryES().toUpperCase().trim().equals("CONGRESO") && !category.getCategoryEN().toUpperCase().trim().equals("CONFERENCE"));
+		final Category genar = this.categoryRepository.getGeneralCategory();
 		Assert.isTrue(category.getId() != this.categoryRepository.getGeneralCategory().getId());
 
 		final Category parent = category.getParent();
@@ -63,116 +102,6 @@ public class CategoryService {
 		}
 
 		return categorySaved;
-	}
-	public Collection<Category> findAll() {
-		return this.categoryRepository.findAll();
-	}
-
-	public Category findOne(final int id) {
-		return this.categoryRepository.findOne(id);
-	}
-
-	public Collection<Category> findAllMinusCONFERENCE() {
-		return this.categoryRepository.findAllMinusCONFERENCE();
-	}
-
-	public Collection<Category> getChildrenOfACategory(final Category category) {
-		final Collection<Category> acum = new ArrayList<>();
-		return this.getChildrenOfACategory(category, acum);
-	}
-
-	private Collection<Category> getChildrenOfACategory(final Category category, final Collection<Category> acum) {
-		final Collection<Category> children = category.getChildren();
-		if (children == null || children.size() == 0)
-			acum.add(category);
-		else {
-			for (final Category child : children)
-				this.getChildrenOfACategory(child, acum);
-			acum.add(category);
-		}
-		return acum;
-	}
-
-	public Collection<Category> findAllSuchACONFERENCEParent() {
-		return this.categoryRepository.findAllSuchACONFERENCEParent();
-	}
-
-	public Category create() {
-		return new Category();
-	}
-
-	public Collection<String> getAllNameEN() {
-		return this.categoryRepository.getAllNameEN();
-	}
-
-	public Collection<String> getAllNameES() {
-		return this.categoryRepository.getAllNameES();
-	}
-
-	public Category reconstruct(final Category category, final BindingResult binding) {
-		final Category result;
-
-		if (category.getId() == 0)
-			result = this.create();
-		else {
-			result = this.findOne(category.getId());
-			final Category oldParent = result.getParent();
-			final Category newParent = category.getParent();
-			if (!oldParent.equals(newParent))
-				this.updateChildrenOfParentOf(result, category);
-		}
-
-		result.setCategoryEN(category.getCategoryEN().toUpperCase());
-		result.setCategoryES(category.getCategoryES().toUpperCase());
-
-		final Category generalCategory = this.categoryRepository.getGeneralCategory();
-		if (category.getParent() == null)
-			result.setParent(generalCategory);
-		else
-			result.setParent(category.getParent());
-
-		this.validateCategoryName(category, binding);
-
-		this.validator.validate(result, binding);
-
-		if (binding.hasErrors())
-			throw new ValidationException();
-
-		return result;
-	}
-	private void validateCategoryName(final Category category, final BindingResult binding) {
-		final Collection<String> namesEN = this.getAllNameEN();
-		final Collection<String> namesES = this.getAllNameES();
-
-		if (category.getId() != 0) {
-			namesEN.remove(this.findOne(category.getId()).getCategoryEN());
-			namesES.remove(this.findOne(category.getId()).getCategoryES());
-		}
-
-		if (category.getCategoryEN().toUpperCase().trim().equals("CONFERENCE") || category.getCategoryEN().toUpperCase().trim().equals("CONGRESO"))
-			binding.rejectValue("categoryEN", "category.error.namelikeConference");
-
-		if (category.getCategoryES().toUpperCase().trim().equals("CONGRESO") || category.getCategoryES().toUpperCase().trim().equals("CONFERENCE"))
-			binding.rejectValue("categoryES", "category.error.namelikeConference");
-
-		if (namesEN.contains(category.getCategoryEN().trim().toUpperCase()))
-			binding.rejectValue("categoryEN", "category.error.namelikeOther");
-
-		if (namesES.contains(category.getCategoryES().trim().toUpperCase()))
-			binding.rejectValue("categoryES", "category.error.namelikeOther");
-	}
-
-	private void updateChildrenOfParentOf(final Category oldCategory, final Category newCategory) {
-
-		final Category oldParent = oldCategory.getParent();
-		oldParent.getChildren().remove(oldCategory);
-		this.categoryRepository.saveAndFlush(oldParent);
-
-		Category newParent = newCategory.getParent();
-		if (newParent == null)
-			newParent = this.categoryRepository.getGeneralCategory();
-		newParent.getChildren().add(newCategory);
-		this.categoryRepository.saveAndFlush(newParent);
 	}
 
 	public void delete(final Category category) {
@@ -212,5 +141,91 @@ public class CategoryService {
 		this.categoryRepository.delete(category);
 
 	}
+	//---------------------------------------------------------------------------------------
+
+	// Auxiliar methods
+	//---------------------------------------------------------------------------------------
+	public Collection<Category> findAll() {
+		return this.categoryRepository.findAll();
+	}
+
+	public Category findOne(final int id) {
+		return this.categoryRepository.findOne(id);
+	}
+
+	public Collection<Category> findAllMinusCONFERENCE() {
+		return this.categoryRepository.findAllMinusCONFERENCE();
+	}
+
+	public Collection<Category> findAllSuchACONFERENCEParent() {
+		return this.categoryRepository.findAllSuchACONFERENCEParent();
+	}
+
+	public Collection<String> getAllNameEN() {
+		return this.categoryRepository.getAllNameEN();
+	}
+
+	public Collection<String> getAllNameES() {
+		return this.categoryRepository.getAllNameES();
+	}
+
+	public Collection<Category> getChildrenOfACategory(final Category category) {
+		final Collection<Category> acum = new ArrayList<>();
+		return this.getChildrenOfACategory(category, acum);
+	}
+
+	private Collection<Category> getChildrenOfACategory(final Category category, final Collection<Category> acum) {
+		final Collection<Category> children = category.getChildren();
+		if (children == null || children.size() == 0)
+			acum.add(category);
+		else {
+			for (final Category child : children)
+				this.getChildrenOfACategory(child, acum);
+			acum.add(category);
+		}
+		return acum;
+	}
+
+	private void validateCategoryName(final Category category, final BindingResult binding) {
+		final Collection<String> namesEN = this.getAllNameEN();
+		final Collection<String> namesES = this.getAllNameES();
+
+		if (category.getId() != 0) {
+			namesEN.remove(this.findOne(category.getId()).getCategoryEN());
+			namesES.remove(this.findOne(category.getId()).getCategoryES());
+		}
+
+		if (category.getCategoryEN().toUpperCase().trim().equals("CONFERENCE") || category.getCategoryEN().toUpperCase().trim().equals("CONGRESO"))
+			binding.rejectValue("categoryEN", "category.error.namelikeConference");
+
+		if (category.getCategoryES().toUpperCase().trim().equals("CONGRESO") || category.getCategoryES().toUpperCase().trim().equals("CONFERENCE"))
+			binding.rejectValue("categoryES", "category.error.namelikeConference");
+
+		if (namesEN.contains(category.getCategoryEN().trim().toUpperCase().replaceAll(" +", " ")))
+			binding.rejectValue("categoryEN", "category.error.namelikeOther");
+
+		if (namesES.contains(category.getCategoryES().trim().toUpperCase().replaceAll(" +", " ")))
+			binding.rejectValue("categoryES", "category.error.namelikeOther");
+	}
+
+	private void updateChildrenOfParentOf(final Category oldCategory, final Category newCategory) {
+
+		final Category oldParent = oldCategory.getParent();
+		oldParent.getChildren().remove(oldCategory);
+		this.categoryRepository.saveAndFlush(oldParent);
+
+		Category newParent = newCategory.getParent();
+		if (newParent == null)
+			newParent = this.categoryRepository.getGeneralCategory();
+		newParent.getChildren().add(newCategory);
+		this.categoryRepository.saveAndFlush(newParent);
+	}
+
+	public void flush() {
+		this.categoryRepository.flush();
+
+	}
+
+	//---------------------------------------------------------------------------------------
 
 }
