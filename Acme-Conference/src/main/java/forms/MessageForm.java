@@ -6,7 +6,6 @@ import java.util.Collection;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -38,7 +37,6 @@ public class MessageForm extends DomainEntity {
 	//Relationships
 
 	@ManyToMany
-	@NotNull
 	@Valid
 	public Collection<Actor> getRecipients() {
 		return this.recipients;

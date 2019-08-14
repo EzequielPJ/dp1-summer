@@ -90,6 +90,10 @@ public class ActorService {
 		return this.actorRepository.findAll();
 	}
 
+	public Actor findOne(final int idActor) {
+		return this.actorRepository.findOne(idActor);
+	}
+
 	public Collection<Actor> findAllExceptLogged() {
 		final Actor actor = this.findByUserAccount(LoginService.getPrincipal());
 		return this.actorRepository.findAllExceptLogged(actor.getId());

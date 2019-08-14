@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -14,9 +15,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -45,8 +46,8 @@ public class Message extends DomainEntity {
 		this.sender = sender;
 	}
 
-	@ManyToMany
-	@NotNull
+	@ManyToMany(fetch = FetchType.EAGER)
+	@NotEmpty
 	@Valid
 	public Collection<Actor> getRecipients() {
 		return this.recipients;
@@ -56,8 +57,8 @@ public class Message extends DomainEntity {
 		this.recipients = recipients;
 	}
 
-	@ManyToMany
-	@NotNull
+	@ManyToMany()
+	@NotEmpty
 	@Valid
 	public Collection<Actor> getActors() {
 		return this.actors;
@@ -67,7 +68,6 @@ public class Message extends DomainEntity {
 		this.actors = actors;
 	}
 
-	@Past
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
 	@NotNull

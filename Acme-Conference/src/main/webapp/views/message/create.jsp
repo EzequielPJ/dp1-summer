@@ -7,7 +7,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form modelAttribute="messageForm" action="message/save.do">
+<form:form modelAttribute="messageForm" action="message/send.do">
 	  	 
    	<p>
    		 <acme:textbox code="message.create.subject" path="subject"/>
@@ -16,7 +16,7 @@
    		 <acme:textarea code="message.create.body" path="body"/>
    	</p>
    	
-   	<acme:select items="${actors}" itemLabel="email" code="message.create.recipients" path="recipients"/>
+   	<acme:select items="${actors}" itemLabel="email" code="message.create.recipients" path="recipients" optional="false"/>
    	
    	<jstl:choose>
 		<jstl:when test="${cookie.language.value == 'es'}">       
@@ -29,12 +29,16 @@
 	</jstl:choose>
    	
 	<p>
-	<spring:message code="book.edit.lang"/>: <select name="broadcastType">
-	  <option value="ALL-ACTORS" <jstl:if test="${messageForm.broadcastType == 'ALL-ACTORS'}"><jstl:out value="selected"/></jstl:if>><spring:message code="message.create.broadcastType.allActors"/></option>
-	  <option value="ALL-AUTHORS" <jstl:if test="${messageForm.broadcastType == 'ALL-AUTHORS'}"><jstl:out value="selected"/></jstl:if>><spring:message code="message.create.broadcastType.allAuthors"/></option>
-	  <option value="AUTHORS-WITH-REGISTRATIONS" <jstl:if test="${messageForm.broadcastType == 'AUTHORS-WITH-REGISTRATIONS'}"><jstl:out value="selected"/></jstl:if>><spring:message code="message.create.broadcastType.authorsRegistration"/></option>
-	  <option value="AUTHORS-WITH-SUBMISSIONS" <jstl:if test="${messageForm.broadcastType == 'AUTHORS-WITH-SUBMISSIONS'}"><jstl:out value="selected"/></jstl:if>><spring:message code="message.create.broadcastType.authorsSubmissions"/></option>
-	</select>
+	 <security:authorize access="hasRole('ADMINISTRATOR')">
+ 	
+		<spring:message code="message.create.broadcastType"/>: <select name="broadcastType">
+		 	  <option value=""<jstl:if test="${messageForm.broadcastType == ''}"><jstl:out value="selected"/></jstl:if>>------</option>
+			  <option value="ALL-ACTORS" <jstl:if test="${messageForm.broadcastType == 'ALL-ACTORS'}"><jstl:out value="selected"/></jstl:if>><spring:message code="message.create.broadcastType.allActors"/></option>
+			  <option value="ALL-AUTHORS" <jstl:if test="${messageForm.broadcastType == 'ALL-AUTHORS'}"><jstl:out value="selected"/></jstl:if>><spring:message code="message.create.broadcastType.allAuthors"/></option>
+			  <option value="AUTHORS-WITH-REGISTRATIONS" <jstl:if test="${messageForm.broadcastType == 'AUTHORS-WITH-REGISTRATIONS'}"><jstl:out value="selected"/></jstl:if>><spring:message code="message.create.broadcastType.authorsRegistration"/></option>
+			  <option value="AUTHORS-WITH-SUBMISSIONS" <jstl:if test="${messageForm.broadcastType == 'AUTHORS-WITH-SUBMISSIONS'}"><jstl:out value="selected"/></jstl:if>><spring:message code="message.create.broadcastType.authorsSubmissions"/></option>
+		</select>
+ 	</security:authorize>
    	</p>
 	
 	

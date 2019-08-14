@@ -43,6 +43,9 @@
 		
 		<bean class="converters.SubmissionToStringConverter"/>
 		<bean class="converters.StringToSubmissionConverter"/>
+		
+		<bean class="converters.TopicToStringConverter"/>
+		<bean class="converters.StringToTopicConverter"/>
 				
 	</util:list>
 	

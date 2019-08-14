@@ -593,18 +593,18 @@
         <property value="Galves" name="surname"/>
         <property value="https://photo0.com" name="photoURL" />
         <property value="Street 0" name="address" />
-        <property value="admin@" name="email" />
+        <property value="admin1@" name="email" />
         <property value="+00 000-0000000" name="phoneNumber" />
         <property name="userAccount" ref="userAccount0" />
     </bean>
     
     <bean class="domain.Administrator" id="admin1">
-        <property value="Christian" name="name" />
-        <property value="Lion" name="middlename"/>
-        <property value="Galves" name="surname"/>
+        <property value="Rocio" name="name" />
+        <property value="Barbate" name="middlename"/>
+        <property value="Sanse" name="surname"/>
         <property value="https://photo0.com" name="photoURL" />
         <property value="Street 0" name="address" />
-        <property value="admin@" name="email" />
+        <property value="admin2@" name="email" />
         <property value="+00 000-0000000" name="phoneNumber" />
         <property name="userAccount" ref="userAccount7" />
     </bean>

@@ -49,6 +49,11 @@ public class MessageService {
 		return this.messageRepository.findOne(id);
 	}
 
+	public Message getMessage(final int id) {
+		Assert.isTrue(AuthorityMethods.checkIsSomeoneLogged());
+		return this.messageRepository.getMessage(id);
+	}
+
 	public Message reconstruct(final MessageForm messageForm, final BindingResult binding) {
 		final Message message = new Message();
 
@@ -62,11 +67,20 @@ public class MessageService {
 		message.setMoment(DateTime.now().toDate());
 
 		Collection<Author> recipients;
-		if (!(utiles.AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR") && !messageForm.getBroadcastType().equals(null))) {
+		if (!(utiles.AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR") && !messageForm.getBroadcastType().equals(""))) {
+			if (!(messageForm.getRecipients() == null || messageForm.getRecipients().isEmpty())) {
+				final Collection<Actor> recipientsp = messageForm.getRecipients();
+				message.setRecipients(recipientsp);
 
-			final Collection<Actor> recipientsp = messageForm.getRecipients();
-			message.setRecipients(recipientsp);
-		} else
+				final Set<Actor> actors = new HashSet<>();
+				actors.addAll(message.getRecipients());
+				actors.add(sender);
+
+				final Collection<Actor> noRepetidos = actors;
+				message.setActors(noRepetidos);
+			}
+		} else {
+
 			switch (messageForm.getBroadcastType()) {
 			case "ALL-ACTORS":
 				message.setRecipients(this.actorService.findAllExceptLogged());
@@ -85,18 +99,18 @@ public class MessageService {
 				break;
 			}
 
-		final Set<Actor> actors = new HashSet<>();
-		actors.addAll(message.getRecipients());
-		actors.add(sender);
+			final Set<Actor> actors = new HashSet<>();
+			actors.addAll(message.getRecipients());
+			actors.add(sender);
 
-		final Collection<Actor> noRepetidos = actors;
-		message.setActors(noRepetidos);
+			final Collection<Actor> noRepetidos = actors;
+			message.setActors(noRepetidos);
+		}
 
 		this.validator.validate(message, binding);
 
 		if (binding.hasErrors())
 			throw new ValidationException();
-
 		return message;
 	}
 
@@ -114,7 +128,12 @@ public class MessageService {
 	}
 
 	public void delete(final int idMessage) {
-		final Message message = this.findOne(idMessage);
+		//Se setean los destinatarios porque spring trae los mensajes de la base de datos sin destinatarios
+		final Collection<Actor> recipients = this.messageRepository.getRecipientsOfMessage(idMessage);
+
+		final Message message = this.getMessage(idMessage);
+		message.setRecipients(recipients);
+		System.out.println("Numero de actores: " + message.getActors().size());
 		final Actor actorLogged = this.actorService.findByUserAccount(LoginService.getPrincipal());
 		Assert.isTrue(message.getActors().contains(actorLogged), "No puede borrar este mensaje porque ya no existe");
 
@@ -146,6 +165,7 @@ public class MessageService {
 
 	public Collection<Message> getMessagesOfActorLogged() {
 		final Actor actorLogged = this.actorService.findByUserAccount(LoginService.getPrincipal());
-		return this.messageRepository.getMessagesOfActor(actorLogged.getId());
+		final Collection<Message> messages = this.messageRepository.getMessagesOfActor(actorLogged.getId());
+		return messages;
 	}
 }
