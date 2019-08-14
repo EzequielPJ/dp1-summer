@@ -33,6 +33,9 @@ public class ActivityService {
 	private ConferenceService	conferenceService;
 
 	@Autowired
+	private SectionService		sectionService;
+
+	@Autowired
 	Validator					validator;
 
 
@@ -95,13 +98,11 @@ public class ActivityService {
 		final Activity ac = this.activityRepository.findOne(id);
 		if (ac.getType().equals("TUTORIAL")) {
 			final Collection<Section> col = this.activityRepository.getSectionsByActivity(id);
-			for (final Section s : col) {
-				//borrar las sections asociadass
-			}
+			for (final Section s : col)
+				this.sectionService.delete(s.getId());
 		}
 		this.activityRepository.delete(ac);
 	}
-
 	public Activity reconstruct(final Activity activity, final BindingResult binding) throws ParseException {
 		Activity activityRec = null;
 		if (activity.getId() == 0) {

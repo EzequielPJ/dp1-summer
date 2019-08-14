@@ -102,7 +102,12 @@
 		
 		<p>
 		<acme:submit name="save" code="activity.edit.save"/>
-		<acme:cancel url="activity/administrator/list.do?idConference=${idConference}"  code="conference.display.back"/>
 		
+		<jstl:if test="${activity.id == 0}">
+		<acme:cancel url="conference/administrator/list.do"  code="conference.display.back"/>
+		</jstl:if>
+		<jstl:if test="${activity.id != 0}">
+		<acme:cancel url="activity/administrator/list.do?idConference=${idConference}"  code="conference.display.back"/>
+		</jstl:if>
 	</form:form>
 	

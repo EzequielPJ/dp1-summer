@@ -83,6 +83,12 @@
 		<security:intercept-url pattern="/activity/administrator/**" access="hasRole('ADMINISTRATOR')" />
 		
 		<!--  -->
+		
+		<!-- Section -->
+		
+		<security:intercept-url pattern="/section/administrator/**" access="hasRole('ADMINISTRATOR')" />
+		
+		<!--  -->
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 		

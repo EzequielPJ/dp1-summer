@@ -48,6 +48,9 @@
 		
 		<bean class="converters.PaperToStringConverter"/>
 		<bean class="converters.StringToPaperConverter"/>
+		
+		<bean class="converters.SectionToStringConverter"/>
+		<bean class="converters.StringToSectionConverter"/>
 				
 	</util:list>
 	

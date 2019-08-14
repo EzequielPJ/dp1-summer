@@ -50,6 +50,7 @@
 		<value>/views/conference/tiles.xml</value>
 		<value>/views/comment/tiles.xml</value>
 		<value>/views/activity/tiles.xml</value>
+		<value>/views/section/tiles.xml</value>
 		
 		<value>/views/submission/tiles.xml</value>
 		<value>/views/paper/tiles.xml</value>
