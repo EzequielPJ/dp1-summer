@@ -76,6 +76,14 @@
 				</jstl:if>
 				
 				<jstl:if test="${general}">
+				<display:column titleKey="conference.list.activity">
+				<jstl:if test="${conference.finalMode eq true}">
+						<acme:button url="activity/list.do?idConference=${conference.id}" type="button" code="conference.list.activity"/>
+				</jstl:if>
+				</display:column>
+				</jstl:if>
+				
+				<jstl:if test="${general}">
 					<display:column titleKey="conference.list.comment">
 						<acme:button url="comment/list.do?idEntity=${conference.id}" type="button" code="conference.list.comment"/>
 					</display:column>

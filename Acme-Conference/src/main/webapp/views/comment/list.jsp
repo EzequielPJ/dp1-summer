@@ -12,11 +12,14 @@
 			<display:column titleKey="comment.list.title"><jstl:out value="${comment.title}"/></display:column>
 			<display:column titleKey="comment.list.moment"><jstl:out value="${comment.moment}"/></display:column>
 			<display:column titleKey="comment.list.text"><jstl:out value="${comment.text}"/></display:column>
-			<jstl:if test="${comment.actor.name == null}">
+			<%-- <jstl:if test="${comment.actor.name == null}">
 			<display:column titleKey="comment.list.actor"><jstl:out value="${anonim}"/></display:column>
 			</jstl:if>
 			<jstl:if test="${comment.actor.name != null}">
 			<display:column titleKey="comment.list.actor"><jstl:out value="${comment.actor.name}"/></display:column>
-			</jstl:if>	
+			</jstl:if>	 --%>
+			<display:column titleKey="activity.list.seeMore">
+				<acme:button url="comment/display.do?idComment=${comment.id}" type="button" code="comment.list.seeMore"/>
+			</display:column> 
 				
 </display:table>

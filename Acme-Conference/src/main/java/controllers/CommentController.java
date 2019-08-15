@@ -17,7 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActivityService;
 import services.CommentService;
 import services.ConferenceService;
+import domain.Activity;
 import domain.Comment;
+import domain.Conference;
 
 @Controller
 @RequestMapping("/comment")
@@ -100,6 +102,33 @@ public class CommentController extends AbstractController {
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(comment, "comment.edit.commit.error");
 		}
+		return result;
+	}
+
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public ModelAndView display(@RequestParam final int idComment, @CookieValue(value = "language", required = false) final String lang) {
+		ModelAndView result = null;
+
+		final Comment comment = this.commentService.findOne(idComment);
+
+		result = new ModelAndView("comment/display");
+
+		result.addObject("comment", comment);
+		result.addObject("requestURI", "conference/administrator/display.do?idComment=" + idComment);
+		if (comment.getConference() == null) {
+			final Activity act = comment.getActivity();
+			result.addObject("idEntity", act.getId());
+		} else {
+			final Conference c = comment.getConference();
+			result.addObject("idEntity", c.getId());
+		}
+
+		if (lang == null)
+			result.addObject("anonim", "anonymous");
+		else
+			result.addObject("anonim", "anónimo");
+
+		this.configValues(result);
 		return result;
 	}
 

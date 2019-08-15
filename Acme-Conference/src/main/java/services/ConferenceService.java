@@ -73,20 +73,20 @@ public class ConferenceService {
 		return this.conferenceRepository.getYoursConference(id);
 	}
 
-	public Collection<Conference> getConferencesBetweenSubmissionDeadline(final Date date1, final Date date2) {
-		return this.conferenceRepository.getConferencesBetweenSubmissionDeadline(date1, date2);
+	public Collection<Conference> getConferencesBetweenSubmissionDeadline(final Date date1, final Date date2, final int id) {
+		return this.conferenceRepository.getConferencesBetweenSubmissionDeadline(date1, date2, id);
 	}
 
-	public Collection<Conference> getConferencesBetweenNotificationDeadline(final Date date1, final Date date2) {
-		return this.conferenceRepository.getConferencesBetweenNotificationDeadline(date1, date2);
+	public Collection<Conference> getConferencesBetweenNotificationDeadline(final Date date1, final Date date2, final int id) {
+		return this.conferenceRepository.getConferencesBetweenNotificationDeadline(date1, date2, id);
 	}
 
-	public Collection<Conference> getConferencesBetweenCameraReadyDeadline(final Date date1, final Date date2) {
-		return this.conferenceRepository.getConferencesBetweenCameraReadyDeadline(date1, date2);
+	public Collection<Conference> getConferencesBetweenCameraReadyDeadline(final Date date1, final Date date2, final int id) {
+		return this.conferenceRepository.getConferencesBetweenCameraReadyDeadline(date1, date2, id);
 	}
 
-	public Collection<Conference> getConferencesBetweenStartDate(final Date date1, final Date date2) {
-		return this.conferenceRepository.getConferencesBetweenStartDate(date1, date2);
+	public Collection<Conference> getConferencesBetweenStartDate(final Date date1, final Date date2, final int id) {
+		return this.conferenceRepository.getConferencesBetweenStartDate(date1, date2, id);
 	}
 
 	public Collection<Conference> getConferencesPast(final Date date1) {

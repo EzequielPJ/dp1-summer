@@ -7,8 +7,9 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<jstl:if test="${!general}">
 <acme:cancel url="conference/administrator/list.do" code="conference.display.back.your"/>
-
+</jstl:if>
 <display:table pagesize="5" name="activities" id="activity" requestURI="${requestURI}">
 
 			<display:column titleKey="activity.list.type"><jstl:out value="${activity.type}"/></display:column>
@@ -24,13 +25,14 @@
 				</display:column> 
 
 
-				
+				<jstl:if test="${!general}">
 				<display:column titleKey="activity.list.edit">
 						<acme:button url="activity/administrator/edit.do?idActivity=${activity.id}" type="button" code="activity.list.edit"/>
 				</display:column>
 				<display:column titleKey="activity.list.delete">
 						<acme:button url="activity/administrator/delete.do?idActivity=${activity.id}" type="button" code="activity.list.delete"/>
 				</display:column> 
+				</jstl:if>
 				
 			<jstl:if test="${general}">
 					<display:column titleKey="activity.list.comment">
