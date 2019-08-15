@@ -22,6 +22,7 @@ import services.CategoryService;
 import services.ConferenceService;
 import services.SubmissionService;
 import controllers.AbstractController;
+import domain.Administrator;
 import domain.Conference;
 
 @Controller
@@ -56,6 +57,8 @@ public class ConferenceAdministratorController extends AbstractController {
 	public ModelAndView listSubmissionDeadline(@CookieValue(value = "language", required = false) final String lang) {
 		final ModelAndView result = this.listModelAndView();
 
+		final Administrator adm = this.conferenceService.findByPrincipal(LoginService.getPrincipal());
+
 		final Date date1 = new Date();
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
@@ -63,7 +66,7 @@ public class ConferenceAdministratorController extends AbstractController {
 		final Date date2 = calendar.getTime();
 
 		final ArrayList<Conference> myConferencesF = new ArrayList<Conference>();
-		final Collection<Conference> myConferences = this.conferenceService.getConferencesBetweenSubmissionDeadline(date1, date2);
+		final Collection<Conference> myConferences = this.conferenceService.getConferencesBetweenSubmissionDeadline(date1, date2, adm.getId());
 		for (final Conference conf : myConferences)
 			if (conf.getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())))
 				myConferencesF.add(conf);
@@ -82,6 +85,8 @@ public class ConferenceAdministratorController extends AbstractController {
 	public ModelAndView listNotificationDeadline(@CookieValue(value = "language", required = false) final String lang) {
 		final ModelAndView result = this.listModelAndView();
 
+		final Administrator adm = this.conferenceService.findByPrincipal(LoginService.getPrincipal());
+
 		final Date date1 = new Date();
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
@@ -89,7 +94,7 @@ public class ConferenceAdministratorController extends AbstractController {
 		final Date date2 = calendar.getTime();
 
 		final ArrayList<Conference> myConferencesF = new ArrayList<Conference>();
-		final Collection<Conference> myConferences = this.conferenceService.getConferencesBetweenNotificationDeadline(date1, date2);
+		final Collection<Conference> myConferences = this.conferenceService.getConferencesBetweenNotificationDeadline(date1, date2, adm.getId());
 		for (final Conference conf : myConferences)
 			if (conf.getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())))
 				myConferencesF.add(conf);
@@ -109,6 +114,8 @@ public class ConferenceAdministratorController extends AbstractController {
 	public ModelAndView listCameraReadyDeadline(@CookieValue(value = "language", required = false) final String lang) {
 		final ModelAndView result = this.listModelAndView();
 
+		final Administrator adm = this.conferenceService.findByPrincipal(LoginService.getPrincipal());
+
 		final Date date1 = new Date();
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
@@ -116,7 +123,7 @@ public class ConferenceAdministratorController extends AbstractController {
 		final Date date2 = calendar.getTime();
 
 		final ArrayList<Conference> myConferencesF = new ArrayList<Conference>();
-		final Collection<Conference> myConferences = this.conferenceService.getConferencesBetweenCameraReadyDeadline(date1, date2);
+		final Collection<Conference> myConferences = this.conferenceService.getConferencesBetweenCameraReadyDeadline(date1, date2, adm.getId());
 		for (final Conference conf : myConferences)
 			if (conf.getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())))
 				myConferencesF.add(conf);
@@ -136,6 +143,8 @@ public class ConferenceAdministratorController extends AbstractController {
 	public ModelAndView listNextConference(@CookieValue(value = "language", required = false) final String lang) {
 		final ModelAndView result = this.listModelAndView();
 
+		final Administrator adm = this.conferenceService.findByPrincipal(LoginService.getPrincipal());
+
 		final Date date1 = new Date();
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
@@ -143,7 +152,7 @@ public class ConferenceAdministratorController extends AbstractController {
 		final Date date2 = calendar.getTime();
 
 		final ArrayList<Conference> myConferencesF = new ArrayList<Conference>();
-		final Collection<Conference> myConferences = this.conferenceService.getConferencesBetweenStartDate(date1, date2);
+		final Collection<Conference> myConferences = this.conferenceService.getConferencesBetweenStartDate(date1, date2, adm.getId());
 		for (final Conference conf : myConferences)
 			if (conf.getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())))
 				myConferencesF.add(conf);
@@ -165,7 +174,10 @@ public class ConferenceAdministratorController extends AbstractController {
 
 		final Conference conference = this.conferenceService.findOne(idConference);
 
-		result = new ModelAndView("conference/display");
+		if (!conference.getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())))
+			result = new ModelAndView("redirect:list.do");
+		else
+			result = new ModelAndView("conference/display");
 
 		result.addObject("conference", conference);
 		result.addObject("requestURI", "conference/administrator/display.do?idConference=" + idConference);

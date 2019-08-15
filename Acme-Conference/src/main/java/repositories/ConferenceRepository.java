@@ -32,17 +32,17 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 	@Query("select c from Conference c where c.administrator.id = ?1")
 	Collection<Conference> getYoursConference(final int id);
 
-	@Query("select c from Conference c where c.submissionDeadline between ?2 AND ?1")
-	Collection<Conference> getConferencesBetweenSubmissionDeadline(Date date1, Date date2);
+	@Query("select c from Conference c where c.administrator.id = ?3 and c.submissionDeadline between ?2 AND ?1")
+	Collection<Conference> getConferencesBetweenSubmissionDeadline(Date date1, Date date2, int id);
 
-	@Query("select c from Conference c where c.notificationDeadline between ?2 AND ?1")
-	Collection<Conference> getConferencesBetweenNotificationDeadline(Date date1, Date date2);
+	@Query("select c from Conference c where c.administrator.id = ?3 and c.notificationDeadline between ?2 AND ?1")
+	Collection<Conference> getConferencesBetweenNotificationDeadline(Date date1, Date date2, int id);
 
-	@Query("select c from Conference c where c.cameraReadyDeadline between ?2 AND ?1")
-	Collection<Conference> getConferencesBetweenCameraReadyDeadline(Date date1, Date date2);
+	@Query("select c from Conference c where c.administrator.id = ?3 and c.cameraReadyDeadline between ?2 AND ?1")
+	Collection<Conference> getConferencesBetweenCameraReadyDeadline(Date date1, Date date2, int id);
 
-	@Query("select c from Conference c where c.startDate between ?1 AND ?2")
-	Collection<Conference> getConferencesBetweenStartDate(Date date1, Date date2);
+	@Query("select c from Conference c where c.administrator.id = ?3 and c.startDate between ?1 AND ?2")
+	Collection<Conference> getConferencesBetweenStartDate(Date date1, Date date2, int id);
 
 	@Query("select c from Conference c where c.finalMode = true and c.startDate < ?1")
 	Collection<Conference> getConferencesPast(Date date1);

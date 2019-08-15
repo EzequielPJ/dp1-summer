@@ -71,6 +71,7 @@
 		</select>
 		<form:errors cssClass="error" path="authors" />
 		</p>
+		<jstl:if test="${empty authors}"><strong><spring:message code="activity.authors.no"/></strong></jstl:if>
 		</div>
 		
 		<div id="ready"><p><spring:message code="activity.list.paper"/>:<p>
