@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
 import services.ActivityService;
 import services.ConferenceService;
 import services.SectionService;
 import controllers.AbstractController;
 import domain.Activity;
+import domain.Administrator;
 
 @Controller
 @RequestMapping("/activity/administrator")
@@ -48,9 +50,9 @@ public class ActivityAdministratorController extends AbstractController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam final int idConference) {
 		ModelAndView result;
-		if (this.conferenceService.findOne(idConference).getFinalMode() == false) {
+		if (this.conferenceService.findOne(idConference).getFinalMode() == false)
 			result = new ModelAndView("redirect:../../conference/administrator/list.do");
-		} else {
+		else {
 			final Activity activity = this.activityService.create(idConference);
 			result = this.createEditModelAndView(activity);
 			final Collection<String> colType = new ArrayList<>();
@@ -135,6 +137,13 @@ public class ActivityAdministratorController extends AbstractController {
 		result.addObject("requestURI", "activity/administrator/display.do?idActivity=" + idActivity);
 		result.addObject("url", url);
 		result.addObject("sections", this.sectionService.getSectionByActivity(idActivity));
+
+		try {
+			final Administrator ad = this.conferenceService.findByPrincipal(LoginService.getPrincipal());
+			result.addObject("botton", true);
+		} catch (final Throwable oops) {
+			result.addObject("botton", false);
+		}
 
 		this.configValues(result);
 		return result;

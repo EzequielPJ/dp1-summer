@@ -38,7 +38,9 @@
 			<display:column titleKey="section.list.pictures"><jstl:out value="${section.pictures}"/></display:column>
 				
 </display:table>
+<jstl:if test="${botton}">
 <acme:button url="section/administrator/create.do?idActivity=${activity.id}" type="button" code="section.list.create"/>
+</jstl:if>
 </jstl:if>
 
 <div id="sponsor" style="width: 50px;">

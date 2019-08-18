@@ -255,4 +255,8 @@ public class ConferenceService {
 		return this.conferenceRepository.getConferenceCanBeSubmitted(author.getId());
 	}
 
+	public void flush() {
+		this.conferenceRepository.flush();
+	}
+
 }

@@ -82,4 +82,8 @@ public class SectionService {
 
 	}
 
+	public void flush() {
+		this.sectionRepository.flush();
+	}
+
 }
