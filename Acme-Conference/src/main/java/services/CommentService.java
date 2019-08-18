@@ -87,4 +87,8 @@ public class CommentService {
 		return commentRec;
 	}
 
+	public void flush() {
+		this.commentRepository.flush();
+	}
+
 }

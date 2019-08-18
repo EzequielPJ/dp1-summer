@@ -158,4 +158,8 @@ public class ActivityService {
 		return activityRec;
 	}
 
+	public void flush() {
+		this.activityRepository.flush();
+	}
+
 }
