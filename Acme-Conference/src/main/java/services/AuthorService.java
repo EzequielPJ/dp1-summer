@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import org.springframework.util.Assert;
 import repositories.AuthorRepository;
 import security.UserAccount;
 import utiles.AuthorityMethods;
+import domain.Actor;
 import domain.Author;
 
 @Service
@@ -76,6 +78,21 @@ public class AuthorService {
 
 	public void flush() {
 		this.authorRepository.flush();
+	}
+
+	public Collection<Actor> castToActors(final Collection<Author> authors) {
+		final Collection<Actor> result = new HashSet<>();
+		for (final Author author : authors)
+			result.add(author);
+		return result;
+	}
+
+	public Collection<Author> getAuhtorsWithRegistration() {
+		return this.authorRepository.getAuhtorsWithRegistration();
+	}
+
+	public Collection<Author> getAuhtorsWithSubmission() {
+		return this.authorRepository.getAuhtorsWithSubmission();
 	}
 
 }

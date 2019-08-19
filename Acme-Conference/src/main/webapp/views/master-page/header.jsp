@@ -220,7 +220,7 @@
 		
 		<security:authorize access="isAuthenticated() and not(hasRole('BAN'))">
 			<li>
-				<a class="fNiv" href="messageBox/list.do"><spring:message code="master.page.boxes" /></a>
+				<a class="fNiv" href="message/list.do"><spring:message code="master.page.messages" /></a>
 			</li>
 			<li><a class="fNiv" href="actor/display.do"><spring:message code="master.page.profile" />(<security:authentication property="principal.username" />)</a></li>
 			

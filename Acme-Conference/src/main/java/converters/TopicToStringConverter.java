@@ -5,19 +5,19 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.MessageBox;
+import domain.Topic;
 
 @Component
 @Transactional
-public class MessageBoxToStringConverter implements Converter<MessageBox, String> {
+public class TopicToStringConverter implements Converter<Topic, String> {
 
 	@Override
-	public String convert(final MessageBox messageBox) {
+	public String convert(final Topic topic) {
 		final String result;
-		if (messageBox == null)
+		if (topic == null)
 			result = null;
 		else
-			result = String.valueOf(messageBox.getId());
+			result = String.valueOf(topic.getId());
 		return result;
 	}
 }

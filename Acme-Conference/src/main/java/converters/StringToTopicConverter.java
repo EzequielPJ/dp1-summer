@@ -7,20 +7,20 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import services.MessageBoxService;
-import domain.MessageBox;
+import services.TopicService;
+import domain.Topic;
 
 @Component
 @Transactional
-public class StringToMessageBoxConverter implements Converter<String, MessageBox> {
+public class StringToTopicConverter implements Converter<String, Topic> {
 
 	@Autowired
-	private MessageBoxService	messageBoxService;
+	private TopicService	topicService;
 
 
 	@Override
-	public MessageBox convert(final String text) {
-		final MessageBox result;
+	public Topic convert(final String text) {
+		final Topic result;
 		final int id;
 
 		try {
@@ -28,7 +28,7 @@ public class StringToMessageBoxConverter implements Converter<String, MessageBox
 				result = null;
 			else {
 				id = Integer.valueOf(text);
-				result = this.messageBoxService.findOne(id);
+				result = this.topicService.findOne(id);
 			}
 		} catch (final Throwable oops) {
 			throw new IllegalArgumentException(oops);

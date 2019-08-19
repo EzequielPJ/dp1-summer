@@ -7,26 +7,24 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.persistence.Index;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-@Table(indexes = {
-	@Index(columnList = "sender")
-})
 public class Message extends DomainEntity {
 
 	private Date				moment;
@@ -37,11 +35,12 @@ public class Message extends DomainEntity {
 	private Collection<Topic>	topics;
 	private Actor				sender;
 	private Collection<Actor>	recipients;
-	private Collection<MessageBox> messageBox;
+	private Collection<Actor>	actors;
 
 
+	@NotFound(action = NotFoundAction.IGNORE)
 	@Valid
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	public Actor getSender() {
 		return this.sender;
 	}
@@ -50,8 +49,8 @@ public class Message extends DomainEntity {
 		this.sender = sender;
 	}
 
-	@ManyToMany
-	@NotNull
+	@ManyToMany(fetch = FetchType.EAGER)
+	@NotEmpty
 	@Valid
 	public Collection<Actor> getRecipients() {
 		return this.recipients;
@@ -61,7 +60,17 @@ public class Message extends DomainEntity {
 		this.recipients = recipients;
 	}
 
-	@Past
+	@ManyToMany(fetch = FetchType.EAGER)
+	@NotEmpty
+	@Valid
+	public Collection<Actor> getActors() {
+		return this.actors;
+	}
+
+	public void setActors(final Collection<Actor> actors) {
+		this.actors = actors;
+	}
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
 	@NotNull
@@ -104,15 +113,4 @@ public class Message extends DomainEntity {
 		this.topics = topics;
 	}
 
-	@ManyToMany
-	public Collection<MessageBox> getMessageBox() {
-		return messageBox;
-	}
-
-	
-	public void setMessageBox(Collection<MessageBox> messageBox) {
-		this.messageBox = messageBox;
-	}
-
-	
 }
