@@ -46,6 +46,7 @@ public class MessageController extends AbstractController {
 		if (!actors.contains(actorLogged))
 			result = new ModelAndView("redirect:list.do");
 		else {
+			result.addObject("recipients", this.messageService.getRecipientsOfMessage(idMessage));
 			result.addObject("messageObject", message);
 			result.addObject("actorLogged", actorLogged);
 		}
@@ -63,6 +64,24 @@ public class MessageController extends AbstractController {
 	public ModelAndView list() {
 		final Collection<Message> messagesList = this.messageService.getMessagesOfActorLogged();
 		return this.listModelAndView(messagesList, "message/list.do");
+	}
+
+	@RequestMapping(value = "/listByTopic", method = RequestMethod.GET)
+	public ModelAndView listByTopic(@RequestParam final int idTopic) {
+		final Collection<Message> messagesList = this.messageService.getMessagesOfActorLoggedByTopic(idTopic);
+		return this.listModelAndView(messagesList, "message/listByTopic.do?idTopic=" + idTopic);
+	}
+
+	@RequestMapping(value = "/listBySender", method = RequestMethod.GET)
+	public ModelAndView listBySender(@RequestParam final int idSender) {
+		final Collection<Message> messagesList = this.messageService.getMessagesOfActorLoggedBySender(idSender);
+		return this.listModelAndView(messagesList, "message/listBySender.do?idSender=" + idSender);
+	}
+
+	@RequestMapping(value = "/listByRecipient", method = RequestMethod.GET)
+	public ModelAndView listByRecipient(@RequestParam final int idRecipient) {
+		final Collection<Message> messagesList = this.messageService.getMessagesOfActorLoggedByRecipient(idRecipient);
+		return this.listModelAndView(messagesList, "message/listByRecipient.do?idRecipient=" + idRecipient);
 	}
 
 	@RequestMapping(value = "/send", method = RequestMethod.POST, params = "save")
@@ -126,6 +145,10 @@ public class MessageController extends AbstractController {
 
 		final Actor actorLogged = this.actorService.findByUserAccount(LoginService.getPrincipal());
 		result.addObject("actorLogged", actorLogged);
+
+		result.addObject("recipients", this.messageService.getRecipientsWhoHaveSentMessagesAnActorLogged());
+		result.addObject("senders", this.messageService.getSendersWhoHaveSentMessagesToAnActor());
+		result.addObject("topics", this.messageService.getAllTopicsOfMessagesOfActor());
 
 		super.configValues(result);
 		return result;

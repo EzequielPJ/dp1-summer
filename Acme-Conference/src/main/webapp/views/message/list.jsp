@@ -8,6 +8,66 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="fn"	uri="http://java.sun.com/jsp/jstl/functions"%>
 
+
+<div>
+	<ul id="jMenu">
+	
+		<li>
+			<a class="fNiv" href="message/list.do"><spring:message	code="message.list.all" /></a>
+		</li>
+		
+		<li>
+			<a class="fNiv"><spring:message	code="message.list.byTopic" /></a>
+			<ul>
+				<li class="arrow"></li>
+				<jstl:forEach var="topic" items="${topics}">				
+					<li>
+					<jstl:choose>
+						<jstl:when test="${cookie.language.value == 'es'}">
+							<a href="message/listByTopic.do?idTopic=${topic.id}"><jstl:out value="${topic.topicES}"/></a>
+						</jstl:when>
+						
+						<jstl:otherwise>
+							<a href="message/listByTopic.do?idTopic=${topic.id}"><jstl:out value="${topic.topicEN}"/></a>   
+						</jstl:otherwise>
+					</jstl:choose>
+					</li>
+				</jstl:forEach>
+			</ul>
+		</li>
+		
+		<li>
+			<a class="fNiv"><spring:message	code="message.list.bySender" /></a>
+			<ul>
+				<li class="arrow"></li>
+				<jstl:forEach var="sender" items="${senders}">				
+					<li>
+						<a href="message/listBySender.do?idSender=${sender.id}"><jstl:out value="${sender.email}"/></a>
+			
+					</li>
+				</jstl:forEach>
+			</ul>
+		</li>
+		
+		<li>
+			<a class="fNiv"><spring:message	code="message.list.byRecipient" /></a>
+			<ul>
+				<li class="arrow"></li>
+				<jstl:forEach var="recipient" items="${recipients}">				
+					<li>
+						<a href="message/listByRecipient.do?idRecipient=${recipient.id}"><jstl:out value="${recipient.email}"/></a>
+			
+					</li>
+				</jstl:forEach>
+			</ul>
+		</li>
+	
+	</ul>
+
+</div>
+
+
+
 <acme:button code="message.list.create" type="button" url="message/create.do"/>
 
 <display:table pagesize="5" name="messagesList" id="messageObject" requestURI="${requestURI}">

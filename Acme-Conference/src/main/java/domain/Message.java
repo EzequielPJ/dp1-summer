@@ -16,6 +16,8 @@ import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -36,8 +38,9 @@ public class Message extends DomainEntity {
 	private Collection<Actor>	actors;
 
 
+	@NotFound(action = NotFoundAction.IGNORE)
 	@Valid
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	public Actor getSender() {
 		return this.sender;
 	}
@@ -57,7 +60,7 @@ public class Message extends DomainEntity {
 		this.recipients = recipients;
 	}
 
-	@ManyToMany()
+	@ManyToMany(fetch = FetchType.EAGER)
 	@NotEmpty
 	@Valid
 	public Collection<Actor> getActors() {

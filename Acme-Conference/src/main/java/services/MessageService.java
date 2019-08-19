@@ -68,7 +68,7 @@ public class MessageService {
 
 		Collection<Author> recipients;
 		if (!(utiles.AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR") && !messageForm.getBroadcastType().equals(""))) {
-			if (!(messageForm.getRecipients() == null || messageForm.getRecipients().isEmpty())) {
+			if (!(messageForm.getRecipients() == null || messageForm.getRecipients().isEmpty() || messageForm.getRecipients().contains(null))) {
 				final Collection<Actor> recipientsp = messageForm.getRecipients();
 				message.setRecipients(recipientsp);
 
@@ -132,7 +132,6 @@ public class MessageService {
 		final Collection<Actor> recipients = this.messageRepository.getRecipientsOfMessage(idMessage);
 
 		final Message message = this.getMessage(idMessage);
-		message.setRecipients(recipients);
 		System.out.println("Numero de actores: " + message.getActors().size());
 		final Actor actorLogged = this.actorService.findByUserAccount(LoginService.getPrincipal());
 		Assert.isTrue(message.getActors().contains(actorLogged), "No puede borrar este mensaje porque ya no existe");
@@ -143,6 +142,7 @@ public class MessageService {
 		if (actors.size() == 0)
 			this.messageRepository.delete(message);
 		else {
+			message.setRecipients(recipients);
 			message.setActors(actors);
 			this.messageRepository.save(message);
 		}
@@ -150,6 +150,10 @@ public class MessageService {
 
 	public Collection<Message> findByTopic(final int idTopic) {
 		return this.messageRepository.findByTopic(idTopic);
+	}
+
+	public Collection<Actor> getRecipientsOfMessage(final int idMessage) {
+		return this.messageRepository.getRecipientsOfMessage(idMessage);
 	}
 
 	public void updateMessageWithThisTopic(final Topic topic) {
@@ -168,4 +172,41 @@ public class MessageService {
 		final Collection<Message> messages = this.messageRepository.getMessagesOfActor(actorLogged.getId());
 		return messages;
 	}
+
+	public Collection<Message> getMessagesOfActorLoggedByTopic(final int idTopic) {
+		final Actor actorLogged = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		final Collection<Message> messages = this.messageRepository.getMessagesOfActorByTopic(actorLogged.getId(), idTopic);
+		return messages;
+	}
+
+	public Collection<Message> getMessagesOfActorLoggedBySender(final int idSender) {
+		final Actor actorLogged = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		final Collection<Message> messages = this.messageRepository.getMessagesOfActorBySender(actorLogged.getId(), idSender);
+		return messages;
+	}
+
+	public Collection<Message> getMessagesOfActorLoggedByRecipient(final int idRecipient) {
+		final Actor actorLogged = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		final Collection<Message> messages = this.messageRepository.getMessagesOfActorByRecipient(actorLogged.getId(), idRecipient);
+		return messages;
+	}
+
+	public Collection<Actor> getRecipientsWhoHaveSentMessagesAnActorLogged() {
+		final Actor actorLogged = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		final Collection<Actor> actors = this.messageRepository.getRecipientsWhoHaveSentMessagesAnActor(actorLogged.getId());
+		return actors;
+	}
+
+	public Collection<Actor> getSendersWhoHaveSentMessagesToAnActor() {
+		final Actor actorLogged = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		final Collection<Actor> actors = this.messageRepository.getSendersWhoHaveSentMessagesToAnActor(actorLogged.getId());
+		return actors;
+	}
+
+	public Collection<Topic> getAllTopicsOfMessagesOfActor() {
+		final Actor actorLogged = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		final Collection<Topic> topics = this.messageRepository.getAllTopicsOfMessagesOfActor(actorLogged.getId());
+		return topics;
+	}
+
 }

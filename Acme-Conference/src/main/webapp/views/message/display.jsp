@@ -20,8 +20,8 @@
 <strong><spring:message code="message.display.recipients"/>: </strong>
 <jstl:choose>
 	<jstl:when test="${messageObject.sender eq actorLogged}">
-		<jstl:forEach var="counter" begin="0" end="${fn:length(messageObject.recipients) - 1}">
-			<jstl:out value="${messageObject.recipients.get(counter).email}"/><jstl:if test="${counter != fn:length(messageObject.recipients) - 1}">,</jstl:if>
+		<jstl:forEach var="counter" begin="0" end="${fn:length(recipients) - 1}">
+			<jstl:out value="${recipients.get(counter).email}"/><jstl:if test="${counter != fn:length(recipients) - 1}">,</jstl:if>
 		</jstl:forEach>
 			
 	</jstl:when>
