@@ -15,15 +15,6 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
        
 <tiles-definitions>
-
-	<definition name="actor/displayData" extends="master.page">
-		<put-attribute name="title" value="Settings" />
-		<put-attribute name="body" value="/views/actor/displayData.jsp" />
-	</definition>
-	
-	<definition name="actor/exportData" extends="master.page">
-		<put-attribute name="body" value="/views/actor/exportData.jsp" />
-	</definition>
 	
 	<definition name="actor/display" extends="master.page">
 		<put-attribute name="title" value="Profile" />

@@ -38,7 +38,7 @@ public class Authority implements GrantedAuthority {
 	// Values -----------------------------------------------------------------
 
 	public static final String	ADMINISTRATOR	= "ADMINISTRATOR";
-	public static final String	SPONSOR			= "SPONSOR";
+	public static final String	SPONSOR			= "CONFERENCESPONSOR";
 	public static final String	REVIEWER		= "REVIEWER";
 	public static final String	AUTHOR			= "AUTHOR";
 

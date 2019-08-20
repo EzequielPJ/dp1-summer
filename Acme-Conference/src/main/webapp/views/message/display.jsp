@@ -33,7 +33,7 @@
 
 <acme:text label="message.display.body" value="${messageObject.body}"/>
 
-<spring:message code="message.display.topics"/>
+<strong><spring:message code="message.display.topics"/>: </strong>
 <jstl:forEach var="topic" items="${messageObject.topics}">
 	<jstl:choose>
 		<jstl:when test="${cookie.language.value == 'es'}">

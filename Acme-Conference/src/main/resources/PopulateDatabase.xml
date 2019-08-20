@@ -515,7 +515,7 @@
         <property name="authorities">
             <list>
                 <bean class="security.Authority">
-                    <property name="authority" value="SPONSOR" />
+                    <property name="authority" value="CONFERENCESPONSOR" />
                 </bean>
             </list>
         </property>
@@ -527,7 +527,7 @@
         <property name="authorities">
             <list>
                 <bean class="security.Authority">
-                    <property name="authority" value="SPONSOR" />
+                    <property name="authority" value="CONFERENCESPONSOR" />
                 </bean>
             </list>
         </property>

@@ -11,6 +11,12 @@
 
 <acme:cancel url="${url}" code="conference.display.back"/> 
 
+<security:authorize access="hasRole('AUTHOR')">
+	<jstl:if test="${avaliable }">
+		<acme:button url="registration/author/create.do?conferenceId=${conference.id}" type="button" code="conference.list.register"/>
+	</jstl:if>
+</security:authorize>
+
 <acme:text label="conference.list.title" value="${conference.title}"/>
 <acme:text label="conference.list.acronym" value="${conference.acronym}"/>
 <acme:text label="conference.list.venue" value="${conference.venue}"/>

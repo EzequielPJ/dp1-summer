@@ -16,15 +16,15 @@
    		 <acme:textarea code="message.create.body" path="body"/>
    	</p>
    	
-   	<acme:select items="${actors}" itemLabel="email" code="message.create.recipients" path="recipients" optional="false"/>
+   	<acme:select items="${actors}" itemLabel="email" code="message.create.recipients" path="recipients" optional="false" />
    	
    	<jstl:choose>
 		<jstl:when test="${cookie.language.value == 'es'}">       
-   			<acme:select items="${topics}" itemLabel="topicEN" code="message.create.topics" path="topics"/>
+   			<acme:select items="${topics}" itemLabel="topicES" code="message.create.topics" path="topics" optional="false" />
 		</jstl:when>
 		
 		<jstl:otherwise>
-			<acme:select items="${topics}" itemLabel="topicES" code="message.create.topics" path="topics"/>
+			<acme:select items="${topics}" itemLabel="topicEN" code="message.create.topics" path="topics" optional="false" />
 		</jstl:otherwise>
 	</jstl:choose>
    	

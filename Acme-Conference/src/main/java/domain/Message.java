@@ -105,6 +105,7 @@ public class Message extends DomainEntity {
 
 	@Valid
 	@ManyToMany
+	@NotEmpty
 	public Collection<Topic> getTopics() {
 		return this.topics;
 	}
