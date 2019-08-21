@@ -96,13 +96,7 @@
 	
 		
 		<li>
-			<a class="fNiv"><spring:message	code="master.page.list.AllConferences" /></a>
-			<ul>
-				<li class="arrow"></li>
-				<li>
-					<a href="search/display.do"><spring:message code="master.page.search.display" /></a>
-				</li>
-			</ul>
+			<a class="fNiv" href="search/display.do"><spring:message	code="master.page.search.display" /></a>
 		</li>
 		
 		<security:authorize access="hasRole('REVIEWER')">
@@ -185,7 +179,7 @@
 			</li>
 		</security:authorize>	
 				
-		<security:authorize access="hasRole('SPONSOR')">
+		<security:authorize access="hasRole('CONFERENCESPONSOR')">
 			<li>
 				<a class="fNiv" href="sponsorship/sponsor/list.do"><spring:message code="master.page.mySponsorships" /></a>
 			</li>

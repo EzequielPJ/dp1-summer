@@ -18,7 +18,6 @@
 			<display:column titleKey="activity.list.duration"><jstl:out value="${activity.duration}"/>h</display:column>
 			<display:column titleKey="activity.list.room"><jstl:out value="${activity.room}"/></display:column>
 			<display:column titleKey="activity.list.summary"><jstl:out value="${activity.summary}"/></display:column>
-			<display:column titleKey="activity.list.attachments"><jstl:out value="${activity.attachments}"/></display:column>
 
 				<display:column titleKey="activity.list.seeMore">
 					<acme:button url="activity/administrator/display.do?idActivity=${activity.id}&url=${requestURI}" type="button" code="activity.list.seeMore"/>

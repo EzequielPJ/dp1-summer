@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,6 +18,7 @@ import org.springframework.validation.Validator;
 import repositories.SponsorshipRepository;
 import security.LoginService;
 import utiles.ValidateCreditCard;
+import domain.Conference;
 import domain.CreditCard;
 import domain.Sponsorship;
 
@@ -31,6 +33,9 @@ public class SponsorshipService {
 	private ConferenceSponsorService	sponsorService;
 
 	@Autowired
+	private ConferenceService			conferenceService;
+
+	@Autowired
 	private Validator					validator;
 
 
@@ -39,8 +44,10 @@ public class SponsorshipService {
 	}
 
 	public void save(final Sponsorship sponsorship) {
+		if (sponsorship.getConferences() == null)
+			sponsorship.setConferences(new ArrayList<Conference>());
 		Assert.isTrue(LoginService.getPrincipal().equals(sponsorship.getConferenceSponsor().getUserAccount()));
-
+		Assert.isTrue(this.conferenceService.getConferencesFinalMode().containsAll(sponsorship.getConferences()));
 		Assert.isTrue(!ValidateCreditCard.isCaducate(sponsorship.getCreditCard()));
 
 		this.sponsorshipRepository.save(sponsorship);

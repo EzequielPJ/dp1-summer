@@ -138,7 +138,7 @@ public class ActivityService {
 			}
 		}
 
-		if (activityRec.getDuration() == 0)
+		if (activityRec.getDuration() == null)
 			binding.rejectValue("duration", "activity.duration.bad");
 		if (!activity.getType().equals("PRESENTATION"))
 			if (activityRec.getAuthors() == null)

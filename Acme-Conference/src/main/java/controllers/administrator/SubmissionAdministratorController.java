@@ -115,7 +115,7 @@ public class SubmissionAdministratorController extends AbstractController {
 
 	//TODO: ADD CONFERENCE
 	protected ModelAndView displayModelAndView(final Submission submission, final String message) {
-		final ModelAndView result = new ModelAndView();
+		final ModelAndView result = new ModelAndView("submission/display");
 		result.addObject("submission", submission);
 		final Paper nonCameraReadyVersion = this.paperService.getPaperNonCamerReadyVersionOfSubmission(submission.getId());
 		final Paper cameraReadyVersion = this.paperService.getPaperCamerReadyVersionOfSubmission(submission.getId());

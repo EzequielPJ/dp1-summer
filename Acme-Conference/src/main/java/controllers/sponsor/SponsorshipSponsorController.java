@@ -76,9 +76,8 @@ public class SponsorshipSponsorController extends AbstractController {
 	public ModelAndView delete(@RequestParam final int idSponsorship) {
 		ModelAndView result;
 
-		final Sponsorship sponsorship = this.sponsorshipService.findOne(idSponsorship);
-
 		try {
+			final Sponsorship sponsorship = this.sponsorshipService.findOne(idSponsorship);
 			Assert.notNull(sponsorship);
 			this.sponsorshipService.delete(sponsorship);
 			result = new ModelAndView("redirect:list.do");
@@ -150,7 +149,7 @@ public class SponsorshipSponsorController extends AbstractController {
 		result = new ModelAndView("sponsorship/edit");
 
 		result.addObject("sponsorship", sponsorship);
-		result.addObject("conferences", this.conferenceService.findAll());
+		result.addObject("conferences", this.conferenceService.getConferencesFinalMode());
 		result.addObject("makers", this.adminConfigService.getAdminConfig().getCreditCardMakes());
 		result.addObject("message", messageCode);
 

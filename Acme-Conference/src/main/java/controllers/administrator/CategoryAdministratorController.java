@@ -87,7 +87,7 @@ public class CategoryAdministratorController extends AbstractController {
 	protected ModelAndView listModelAndView(final String message) {
 		final ModelAndView result = new ModelAndView("category/list");
 
-		final Collection<Category> categories = this.categoryService.findAllMinusCONFERENCE();
+		final Collection<Category> categories = this.categoryService.findAll();
 		result.addObject("categories", categories);
 		result.addObject("requestURI", "/category/administrator/list.do");
 		result.addObject("message", message);

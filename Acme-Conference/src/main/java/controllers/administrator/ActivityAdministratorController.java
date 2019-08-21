@@ -87,6 +87,7 @@ public class ActivityAdministratorController extends AbstractController {
 			result.addObject("papers", this.activityService.getPapersInCameraReadyFromConference(activity.getConference().getId()));
 			result.addObject("idConference", activity.getConference().getId());
 		} catch (final Throwable oops) {
+			oops.printStackTrace();
 			result = this.createEditModelAndView(activity, "activity.edit.commit.error");
 		}
 		return result;

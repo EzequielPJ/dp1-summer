@@ -45,7 +45,7 @@
 		<security:intercept-url pattern="/category/administrator/**" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/topic/administrator/**" access="hasRole('ADMINISTRATOR')" />
 		
-		<security:intercept-url pattern="/sponsorship/sponsor/**" access="hasRole('SPONSOR')" />
+		<security:intercept-url pattern="/sponsorship/sponsor/**" access="hasRole('CONFERENCESPONSOR')" />
 		
 		<!-- Conference -->
 		

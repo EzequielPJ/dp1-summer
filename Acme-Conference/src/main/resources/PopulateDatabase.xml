@@ -1104,8 +1104,8 @@
 	</bean>
 	
 	<bean id="sponsorship1" class="domain.Sponsorship">
-		<property name="bannerURL" value="https://contents.mediadecathlon.com/s719549/k$fd3f50b8bd18127fbbe9659a4f091c94/s48_CONT_02_encuentra-tu-tienda.jpg?f=650x650" />
-		<property name="targetURL" value="https://www.decathlon.es/es/store-locator" />
+		<property name="bannerURL" value="https://www.cocacola.es/content/dam/GO/CokeZone/Spain/highlights/coca-cola-800x654px.jpg" />
+		<property name="targetURL" value="https://www.cocacola.es/es/productos-coca-cola/#cocacola/" />
 		<property name="creditCard" ref="creditcard1" />
 		<property name="conferenceSponsor" ref="sponsor1" />
 		<property name="conferences" ref="conference0" />
@@ -1146,6 +1146,11 @@
             <ref bean="admin" />
             </list>
         </property>
+        <property name="topics">
+            <list>
+	            <ref bean="topic1"/>
+            </list>
+        </property>
         <property name="actors">
             <list>
             <ref bean="author0" />
@@ -1162,6 +1167,11 @@
         <property name="recipients">
             <list>
             <ref bean="admin" />
+            </list>
+        </property>
+         <property name="topics">
+            <list>
+	            <ref bean="topic0"/>
             </list>
         </property>
         <property name="actors">
