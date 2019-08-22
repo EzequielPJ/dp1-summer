@@ -18,11 +18,11 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
+import utiles.AddPhoneCC;
 import utiles.AuthorityMethods;
 import utiles.EmailValidator;
-import utiles.ValidateCreditCard;
 import domain.ConferenceSponsor;
-import forms.SponsorForm;
+import forms.ConferenceSponsorForm;
 
 @Service
 @Transactional
@@ -33,6 +33,9 @@ public class ConferenceSponsorService {
 
 	@Autowired
 	private UserAccountRepository		accountRepository;
+
+	@Autowired
+	private AdminConfigService			adminConfigService;
 
 	@Autowired
 	private Validator					validator;
@@ -89,7 +92,7 @@ public class ConferenceSponsorService {
 		return this.sponsorRepository.findAll();
 	}
 
-	public ConferenceSponsor reconstruct(final SponsorForm sponsorForm, final BindingResult binding) {
+	public ConferenceSponsor reconstruct(final ConferenceSponsorForm sponsorForm, final BindingResult binding) {
 
 		if (!EmailValidator.validateEmail(sponsorForm.getEmail(), Authority.SPONSOR))
 			binding.rejectValue("email", "sponsor.edit.email.error");
@@ -99,10 +102,6 @@ public class ConferenceSponsorService {
 			binding.rejectValue("userAccount.username", "sponsor.edit.userAccount.username.error");
 		if (!sponsorForm.getTermsAndConditions())
 			binding.rejectValue("termsAndConditions", "sponsor.edit.termsAndConditions.error");
-
-		sponsorForm.setCreditCard(ValidateCreditCard.checkNumeroAnno(sponsorForm.getCreditCard()));
-		ValidateCreditCard.checkGregorianDate(sponsorForm.getCreditCard(), binding);
-		//ValidateCreditCard.checkMakeCreditCard(sponsorForm.getCreditCard(), this.adminConfigService.getAdminConfig().getCreditCardMakes(), binding);
 
 		final ConferenceSponsor result;
 		result = this.create();
@@ -117,7 +116,7 @@ public class ConferenceSponsorService {
 		result.setAddress(sponsorForm.getAddress());
 		result.setEmail(sponsorForm.getEmail());
 		result.setName(sponsorForm.getName());
-		//result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), sponsorForm.getPhoneNumber()));
+		result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), sponsorForm.getPhoneNumber()));
 		result.setPhotoURL(sponsorForm.getPhotoURL());
 		result.setSurname(sponsorForm.getSurname());
 
@@ -140,7 +139,7 @@ public class ConferenceSponsorService {
 		result.setAddress(sponsor.getAddress());
 		result.setEmail(sponsor.getEmail());
 		result.setName(sponsor.getName());
-		//result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), sponsor.getPhoneNumber()));
+		result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), sponsor.getPhoneNumber()));
 		result.setPhotoURL(sponsor.getPhotoURL());
 		result.setSurname(sponsor.getSurname());
 		this.validator.validate(result, binding);

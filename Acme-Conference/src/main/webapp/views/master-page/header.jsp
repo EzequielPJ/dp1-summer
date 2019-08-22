@@ -31,9 +31,6 @@
 					<li>
 						<a href="administrator/administrator/register.do"><spring:message code="master.page.register.administrator" /></a>
 					</li>
-					<li>
-						<a href="reviewer/administrator/register.do"><spring:message code="master.page.register.reviewer" /></a>
-					</li>
 				</ul>
 			</li>
 			<li>
@@ -55,6 +52,9 @@
 					<li>
 						<a href="conference/administrator/listNextConference.do"><spring:message code="master.page.administrator.listNextConference" /></a>
 					</li>
+					<li>
+						<a href="conference/administrator/create.do"><spring:message code="master.page.administrator.create" /></a>
+					</li>
 				</ul>
 			</li>
 		</security:authorize>
@@ -69,6 +69,10 @@
 					</li>
 					<li>
 						<a href="conferenceSponsor/register.do"><spring:message code="master.page.register.conferenceSponsor" /></a>
+					</li>
+					
+					<li>
+						<a href="reviewer/register.do"><spring:message code="master.page.register.reviewer" /></a>
 					</li>
 				</ul>
 		</li>
@@ -93,7 +97,7 @@
 	
 		
 		<li>
-			<a class="fNiv" href="search/display.do"><spring:message	code="master.page.search.display" /></a>
+			<a class="fNiv"><spring:message	code="master.page.list.AllConferences" /></a>
 		</li>
 		
 		<security:authorize access="hasRole('REVIEWER')">

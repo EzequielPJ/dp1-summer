@@ -18,6 +18,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
+import utiles.AddPhoneCC;
 import utiles.AuthorityMethods;
 import utiles.EmailValidator;
 import domain.Administrator;
@@ -32,6 +33,9 @@ public class AdministratorService {
 
 	@Autowired
 	private UserAccountRepository	accountRepository;
+
+	@Autowired
+	private AdminConfigService		adminConfigService;
 
 	@Autowired
 	private Validator				validator;
@@ -99,7 +103,7 @@ public class AdministratorService {
 		result.setAddress(adminForm.getAddress());
 		result.setEmail(adminForm.getEmail());
 		result.setName(adminForm.getName());
-		//result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), adminForm.getPhoneNumber()));
+		result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), adminForm.getPhoneNumber()));
 		result.setPhotoURL(adminForm.getPhotoURL());
 
 		result.setSurname(adminForm.getSurname());
@@ -120,7 +124,7 @@ public class AdministratorService {
 		result.setAddress(admin.getAddress());
 		result.setEmail(admin.getEmail());
 		result.setName(admin.getName());
-		//result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), admin.getPhoneNumber()));
+		result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), admin.getPhoneNumber()));
 		result.setPhotoURL(admin.getPhotoURL());
 		result.setSurname(admin.getSurname());
 
