@@ -678,6 +678,7 @@
             <list>
             <value>ingeniería</value>
             <value>casa</value>
+            <value>MySQL</value>
             </list>
         </property> 
     </bean>
@@ -695,7 +696,7 @@
         <property name="userAccount" ref="userAccount6" />
          <property name="expertiseKeywordsList">
             <list>
-            <value>ingeniería</value>
+          	  <value>ingeniería</value>
             </list>
         </property> 
      </bean>
@@ -929,6 +930,22 @@
         <property name="category" ref="category6" />
     </bean>
     
+    <bean class="domain.Conference" id="conference2">
+        <property name="title" value="Introducción al manejo de bases de datos" />
+        <property name="acronym" value="IMBD" />
+        <property name="venue" value="address 80"/>
+        <property name="submissionDeadline" value="04/18/2019"/>
+        <property name="notificationDeadline" value="11/19/2019"/>
+        <property name="cameraReadyDeadline" value="11/20/2019"/>
+        <property name="startDate" value="12/25/2019"/>
+        <property name="endDate" value="12/29/2019"/>
+        <property name="summary" value="Aprende el manejo básico de una base de datos con MySQL"/>
+        <property name="fee" value="32"/>
+        <property name="finalMode" value="true"/>
+        <property name="administrator" ref="admin" />
+        <property name="category" ref="category6" />
+    </bean>
+    
     <!-- Activity (conference0) -->
     
     <bean class="domain.Activity" id="activity0">
@@ -1038,6 +1055,20 @@
         <property name="author" ref="author0" />     
     </bean>
     
+    <bean class="domain.Submission" id="submission2">
+        <property name="moment" value="06/17/2018" />
+        <property name="status" value="ACCEPTED" />
+        <property name="conference" ref="conference2" />
+        <property name="reviewers">
+            <list>
+            <ref bean="reviewer0" />
+            <ref bean="reviewer1" />
+            </list>
+        </property>
+        <property name="ticker" ref="ticker2" /> 
+        <property name="author" ref="author0" />     
+    </bean>
+    
      <!-- Submission (author1) -->
     
     <bean class="domain.Submission" id="submission1">
@@ -1049,6 +1080,32 @@
             </list>
         </property>
         <property name="ticker" ref="ticker1" /> 
+        <property name="author" ref="author1" />     
+    </bean>
+
+    <bean class="domain.Submission" id="submission3">
+        <property name="moment" value="06/18/2018" />
+        <property name="status" value="ACCEPTED" />
+        <property name="conference" ref="conference2" />
+        <property name="reviewers">
+            <list>
+            <ref bean="reviewer0" />
+            <ref bean="reviewer1" />
+            </list>
+        </property>
+        <property name="ticker" ref="ticker3" /> 
+        <property name="author" ref="author1" />     
+    </bean>
+    
+ 	<bean class="domain.Submission" id="submission4">
+        <property name="moment" value="06/18/2018" />
+        <property name="status" value="UNDER-REVIEW" />
+        <property name="conference" ref="conference2" />
+        <property name="reviewers">
+            <list>
+            </list>
+        </property>
+        <property name="ticker" ref="ticker4" /> 
         <property name="author" ref="author1" />     
     </bean>
     
@@ -1071,6 +1128,24 @@
         </property>
         <property name="submission" ref="submission0" />
     </bean>
+
+    <bean class="domain.Paper" id="paper2">
+        <property name="title" value="Bases de datos" />
+        <property name="aliases">
+            <list>
+            <value>aliases</value>
+            </list>
+        </property>  
+        <property name="summary" value="Introducción al manejo de MySQL" />
+        <property name="documentUrl" value="http://www.paper.com" />
+        <property name="cameraReadyPaper" value="true" />
+        <property name="authors">
+            <list>
+            <ref bean="author0" />
+            </list>
+        </property>
+        <property name="submission" ref="submission2" />
+    </bean>
     
     <!-- Paper (author1) -->
     
@@ -1092,6 +1167,41 @@
         <property name="submission" ref="submission1" />
     </bean>
     
+      <bean class="domain.Paper" id="paper3">
+        <property name="title" value="Bases de datos" />
+        <property name="aliases">
+            <list>
+            </list>
+        </property>  
+        <property name="summary" value="Introducción a Oracle Database" />
+        <property name="documentUrl" value="http://www.paper.com" />
+        <property name="cameraReadyPaper" value="true" />
+        <property name="authors">
+            <list>
+            <ref bean="author1" />
+            </list>
+        </property>
+        <property name="submission" ref="submission3" />
+    </bean>
+    
+      <bean class="domain.Paper" id="paper4">
+        <property name="title" value="Programación desde cero" />
+        <property name="aliases">
+            <list>
+            <value>aliases</value>
+            </list>
+        </property>  
+        <property name="summary" value="Primeras nociones de programación en Java" />
+        <property name="documentUrl" value="http://www.paper.com" />
+        <property name="cameraReadyPaper" value="false" />
+        <property name="authors">
+            <list>
+            <ref bean="author1" />
+            </list>
+        </property>
+        <property name="submission" ref="submission4" />
+    </bean>
+    
     <!-- Ticker -->
     
     <bean class="domain.Ticker" id="ticker0">
@@ -1100,6 +1210,18 @@
     
      <bean class="domain.Ticker" id="ticker1">
         <property value="AJT-AN7D" name="identifier" />
+    </bean>
+    
+    <bean class="domain.Ticker" id="ticker2">
+        <property value="ASJ-A124" name="identifier" />
+    </bean>
+    
+     <bean class="domain.Ticker" id="ticker3">
+        <property value="AJT-AN43" name="identifier" />
+    </bean>
+    
+    <bean class="domain.Ticker" id="ticker4">
+        <property value="AJT-GF7D" name="identifier" />
     </bean>
     
     <!-- Sponsorships -->
