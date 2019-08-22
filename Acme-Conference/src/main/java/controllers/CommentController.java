@@ -87,16 +87,19 @@ public class CommentController extends AbstractController {
 	public ModelAndView save(final Comment comment, final BindingResult binding) {
 		ModelAndView result = null;
 		try {
-			final Comment commentRect = this.commentService.reconstruct(comment, binding);
-			this.commentService.save(commentRect);
+			if (comment.getId() != 0)
+				result = this.createEditModelAndView(comment);
+			else {
+				final Comment commentRect = this.commentService.reconstruct(comment, binding);
+				this.commentService.save(commentRect);
 
-			Integer i;
-			if (commentRect.getActivity() != null)
-				i = commentRect.getActivity().getId();
-			else
-				i = commentRect.getConference().getId();
-			//				result = new ModelAndView("redirect:../conference/display.do?idConference" + i + "&url=conference/list.do");
-			result = new ModelAndView("redirect:list.do?idEntity=" + i);
+				Integer i;
+				if (commentRect.getActivity() != null)
+					i = commentRect.getActivity().getId();
+				else
+					i = commentRect.getConference().getId();
+				result = new ModelAndView("redirect:list.do?idEntity=" + i);
+			}
 		} catch (final ValidationException oops) {
 			result = this.createEditModelAndView(comment);
 		} catch (final Throwable oops) {

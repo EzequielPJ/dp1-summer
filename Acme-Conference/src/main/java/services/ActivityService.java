@@ -16,7 +16,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.ActivityRepository;
+import security.LoginService;
 import utiles.AuthorityMethods;
+import utiles.ValidateCollectionURL;
 import domain.Activity;
 import domain.Author;
 import domain.Paper;
@@ -91,11 +93,13 @@ public class ActivityService {
 
 	public Activity save(final Activity activity) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		Assert.isTrue(activity.getConference().getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())));
 		return this.activityRepository.save(activity);
 	}
 
 	public void delete(final int id) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		Assert.isTrue(this.activityRepository.findOne(id).getConference().getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())));
 		final Activity ac = this.activityRepository.findOne(id);
 		if (ac.getType().equals("TUTORIAL")) {
 			final Collection<Section> col = this.activityRepository.getSectionsByActivity(id);
@@ -138,6 +142,13 @@ public class ActivityService {
 			}
 		}
 
+		ValidateCollectionURL.deleteURLBlanksInCollection(activityRec.getAttachments());
+		if (!ValidateCollectionURL.validateURLCollection(activityRec.getAttachments()))
+			binding.rejectValue("attachments", "activity.attachments.nourl");
+		if (!activity.getType().equals("PRESENTATION"))
+			for (final Author au : activityRec.getAuthors())
+				if (this.activityRepository.getAuthorsWithSubmissionAcceptedInConference(activity.getConference().getId()).contains(au) == false)
+					binding.rejectValue("authors", "activity.authors.badAuthor");
 		if (activityRec.getDuration() == null)
 			binding.rejectValue("duration", "activity.duration.bad");
 		if (!activity.getType().equals("PRESENTATION"))

@@ -32,6 +32,9 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 	@Query("select c from Conference c where c.administrator.id = ?1")
 	Collection<Conference> getYoursConference(final int id);
 
+	@Query("select c from Conference c join c.category a where c.administrator.id = ?1 and a.id = ?2")
+	Collection<Conference> getYoursConferenceByCategory(final int id, final int idCategory);
+
 	@Query("select c from Conference c where c.administrator.id = ?3 and c.submissionDeadline between ?2 AND ?1")
 	Collection<Conference> getConferencesBetweenSubmissionDeadline(Date date1, Date date2, int id);
 

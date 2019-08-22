@@ -917,9 +917,9 @@
         <property name="title" value="Videojuegos con la informática" />
         <property name="acronym" value="VI" />
         <property name="venue" value="address 66"/>
-        <property name="submissionDeadline" value="09/18/2019"/>
-        <property name="notificationDeadline" value="09/19/2019"/>
-        <property name="cameraReadyDeadline" value="09/20/2019"/>
+        <property name="submissionDeadline" value="07/18/2019"/>
+        <property name="notificationDeadline" value="07/19/2019"/>
+        <property name="cameraReadyDeadline" value="07/20/2019"/>
         <property name="startDate" value="07/25/2019"/>
         <property name="endDate" value="07/29/2019"/>
         <property name="summary" value="Aprende a crear videojuegos"/>
@@ -932,7 +932,7 @@
     <!-- Activity (conference0) -->
     
     <bean class="domain.Activity" id="activity0">
-        <property name="type" value="PRESENTATION" />
+        <property name="type" value="PANEL" />
         <property name="title" value="charla sobre software" />
         <property name="startMoment" value="10/06/2018" />
         <property name="duration" value="60" />
@@ -940,11 +940,15 @@
         <property name="summary" value="charla didactica" />
         <property name="attachments">
             <list>
-            <value>attachments</value>
+            <value>http://www.prueba.com</value>
             </list>
         </property>
-        <property name="paper" ref="paper0" />
-        <property name="conference" ref="conference0" />         
+        <property name="conference" ref="conference0" />
+        <property name="authors">
+            <list>
+             <ref bean="author0" />
+            </list>
+        </property>     
     </bean>
     
     <bean class="domain.Activity" id="activity1">
@@ -956,10 +960,15 @@
         <property name="summary" value="tutorial para empezar" />
         <property name="attachments">
             <list>
-            <value>attachments</value>
+            <value>http://www.prueba.com</value>
             </list>
         </property>
-        <property name="conference" ref="conference0" />         
+        <property name="conference" ref="conference0" />
+        <property name="authors">
+            <list>
+            <ref bean="author0" />
+            </list>
+        </property>      
     </bean>
     
     <!-- Section (activity0) -->
