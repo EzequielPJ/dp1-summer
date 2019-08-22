@@ -45,11 +45,28 @@ public class ConferenceAdministratorController extends AbstractController {
 		final Collection<Conference> myConferences = this.conferenceService.getYoursConference(this.conferenceService.findByPrincipal(LoginService.getPrincipal()).getId());
 		result.addObject("conferences", myConferences);
 		result.addObject("requestURI", "conference/administrator/list.do");
+		result.addObject("categories", this.categoryService.findAll());
+		result.addObject("sel", true);
 		if (lang == null)
 			result.addObject("lang", "en");
 		else
 			result.addObject("lang", lang);
 
+		return result;
+	}
+
+	@RequestMapping(value = "/listByCategory", method = RequestMethod.GET)
+	public ModelAndView listByCatgeory(@RequestParam final int idCategory, @CookieValue(value = "language", required = false) final String lang) {
+		final ModelAndView result = this.listModelAndView();
+		final Collection<Conference> conferenceList = this.conferenceService.getYoursConferenceByCategory(this.conferenceService.findByPrincipal(LoginService.getPrincipal()).getId(), idCategory);
+		result.addObject("conferences", conferenceList);
+		result.addObject("requestURI", "conference/administrator/listByCategory.do?idCategory=" + idCategory);
+		result.addObject("categories", this.categoryService.findAll());
+		result.addObject("sel", true);
+		if (lang == null)
+			result.addObject("lang", "en");
+		else
+			result.addObject("lang", lang);
 		return result;
 	}
 

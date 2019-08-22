@@ -97,18 +97,22 @@ public class ActivityAdministratorController extends AbstractController {
 	public ModelAndView edit(@RequestParam(required = true) final int idActivity) {
 		ModelAndView result;
 
-		final Activity act = this.activityService.findOne(idActivity);
-		final Collection<String> colType = new ArrayList<>();
-		colType.add("TUTORIAL");
-		colType.add("PANEL");
-		colType.add("PRESENTATION");
-		result = this.createEditModelAndView(act);
+		if (!this.activityService.findOne(idActivity).getConference().getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())))
+			result = this.listModelAndView("security.error.accessDenied");
+		else {
+			final Activity act = this.activityService.findOne(idActivity);
+			final Collection<String> colType = new ArrayList<>();
+			colType.add("TUTORIAL");
+			colType.add("PANEL");
+			colType.add("PRESENTATION");
+			result = this.createEditModelAndView(act);
 
-		result.addObject("typ", act.getType());
-		result.addObject("typeList", colType);
-		result.addObject("authors", this.activityService.getAuthorsWithSubmissionAcceptedInConference(act.getConference().getId()));
-		result.addObject("papers", this.activityService.getPapersInCameraReadyFromConference(act.getConference().getId()));
-		result.addObject("idConference", act.getConference().getId());
+			result.addObject("typ", act.getType());
+			result.addObject("typeList", colType);
+			result.addObject("authors", this.activityService.getAuthorsWithSubmissionAcceptedInConference(act.getConference().getId()));
+			result.addObject("papers", this.activityService.getPapersInCameraReadyFromConference(act.getConference().getId()));
+			result.addObject("idConference", act.getConference().getId());
+		}
 		return result;
 	}
 
@@ -116,9 +120,13 @@ public class ActivityAdministratorController extends AbstractController {
 	public ModelAndView delete(@RequestParam(required = true) final int idActivity) {
 		ModelAndView result;
 		try {
-			final Integer a = this.activityService.findOne(idActivity).getConference().getId();
-			this.activityService.delete(idActivity);
-			result = new ModelAndView("redirect:list.do?idConference=" + a);
+			if (!this.activityService.findOne(idActivity).getConference().getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())))
+				result = this.listModelAndView("security.error.accessDenied");
+			else {
+				final Integer a = this.activityService.findOne(idActivity).getConference().getId();
+				this.activityService.delete(idActivity);
+				result = new ModelAndView("redirect:list.do?idConference=" + a);
+			}
 		} catch (final Throwable oops) {
 			final Integer a = this.activityService.findOne(idActivity).getConference().getId();
 			result = new ModelAndView("redirect:list.do?idConference=" + a);

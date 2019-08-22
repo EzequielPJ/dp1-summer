@@ -73,6 +73,10 @@ public class ConferenceService {
 		return this.conferenceRepository.getYoursConference(id);
 	}
 
+	public Collection<Conference> getYoursConferenceByCategory(final int id, final int idCategory) {
+		return this.conferenceRepository.getYoursConferenceByCategory(id, idCategory);
+	}
+
 	public Collection<Conference> getConferencesBetweenSubmissionDeadline(final Date date1, final Date date2, final int id) {
 		return this.conferenceRepository.getConferencesBetweenSubmissionDeadline(date1, date2, id);
 	}

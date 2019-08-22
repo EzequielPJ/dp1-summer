@@ -55,9 +55,6 @@
 					<li>
 						<a href="conference/administrator/listNextConference.do"><spring:message code="master.page.administrator.listNextConference" /></a>
 					</li>
-					<li>
-						<a href="conference/administrator/create.do"><spring:message code="master.page.administrator.create" /></a>
-					</li>
 				</ul>
 			</li>
 		</security:authorize>
