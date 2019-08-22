@@ -45,7 +45,7 @@
 		<security:intercept-url pattern="/category/administrator/**" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/topic/administrator/**" access="hasRole('ADMINISTRATOR')" />
 		
-		<security:intercept-url pattern="/sponsorship/sponsor/**" access="hasRole('CONFERENCESPONSOR')" />
+		<security:intercept-url pattern="/sponsorship/sponsor/**" access="hasRole('SPONSOR')" />
 		
 		<!-- Conference -->
 		
@@ -94,19 +94,19 @@
 		<!--  -->
 		
 		<security:intercept-url pattern="/actor/**" access="hasAnyRole('AUTHOR','REVIEWER','ADMINISTRATOR','CONFERENCESPONSOR')" />
-		<security:intercept-url pattern="/auhtor/register.do" access="permitAll" />
-		<security:intercept-url pattern="/administrator/administrator/register.do" access="permitAll" />
-		<security:intercept-url pattern="/reviewer/administrator/register.do" access="permitAll" />
+		<security:intercept-url pattern="/author/register.do" access="permitAll" />
+		<security:intercept-url pattern="/administrator/administrator/register.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/reviewer/register.do" access="permitAll" />
 		<security:intercept-url pattern="/conferenceSponsor/register.do" access="permitAll" />
 		
-		<security:intercept-url pattern="/auhtor/save.do" access="permitAll" />
-		<security:intercept-url pattern="/administrator/administrator/save.do" access="permitAll" />
-		<security:intercept-url pattern="/reviewer/administrator/save.do" access="permitAll" />
+		<security:intercept-url pattern="/author/save.do" access="permitAll" />
+		<security:intercept-url pattern="/administrator/administrator/save.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/reviewer/save.do" access="permitAll" />
 		<security:intercept-url pattern="/conferenceSponsor/save.do" access="permitAll" />
 		
-		<security:intercept-url pattern="/auhtor/auhtor/save.do" access="permitAll" />
-		<security:intercept-url pattern="/reviewer/reviewer/save.do" access="permitAll" />
-		<security:intercept-url pattern="/conferenceSponsor/conferenceSponsor/save.do" access="permitAll" />
+		<security:intercept-url pattern="/author/author/save.do" access="hasRole('AUTHOR')" />
+		<security:intercept-url pattern="/reviewer/reviewer/save.do" access="hasRole('REVIEWER')" />
+		<security:intercept-url pattern="/conferenceSponsor/conferenceSponsor/save.do" access="hasRole('CONFERENCESPONSOR')" />
 	
 		<!-- <security:intercept-url pattern="/**" access="hasRole('NONE')" /> -->
 		

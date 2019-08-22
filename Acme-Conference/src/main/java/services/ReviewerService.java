@@ -20,6 +20,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
+import utiles.AddPhoneCC;
 import utiles.AuthorityMethods;
 import utiles.EmailValidator;
 import domain.Reviewer;
@@ -38,6 +39,9 @@ public class ReviewerService {
 
 	@Autowired
 	private ConferenceService		conferenceService;
+
+	@Autowired
+	private AdminConfigService		adminConfigService;
 
 	@Autowired
 	private Validator				validator;
@@ -114,7 +118,7 @@ public class ReviewerService {
 		result.setEmail(reviewerForm.getEmail());
 		result.setName(reviewerForm.getName());
 		result.setMiddlename(reviewerForm.getMiddlename());
-		//result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), reviewerForm.getPhoneNumber()));
+		result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), reviewerForm.getPhoneNumber()));
 		result.setPhotoURL(reviewerForm.getPhotoURL());
 		result.setSurname(reviewerForm.getSurname());
 
@@ -138,7 +142,7 @@ public class ReviewerService {
 		result.setEmail(reviewer.getEmail());
 		result.setName(reviewer.getName());
 		result.setMiddlename(reviewer.getMiddlename());
-		//result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), reviewer.getPhoneNumber()));
+		result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), reviewer.getPhoneNumber()));
 		result.setPhotoURL(reviewer.getPhotoURL());
 		result.setSurname(reviewer.getSurname());
 

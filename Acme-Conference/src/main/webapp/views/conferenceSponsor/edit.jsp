@@ -37,7 +37,7 @@
 </jstl:if>
 <jstl:if test="${not edit }">
 	<form:form action="conferenceSponsor/save.do"
-		modelAttribute="sponsorForm">
+		modelAttribute="conferenceSponsorForm">
 		<acme:textbox code="sponsor.edit.username"
 			path="userAccount.username" />
 		<acme:password code="sponsor.edit.password"

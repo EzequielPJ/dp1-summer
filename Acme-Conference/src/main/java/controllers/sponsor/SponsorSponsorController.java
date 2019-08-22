@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ConferenceSponsorService;
 import controllers.AbstractController;
 import domain.ConferenceSponsor;
-import forms.SponsorForm;
+import forms.ConferenceSponsorForm;
 
 @Controller
 @RequestMapping("/conferenceSponsor")
@@ -30,7 +30,7 @@ public class SponsorSponsorController extends AbstractController {
 	public ModelAndView register() {
 		ModelAndView res;
 
-		final SponsorForm sponsorForm = new SponsorForm();
+		final ConferenceSponsorForm sponsorForm = new ConferenceSponsorForm();
 
 		res = this.createEditModelAndView(sponsorForm);
 
@@ -38,7 +38,7 @@ public class SponsorSponsorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ModelAndView save(final SponsorForm sponsorForm, final BindingResult binding) {
+	public ModelAndView save(final ConferenceSponsorForm sponsorForm, final BindingResult binding) {
 
 		ModelAndView res;
 
@@ -77,12 +77,12 @@ public class SponsorSponsorController extends AbstractController {
 
 	}
 
-	protected ModelAndView createEditModelAndView(final SponsorForm sponsorForm, final String... messages) {
+	protected ModelAndView createEditModelAndView(final ConferenceSponsorForm sponsorForm, final String... messages) {
 
 		final ModelAndView result;
 
 		result = new ModelAndView("conferenceSponsor/edit");
-		result.addObject("sponsorForm", sponsorForm);
+		result.addObject("conferenceSponsorForm", sponsorForm);
 		result.addObject("edit", false);
 
 		final List<String> messageCodes = new ArrayList<>();

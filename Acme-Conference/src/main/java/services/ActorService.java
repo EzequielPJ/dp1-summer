@@ -32,14 +32,10 @@ public class ActorService {
 	public Actor findByUserAccount(final UserAccount userAccount) {
 		return this.actorRepository.getByUserAccount(userAccount.getId());
 	}
-	//
-	//	public Actor getByMessageBox(final int idBox) {
-	//		return this.actorRepository.getByMessageBox(idBox);
-	//	}
-	//
-		public Collection<Actor> findAll() {
-			return this.actorRepository.findAll();
-		}
+
+	public Collection<Actor> findAll() {
+		return this.actorRepository.findAll();
+	}
 
 	public Actor findOne(final int idActor) {
 		return this.actorRepository.findOne(idActor);

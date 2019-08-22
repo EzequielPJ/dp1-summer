@@ -17,6 +17,7 @@ import services.AuthorService;
 import controllers.AbstractController;
 import domain.Author;
 import forms.ActorForm;
+import forms.AuthorForm;
 
 @Controller
 @RequestMapping("/author")
@@ -30,7 +31,7 @@ public class AuthorAuthorController extends AbstractController {
 	public ModelAndView register() {
 		ModelAndView res;
 
-		final ActorForm authorForm = new ActorForm();
+		final AuthorForm authorForm = new AuthorForm();
 
 		res = this.createEditModelAndView(authorForm);
 
@@ -38,7 +39,7 @@ public class AuthorAuthorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ModelAndView save(final ActorForm authorForm, final BindingResult binding) {
+	public ModelAndView save(final AuthorForm authorForm, final BindingResult binding) {
 
 		ModelAndView res;
 
@@ -85,12 +86,9 @@ public class AuthorAuthorController extends AbstractController {
 		result.addObject("authorForm", authorForm);
 		result.addObject("edit", false);
 
-		final List<String> messageCodes = new ArrayList<>();
-		for (final String s : messages)
-			messageCodes.add(s);
-		result.addObject("messages", messageCodes);
+		if (messages.length > 0)
+			result.addObject("message", messages[0]);
 
-		this.setCreditCardMakes(result);
 		this.configValues(result);
 
 		return result;

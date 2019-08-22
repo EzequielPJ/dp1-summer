@@ -27,6 +27,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountRepository;
+import utiles.AddPhoneCC;
 import utiles.AuthorityMethods;
 import utiles.EmailValidator;
 import domain.Actor;
@@ -50,13 +51,14 @@ public class AuthorService {
 	private AuthorRepository		authorRepository;
 
 	@Autowired
+	private AdminConfigService		adminConfigService;
+
+	@Autowired
 	private Validator				validator;
 
 
 	public Author create() {
 		final Author res = new Author();
-
-		//TODO: setMessageBoxes()
 
 		return res;
 	}
@@ -128,7 +130,7 @@ public class AuthorService {
 		result.setEmail(authorForm.getEmail());
 		result.setName(authorForm.getName());
 		result.setMiddlename(authorForm.getMiddlename());
-		//result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), authorForm.getPhoneNumber()));
+		result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), authorForm.getPhoneNumber()));
 		result.setPhotoURL(authorForm.getPhotoURL());
 		result.setSurname(authorForm.getSurname());
 
@@ -152,7 +154,7 @@ public class AuthorService {
 		result.setEmail(author.getEmail());
 		result.setName(author.getName());
 		result.setMiddlename(author.getMiddlename());
-		//result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), author.getPhoneNumber()));
+		result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), author.getPhoneNumber()));
 		result.setPhotoURL(author.getPhotoURL());
 		result.setSurname(author.getSurname());
 
