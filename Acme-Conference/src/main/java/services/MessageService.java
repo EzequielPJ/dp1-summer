@@ -1,7 +1,9 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +23,7 @@ import utiles.AuthorityMethods;
 import domain.Actor;
 import domain.Author;
 import domain.Message;
+import domain.Submission;
 import domain.Topic;
 import forms.MessageForm;
 
@@ -122,6 +125,36 @@ public class MessageService {
 		return this.messageRepository.save(message);
 	}
 
+	public Message notifiqueStatusChanged(final Submission submission) {
+
+		final Actor admin = this.actorService.findByUserAccount(LoginService.getPrincipal());
+
+		final Message message = new Message();
+
+		final Collection<Actor> actorToBeNotified = new ArrayList<>();
+		actorToBeNotified.add(submission.getAuthor());
+		message.setRecipients(actorToBeNotified);
+
+		final Collection<Actor> actors = new ArrayList<>();
+		actors.add(admin);
+		actors.add(submission.getAuthor());
+		message.setActors(actors);
+
+		message.setMoment(new Date());
+		message.setSender(admin);
+
+		final Collection<Topic> topics = new ArrayList<>();
+		topics.add(this.topicService.findOtherTopic());
+		message.setTopics(topics);
+
+		message.setSubject("SUBMISSION " + submission.getTicker().getIdentifier() + " STATUS NOTIFICATION ---- NOTIFICACIÓN POR CAMBIO DE ESTADO ENTREGA " + submission.getTicker().getIdentifier());
+		message.setBody("Your submmision " + submission.getTicker().getIdentifier() + " status has changed {" + submission.getStatus() + "}. Please verify it to submit the camera ready version of the paper if needed before "
+			+ submission.getConference().getCameraReadyDeadline() + ".  ---------  Tu entrega " + submission.getTicker().getIdentifier() + " ha recibido una actualización del estado {" + submission.getStatus()
+			+ "}. Por favor, compruebe el mismo para adjuntar la versión para la presentación del documento si fuese necesario antes de " + submission.getConference().getCameraReadyDeadline() + ".");
+
+		return this.messageRepository.save(message);
+
+	}
 	public Message save(final MessageForm messageForm, final BindingResult bindingResult) {
 		final Message message = this.reconstruct(messageForm, bindingResult);
 		return this.save(message);

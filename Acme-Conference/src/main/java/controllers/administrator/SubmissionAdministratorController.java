@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import security.LoginService;
 import services.AdministratorService;
 import services.AuthorService;
+import services.MessageService;
 import services.PaperService;
 import services.SubmissionService;
 import controllers.AbstractController;
@@ -32,6 +33,9 @@ public class SubmissionAdministratorController extends AbstractController {
 
 	@Autowired
 	private AuthorService			authorService;
+
+	@Autowired
+	private MessageService			messageService;
 
 	@Autowired
 	private AdministratorService	adminService;
@@ -97,7 +101,8 @@ public class SubmissionAdministratorController extends AbstractController {
 		ModelAndView result;
 		final Submission submission = this.submissionService.findOne(idSubmission);
 		try {
-			this.submissionService.changeStatus(submission, status);
+			final Submission newSubmission = this.submissionService.changeStatus(submission, status);
+			this.messageService.notifiqueStatusChanged(newSubmission);
 			result = new ModelAndView("redirect:list.do");
 		} catch (final Throwable oops) {
 			oops.printStackTrace();
