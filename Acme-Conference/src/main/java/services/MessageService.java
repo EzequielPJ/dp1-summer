@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -127,11 +128,18 @@ public class MessageService {
 		return this.save(message);
 	}
 
-	public void delete(final int idMessage) {
+	public void delete(final Message message) {
+		if (message.getRecipients().isEmpty() && message.getActors().isEmpty())
+			this.messageRepository.delete(message);
+
+	}
+
+	public Message prepareMessageToDelete(final int idMessage) {
 		//Se setean los destinatarios porque spring trae los mensajes de la base de datos sin destinatarios
 		final Collection<Actor> recipients = this.messageRepository.getRecipientsOfMessage(idMessage);
 
 		final Message message = this.getMessage(idMessage);
+		Message result;
 		System.out.println("Numero de actores: " + message.getActors().size());
 		final Actor actorLogged = this.actorService.findByUserAccount(LoginService.getPrincipal());
 		Assert.isTrue(message.getActors().contains(actorLogged), "No puede borrar este mensaje porque ya no existe");
@@ -139,13 +147,23 @@ public class MessageService {
 		final Collection<Actor> actors = message.getActors();
 		actors.remove(actorLogged);
 
-		if (actors.size() == 0)
-			this.messageRepository.delete(message);
-		else {
+		if (actors.size() == 0) {
+			message.setRecipients(new ArrayList<Actor>());
+			message.setActors(new ArrayList<Actor>());
+			result = this.messageRepository.save(message);
+			this.messageRepository.flush();
+		} else {
 			message.setRecipients(recipients);
 			message.setActors(actors);
-			this.messageRepository.save(message);
+			result = this.messageRepository.save(message);
 		}
+
+		return result;
+	}
+
+	public Message deleteRecipients(final Message message) {
+		message.setRecipients(null);
+		return this.messageRepository.saveAndFlush(message);
 	}
 
 	public Collection<Message> findByTopic(final int idTopic) {

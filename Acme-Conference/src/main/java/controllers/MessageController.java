@@ -3,6 +3,8 @@ package controllers;
 
 import java.util.Collection;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -93,6 +95,8 @@ public class MessageController extends AbstractController {
 			try {
 				this.messageService.save(messageForm, bindingResult);
 				result = new ModelAndView("redirect:list.do");
+			} catch (final ValidationException ve) {
+				result = this.createEditModelAndView(messageForm);
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(messageForm, "cannot.send.message");
 				oops.printStackTrace();
@@ -104,7 +108,11 @@ public class MessageController extends AbstractController {
 	public ModelAndView delete(@RequestParam final int idMessage) {
 		ModelAndView result;
 		try {
-			this.messageService.delete(idMessage);
+			this.messageService.prepareMessageToDelete(idMessage);
+			final Message message = this.messageService.findOne(idMessage);
+			//final Message messageDeleted = this.messageService.deleteRecipients(message);
+			//System.out.println(messageDeleted.getRecipients());
+			this.messageService.delete(message);
 			result = new ModelAndView("redirect:list.do");
 		} catch (final Throwable oops) {
 			result = this.listModelAndView(this.messageService.getMessagesOfActorLogged(), "message/list.do", "cannot.delete.message");
