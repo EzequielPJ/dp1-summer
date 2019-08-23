@@ -47,19 +47,11 @@ public class SubmissionAdministratorController extends AbstractController {
 		final ModelAndView result;
 
 		final Administrator admin = this.adminService.findByPrincipal(LoginService.getPrincipal());
-
 		final Submission submission = this.submissionService.findOne(idSubmission);
-		if (submission.getConference().getAdministrator().equals(admin)) {
-			result = new ModelAndView("submission/display");
 
-			final Paper nonCameraReadyVersion = this.paperService.getPaperNonCamerReadyVersionOfSubmission(idSubmission);
-			final Paper cameraReadyVersion = this.paperService.getPaperCamerReadyVersionOfSubmission(idSubmission);
-
-			result.addObject("submission", submission);
-			result.addObject("nonCameraReadyVersion", nonCameraReadyVersion);
-			result.addObject("cameraReadyVersion", cameraReadyVersion);
-
-		} else
+		if (submission.getConference().getAdministrator().equals(admin))
+			result = this.displayModelAndView(submission);
+		else
 			result = new ModelAndView("redirect:list.do");
 
 		this.configValues(result);
@@ -99,15 +91,17 @@ public class SubmissionAdministratorController extends AbstractController {
 	@RequestMapping(value = "/changeStatus", method = RequestMethod.GET)
 	public ModelAndView changeStatus(@RequestParam final int idSubmission, @RequestParam final String status) {
 		ModelAndView result;
-		final Submission submission = this.submissionService.findOne(idSubmission);
+
 		try {
+			final Submission submission = this.submissionService.findOne(idSubmission);
 			final Submission newSubmission = this.submissionService.changeStatus(submission, status);
 			this.messageService.notifiqueStatusChanged(newSubmission);
 			result = new ModelAndView("redirect:list.do");
 		} catch (final Throwable oops) {
+			final Submission submission = this.submissionService.findOne(idSubmission);
+
 			oops.printStackTrace();
 			result = this.displayModelAndView(submission, "cannot.change.status");
-
 		}
 
 		this.configValues(result);

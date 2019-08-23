@@ -50,7 +50,6 @@ public class Message extends DomainEntity {
 	}
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@NotEmpty
 	@Valid
 	public Collection<Actor> getRecipients() {
 		return this.recipients;
@@ -61,7 +60,6 @@ public class Message extends DomainEntity {
 	}
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@NotEmpty
 	@Valid
 	public Collection<Actor> getActors() {
 		return this.actors;
