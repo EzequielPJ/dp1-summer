@@ -36,9 +36,14 @@ public class SponsorshipService {
 	private ConferenceService			conferenceService;
 
 	@Autowired
+	private AdminConfigService			adminConfigService;
+
+	@Autowired
 	private Validator					validator;
 
 
+	// CRUD methods
+	//---------------------------------------------------------------------------------------
 	public Sponsorship create() {
 		return new Sponsorship();
 	}
@@ -50,20 +55,14 @@ public class SponsorshipService {
 		Assert.isTrue(this.conferenceService.getConferencesFinalMode().containsAll(sponsorship.getConferences()));
 		Assert.isTrue(!ValidateCreditCard.isCaducate(sponsorship.getCreditCard()));
 
+		final Boolean correctMake = this.adminConfigService.getAdminConfig().getCreditCardMakes().contains(sponsorship.getCreditCard().getBrandName());
+		if (sponsorship.getId() == 0)
+			Assert.isTrue(correctMake);
+		else
+			Assert.isTrue(correctMake || this.findOne(sponsorship.getId()).getCreditCard().getBrandName() == sponsorship.getCreditCard().getBrandName());
+
 		this.sponsorshipRepository.save(sponsorship);
 	}
-
-	public Collection<Sponsorship> findAllBySponsor(final int idSponsor) {
-		Assert.isTrue(this.sponsorService.findOne(idSponsor).getUserAccount().equals(LoginService.getPrincipal()));
-		return this.sponsorshipRepository.findAllBySponsor(idSponsor);
-	}
-
-	public Sponsorship findOne(final int idSponsorship) {
-		final Sponsorship sponsorship = this.sponsorshipRepository.findOne(idSponsorship);
-		Assert.isTrue(LoginService.getPrincipal().equals(sponsorship.getConferenceSponsor().getUserAccount()));
-		return sponsorship;
-	}
-
 	public Sponsorship reconstruct(final Sponsorship sponsorship, final BindingResult binding) {
 		Sponsorship result;
 
@@ -87,6 +86,20 @@ public class SponsorshipService {
 			throw new ValidationException();
 
 		return result;
+	}
+	//---------------------------------------------------------------------------------------
+
+	// Auxiliar methods
+	//---------------------------------------------------------------------------------------
+	public Collection<Sponsorship> findAllBySponsor(final int idSponsor) {
+		Assert.isTrue(this.sponsorService.findOne(idSponsor).getUserAccount().equals(LoginService.getPrincipal()));
+		return this.sponsorshipRepository.findAllBySponsor(idSponsor);
+	}
+
+	public Sponsorship findOne(final int idSponsorship) {
+		final Sponsorship sponsorship = this.sponsorshipRepository.findOne(idSponsorship);
+		Assert.isTrue(LoginService.getPrincipal().equals(sponsorship.getConferenceSponsor().getUserAccount()));
+		return sponsorship;
 	}
 
 	public Sponsorship getRandomOfAConference(final int idConference) {
@@ -138,4 +151,6 @@ public class SponsorshipService {
 
 		return creditCard;
 	}
+	//---------------------------------------------------------------------------------------
+
 }

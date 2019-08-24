@@ -25,12 +25,10 @@ public class TopicService {
 	private MessageService	messageService;
 
 
+	// CRUD methods
+	//---------------------------------------------------------------------------------------
 	public Topic create() {
 		return new Topic();
-	}
-
-	public Topic findOne(final int idTopic) {
-		return this.topicRepository.findOne(idTopic);
 	}
 
 	public Topic save(final Topic topic) {
@@ -46,13 +44,10 @@ public class TopicService {
 			namesES.remove(this.findOne(topic.getId()).getTopicES());
 		}
 
-		Assert.isTrue(!namesEN.contains(topic.getTopicEN().trim().toUpperCase()));
-		Assert.isTrue(!namesES.contains(topic.getTopicES().trim().toUpperCase()));
+		Assert.isTrue(!namesEN.contains(topic.getTopicEN().trim().toUpperCase().replaceAll(" +", " ")));
+		Assert.isTrue(!namesES.contains(topic.getTopicES().trim().toUpperCase().replaceAll(" +", " ")));
 
 		return this.topicRepository.save(topic);
-	}
-	public Collection<Topic> findAll() {
-		return this.topicRepository.findAll();
 	}
 
 	public void delete(final Topic topic) {
@@ -62,6 +57,17 @@ public class TopicService {
 		this.messageService.updateMessageWithThisTopic(topic);
 
 		this.topicRepository.delete(topic);
+	}
+	//---------------------------------------------------------------------------------------
+
+	// Auxiliar methods
+	//---------------------------------------------------------------------------------------
+	public Topic findOne(final int idTopic) {
+		return this.topicRepository.findOne(idTopic);
+	}
+
+	public Collection<Topic> findAll() {
+		return this.topicRepository.findAll();
 	}
 
 	public Topic findOtherTopic() {
@@ -77,10 +83,10 @@ public class TopicService {
 			namesES.remove(this.findOne(topic.getId()).getTopicES());
 		}
 
-		if (namesEN.contains(topic.getTopicEN().trim().toUpperCase()))
+		if (namesEN.contains(topic.getTopicEN().trim().toUpperCase().replaceAll(" +", " ")))
 			binding.rejectValue("topicEN", "category.error.namelikeOther");
 
-		if (namesES.contains(topic.getTopicES().trim().toUpperCase()))
+		if (namesES.contains(topic.getTopicES().trim().toUpperCase().replaceAll(" +", " ")))
 			binding.rejectValue("topicES", "category.error.namelikeOther");
 
 	}
@@ -92,5 +98,6 @@ public class TopicService {
 	private Collection<String> getAllNameEN() {
 		return this.topicRepository.getAllNameEN();
 	}
+	//---------------------------------------------------------------------------------------
 
 }
