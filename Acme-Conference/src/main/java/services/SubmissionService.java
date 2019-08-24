@@ -76,6 +76,21 @@ public class SubmissionService {
 		}
 	}
 
+	public void assignReviewer(final int idSubmission, final int idReviewer) {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+
+		final Submission submission = this.findOne(idSubmission);
+		Assert.isTrue(submission.getConference().getAdministrator().equals(this.administratorService.findByPrincipal(LoginService.getPrincipal())));
+		Assert.isTrue(submission.getConference().getSubmissionDeadline().before(new Date()) && submission.getConference().getNotificationDeadline().after(new Date()));
+
+		final Reviewer reviewer = this.reviewerService.findOne(idReviewer);
+		final Collection<Reviewer> reviewers = submission.getReviewers();
+		reviewers.add(reviewer);
+		submission.setReviewers(reviewers);
+
+		this.submissionRepository.save(submission);
+	}
+
 	public Collection<Submission> getSubmissionsByConference(final int idConference) {
 		return this.submissionRepository.getSubmissionsByConference(idConference);
 	}
