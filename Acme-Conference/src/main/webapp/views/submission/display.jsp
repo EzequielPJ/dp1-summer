@@ -30,6 +30,18 @@
 	</jstl:forEach>
 </ul>
 
+ <security:authorize access="hasRole('ADMINISTRATOR')">
+ 	<jstl:if test="${submission.status == 'UNDER-REVIEW'}">
+		<p><strong><spring:message code="submission.display.reviewers.assign"/>: </strong>
+		<ul>
+			<jstl:forEach items="${reviewers}" var="reviewer">
+				<jstl:if test="${!submission.reviewers.contains(reviewer)}" >
+					<li><jstl:out value="${reviewer.name} ${reviewer.middlename} ${reviewer.surname}"/><acme:button url="/submission/administrator/assignTo.do?idSubmission=${submission.id}&idReviewer=${reviewer.id }" type="button" code="submission.display.changeStatus.accepted"/></li>
+				</jstl:if>
+			</jstl:forEach>
+		</ul>
+	</jstl:if>
+</security:authorize>
 
 <acme:text label="submission.display.ticker" value="${submission.ticker.identifier}"/>
 <acme:text label="submission.display.author" value="${submission.author.name} ${submission.author.middlename} ${submission.author.surname}"/>

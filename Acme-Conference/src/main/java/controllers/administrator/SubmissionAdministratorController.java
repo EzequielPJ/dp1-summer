@@ -15,6 +15,7 @@ import services.AdministratorService;
 import services.AuthorService;
 import services.MessageService;
 import services.PaperService;
+import services.ReviewerService;
 import services.SubmissionService;
 import controllers.AbstractController;
 import domain.Administrator;
@@ -39,6 +40,9 @@ public class SubmissionAdministratorController extends AbstractController {
 
 	@Autowired
 	private AdministratorService	adminService;
+
+	@Autowired
+	private ReviewerService			reviewerService;
 
 
 	//Display
@@ -85,6 +89,16 @@ public class SubmissionAdministratorController extends AbstractController {
 		final Administrator admin = this.adminService.findByPrincipal(LoginService.getPrincipal());
 		final Collection<Submission> submissions = this.submissionService.getSubmissionsOfAdminUnderReview(admin.getId());
 		return this.listModelAndView("submission.list.underReview", submissions);
+	}
+
+	@RequestMapping(value = "/assignTo", method = RequestMethod.GET)
+	public ModelAndView assingTo(@RequestParam final int idSubmission, @RequestParam final int idReviewer) {
+		ModelAndView res;
+
+		this.submissionService.assignReviewer(idSubmission, idReviewer);
+		res = new ModelAndView("redirect:display.do?idSubmission=" + idSubmission);
+
+		return res;
 	}
 
 	//Change Status
