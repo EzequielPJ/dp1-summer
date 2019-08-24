@@ -55,8 +55,7 @@ public class AdminConfigAdministratorController extends AbstractController {
 		result = new ModelAndView("adminConfig/edit");
 
 		try {
-			final AdminConfig adminConfig = this.adminConfigService.reconstruct(adminConfigForm, binding);
-			this.adminConfigService.save(adminConfig);
+			this.adminConfigService.reconstruct(adminConfigForm, binding);
 			result = new ModelAndView("redirect:display.do");
 		} catch (final ValidationException oops) {
 			result = this.createModelAndView(adminConfigForm);
@@ -73,8 +72,7 @@ public class AdminConfigAdministratorController extends AbstractController {
 		result = new ModelAndView("adminConfig/edit");
 
 		try {
-			final AdminConfig adminConfig = this.adminConfigService.addVoidWord(voidWordForm, binding);
-			this.adminConfigService.save(adminConfig);
+			this.adminConfigService.addVoidWord(voidWordForm, binding);
 			result = new ModelAndView("redirect:edit.do");
 		} catch (final ValidationException oops) {
 			result = this.createModelAndView(voidWordForm);
@@ -91,8 +89,7 @@ public class AdminConfigAdministratorController extends AbstractController {
 		result = new ModelAndView("adminConfig/edit");
 
 		try {
-			final AdminConfig adminConfig = this.adminConfigService.addCreditCardMake(creditCardMakeForm, binding);
-			this.adminConfigService.save(adminConfig);
+			this.adminConfigService.addCreditCardMake(creditCardMakeForm, binding);
 			result = new ModelAndView("redirect:edit.do");
 		} catch (final ValidationException oops) {
 			result = this.createModelAndView(creditCardMakeForm);
