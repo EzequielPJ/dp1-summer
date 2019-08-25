@@ -137,4 +137,9 @@ public class PaperService {
 				res.add(string.trim());
 		return res;
 	}
+
+	public void flush() {
+		this.paperRepository.flush();
+
+	}
 }
