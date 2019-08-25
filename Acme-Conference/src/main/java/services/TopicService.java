@@ -98,6 +98,11 @@ public class TopicService {
 	private Collection<String> getAllNameEN() {
 		return this.topicRepository.getAllNameEN();
 	}
+
+public void flush() {
+		this.topicRepository.flush();
+	}
+
 	//---------------------------------------------------------------------------------------
 
 }
