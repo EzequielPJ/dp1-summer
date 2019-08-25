@@ -118,8 +118,9 @@ public class MessageService {
 	}
 
 	public Message save(final Message message) {
+		Assert.isTrue(AuthorityMethods.checkIsSomeoneLogged(), "Debe estar logueado para realizar esta accion");
 		final Actor actorLogged = this.actorService.findByUserAccount(LoginService.getPrincipal());
-		Assert.isTrue(message.getSender().equals(actorLogged), "Debe estar logueado para realizar esta accion");
+		Assert.isTrue(message.getSender().equals(actorLogged), "Debe ser el emisor del mensaje");
 
 		Assert.isTrue(!message.getRecipients().contains(actorLogged), "No se puede mandar un mensaje a uno mismo");
 		return this.messageRepository.save(message);
@@ -257,6 +258,10 @@ public class MessageService {
 		final Actor actorLogged = this.actorService.findByUserAccount(LoginService.getPrincipal());
 		final Collection<Topic> topics = this.messageRepository.getAllTopicsOfMessagesOfActor(actorLogged.getId());
 		return topics;
+	}
+
+	public void flush() {
+		this.messageRepository.flush();
 	}
 
 }
