@@ -17,6 +17,7 @@ import org.springframework.validation.Validator;
 import repositories.SectionRepository;
 import security.LoginService;
 import utiles.AuthorityMethods;
+import utiles.ValidateCollectionURL;
 import domain.Section;
 
 @Service
@@ -71,14 +72,10 @@ public class SectionService {
 		sectionRec = section;
 
 		if (!sectionRec.getPictures().isEmpty()) {
-			final Collection<String> col = sectionRec.getPictures();
-			for (final String s : col)
-				if (s.startsWith("https:") || s.startsWith("http:")) {
-
-				} else
-					binding.rejectValue("pictures", "section.pictures.bad");
+			ValidateCollectionURL.deleteURLBlanksInCollection(sectionRec.getPictures());
+			if (!ValidateCollectionURL.validateURLCollection(sectionRec.getPictures()))
+				binding.rejectValue("pictures", "section.pictures.bad");
 		}
-
 		this.validator.validate(sectionRec, binding);
 		if (binding.hasErrors())
 			throw new ValidationException();
@@ -86,7 +83,6 @@ public class SectionService {
 		return sectionRec;
 
 	}
-
 	public void flush() {
 		this.sectionRepository.flush();
 	}

@@ -36,7 +36,7 @@ public class SectionAdministratorController extends AbstractController {
 	public ModelAndView create(@RequestParam final int idActivity) {
 		final ModelAndView result;
 		if (!this.activityService.findOne(idActivity).getType().equals("TUTORIAL"))
-			result = new ModelAndView("redirect:../../activity/administrator/display.do?idActivity=" + idActivity + "&url=activity/administrator/list.do?idConference=" + this.activityService.findOne(idActivity).getConference().getId());
+			result = new ModelAndView("redirect:../../conference/administrator/list.do");
 		else if (!this.activityService.findOne(idActivity).getConference().getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())))
 			result = new ModelAndView("redirect:../../conference/administrator/list.do");
 		else {
