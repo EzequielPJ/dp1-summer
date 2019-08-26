@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.SectionRepository;
+import security.LoginService;
 import utiles.AuthorityMethods;
 import domain.Section;
 
@@ -27,6 +28,9 @@ public class SectionService {
 
 	@Autowired
 	private SectionRepository	sectionRepository;
+
+	@Autowired
+	private ConferenceService	conferenceService;
 
 	@Autowired
 	Validator					validator;
@@ -43,6 +47,7 @@ public class SectionService {
 	public Section create(final int idActivity) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
 		Assert.isTrue(this.activityService.findOne(idActivity).getType().equals("TUTORIAL"));
+		Assert.isTrue(this.activityService.findOne(idActivity).getConference().getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())));
 		final Section section = new Section();
 		section.setActivity(this.activityService.findOne(idActivity));
 		section.setTitle("");
