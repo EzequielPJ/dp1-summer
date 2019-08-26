@@ -14,10 +14,8 @@
 
     <bean id="adminConfig" class="domain.AdminConfig">
         <property name="systemName" value="Acme Conference" />
-        <property name="bannerURL" value="https://i.imgur.com/a0M044s.png" />
+        <property name="bannerURL" value="https://i.ibb.co/GVpZCtM/acme-conference.png" />
         <property name="countryCode" value="+34" />
-<!--         <property name="finderResults" value="10" />
-        <property name="finderCacheTime" value="1" /> -->
         <property name="welcomeMsgEN" value="Welcome to Acme Conference, the site to create and share your conferences!" />
         <property name="welcomeMsgES" value="¡Bienvenidos a Acme Conference! Tu sitio para unirte a tus conferencias favoritas" />
             <property name="creditCardMakes">
@@ -1052,7 +1050,8 @@
             </list>
         </property>
         <property name="ticker" ref="ticker0" /> 
-        <property name="author" ref="author0" />     
+        <property name="author" ref="author0" />
+        <property name="notified" value="true" />     
     </bean>
     
     <bean class="domain.Submission" id="submission2">
@@ -1067,6 +1066,7 @@
         </property>
         <property name="ticker" ref="ticker2" /> 
         <property name="author" ref="author0" />     
+        <property name="notified" value="true" />
     </bean>
     
      <!-- Submission (author1) -->
@@ -1080,7 +1080,8 @@
             </list>
         </property>
         <property name="ticker" ref="ticker1" /> 
-        <property name="author" ref="author1" />     
+        <property name="author" ref="author1" /> 
+        <property name="notified" value="false" />    
     </bean>
 
     <bean class="domain.Submission" id="submission3">
@@ -1094,7 +1095,8 @@
             </list>
         </property>
         <property name="ticker" ref="ticker3" /> 
-        <property name="author" ref="author1" />     
+        <property name="author" ref="author1" />
+        <property name="notified" value="true" />     
     </bean>
     
  	<bean class="domain.Submission" id="submission4">
@@ -1106,7 +1108,8 @@
             </list>
         </property>
         <property name="ticker" ref="ticker4" /> 
-        <property name="author" ref="author1" />     
+        <property name="author" ref="author1" /> 
+        <property name="notified" value="false" />    
     </bean>
     
     <!-- Paper (author0) -->

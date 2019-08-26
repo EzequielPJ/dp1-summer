@@ -20,6 +20,7 @@ import services.SubmissionService;
 import controllers.AbstractController;
 import domain.Administrator;
 import domain.Paper;
+import domain.Reviewer;
 import domain.Submission;
 
 @Controller
@@ -53,9 +54,12 @@ public class SubmissionAdministratorController extends AbstractController {
 		final Administrator admin = this.adminService.findByPrincipal(LoginService.getPrincipal());
 		final Submission submission = this.submissionService.findOne(idSubmission);
 
-		if (submission.getConference().getAdministrator().equals(admin))
+		final Collection<Reviewer> reviewers = this.reviewerService.findAll();
+
+		if (submission.getConference().getAdministrator().equals(admin)) {
 			result = this.displayModelAndView(submission);
-		else
+			result.addObject("reviewers", reviewers);
+		} else
 			result = new ModelAndView("redirect:list.do");
 
 		this.configValues(result);

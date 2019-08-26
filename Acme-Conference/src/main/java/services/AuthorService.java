@@ -54,6 +54,9 @@ public class AuthorService {
 	private AdminConfigService		adminConfigService;
 
 	@Autowired
+	private FinderService			finderService;
+
+	@Autowired
 	private Validator				validator;
 
 
@@ -63,7 +66,7 @@ public class AuthorService {
 		return res;
 	}
 
-	public Author save(final Author author) {
+	public Author save(final Author author) throws ParseException {
 		Assert.isTrue(author != null);
 
 		if (author.getId() == 0) {
@@ -78,6 +81,9 @@ public class AuthorService {
 			final UserAccount finalAccount = this.accountRepository.save(userAccount);
 
 			author.setUserAccount(finalAccount);
+
+			author.setFinder(this.finderService.generateNewFinder());
+			this.finderService.flush();
 
 		} else {
 

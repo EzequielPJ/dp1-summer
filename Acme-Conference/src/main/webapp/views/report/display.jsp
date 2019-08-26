@@ -25,5 +25,5 @@
 <br/>
 <h3><spring:message code="report.list.comments" /></h3>
 <display:table requestURI="${requestUri }" pagesize="10" name="${report.comments }" id="comment" >
-	<display:column value="${comment}"></display:column>
+	<display:column titleKey="report.list.comments" ><jstl:out value="${comment}" /></display:column>
 </display:table>

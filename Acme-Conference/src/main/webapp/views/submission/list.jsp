@@ -41,6 +41,9 @@
 	<security:authorize access="hasRole('ADMINISTRATOR')">  
 		 <acme:button url="submission/administrator/display.do?idSubmission=${submission.id}" type="button" code="submission.list.display"/>
 	</security:authorize>
+	<security:authorize access="hasRole('REVIEWER')">  
+		 <acme:button url="submission/reviewer/display.do?idSubmission=${submission.id}" type="button" code="submission.list.display"/>
+	</security:authorize>
 	</display:column>
 	 
 	 <security:authorize access="hasRole('AUTHOR')"> 

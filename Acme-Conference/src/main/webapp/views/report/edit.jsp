@@ -16,12 +16,14 @@
 		<acme:hidden path="id"/>
 		<acme:hidden path="submission"/>
 		
-
+		<br/>
+		<b><spring:message code="report.edit.blankNumbers" /></b>
 		<acme:inputNumber code="report.edit.originalityScore" path="originalityScore"/>
 		<acme:inputNumber code="report.edit.qualityScore" path="qualityScore" />
 		<acme:inputNumber code="report.edit.readibilityScore" path="readibilityScore" />
-		
-		<spring:message code="report.edit.decision" /><acme:text value="decision"/>
+		<br/>
+		<b><spring:message code="report.edit.decisionPattern" /></b>
+		<acme:textbox code="report.edit.decision" path="decision"/>
 		<br/>
 		<spring:message code="report.edit.comments" />
 		<jstl:forEach var="comment" items="${report.comments}">
@@ -30,7 +32,7 @@
     	<form:errors path="comments" cssClass="error" />
 		
 		<acme:submit name="save" code="report.edit.save"/>
-		<acme:cancel url="report/reviewer/list.do" code="report.edit.cancel"/>
+		<acme:cancel url="submission/reviewer/display.do?idSubmission=${report.submission.id }" code="report.edit.cancel"/>
 		
 	</form:form>
 	<button class="addComment" onclick="addComment('comments','comments', 'textbox')"><spring:message code="report.edit.addComment" /></button>
