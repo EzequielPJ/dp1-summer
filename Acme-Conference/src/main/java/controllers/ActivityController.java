@@ -27,12 +27,11 @@ public class ActivityController extends AbstractController {
 		Collection<Activity> colAct;
 		colAct = this.activityService.getActivityByConference(idConference);
 		result.addObject("activities", colAct);
-		result.addObject("requestURI", "activity/list.do");
+		result.addObject("requestURI", "activity/list.do?idConference=" + idConference);
 		result.addObject("general", true);
 
 		return result;
 	}
-
 	protected ModelAndView listModelAndView() {
 		return this.listModelAndView(null);
 	}

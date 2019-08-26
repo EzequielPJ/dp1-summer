@@ -1,6 +1,7 @@
 
 package forms;
 
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -12,12 +13,12 @@ import security.UserAccount;
 public class ActorForm {
 
 	private String		name;
+	private String		middlename;
 	private String		surname;
 	private String		photoURL;
 	private String		phoneNumber;
 	private String		address;
-	private boolean		banned;
-	private Boolean		spammer;
+	private String		email;
 
 	//Relationship
 	private UserAccount	userAccount;
@@ -56,6 +57,7 @@ public class ActorForm {
 		this.photoURL = photoURL;
 	}
 
+	@NotBlank
 	@SafeHtml
 	public String getAddress() {
 		return this.address;
@@ -65,6 +67,7 @@ public class ActorForm {
 		this.address = address;
 	}
 
+	@NotBlank
 	@SafeHtml
 	public String getPhoneNumber() {
 		return this.phoneNumber;
@@ -72,22 +75,6 @@ public class ActorForm {
 
 	public void setPhoneNumber(final String phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}
-
-	public Boolean getSpammer() {
-		return this.spammer;
-	}
-
-	public void setSpammer(final boolean spammer) {
-		this.spammer = spammer;
-	}
-
-	public boolean getBanned() {
-		return this.banned;
-	}
-
-	public void setBanned(final boolean banned) {
-		this.banned = banned;
 	}
 
 	//Relationship getters and setters
@@ -116,6 +103,26 @@ public class ActorForm {
 
 	public void setTermsAndConditions(final boolean termsAndConditions) {
 		this.termsAndConditions = termsAndConditions;
+	}
+
+	@SafeHtml
+	public String getMiddlename() {
+		return this.middlename;
+	}
+
+	public void setMiddlename(final String middlename) {
+		this.middlename = middlename;
+	}
+
+	@NotBlank
+	@Pattern(regexp = "^([0-9a-zA-Z ]{1,}[ ]{1}[<]{1}[0-9a-zA-Z ]{1,}[@]{1}[0-9a-zA-Z.]{1,}[>]{1}|[0-9a-zA-Z ]{1,}[@]{1}[0-9a-zA-Z.]{1,})$")
+	@SafeHtml
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(final String email) {
+		this.email = email;
 	}
 
 }

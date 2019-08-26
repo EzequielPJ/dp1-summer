@@ -17,6 +17,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 	
+	<acme:button url="adminConfig/administrator/edit.do" type="button" code="adminConfig.display.edit"/>
+	
 	<section>
 	
 		<display:table name="adminConfig" id="adminConfig">
@@ -28,7 +30,6 @@
 			<display:column titleKey="adminConfig.display.voidWords" ><acme:text value="${adminConfig.voidWords}"/></display:column>
 		</display:table>
 		
-	<acme:button url="adminConfig/administrator/edit.do" type="button" code="adminConfig.display.edit"/>
 	
 	</section>
 	

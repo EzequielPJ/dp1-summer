@@ -17,7 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActivityService;
 import services.CommentService;
 import services.ConferenceService;
+import domain.Activity;
 import domain.Comment;
+import domain.Conference;
 
 @Controller
 @RequestMapping("/comment")
@@ -85,21 +87,51 @@ public class CommentController extends AbstractController {
 	public ModelAndView save(final Comment comment, final BindingResult binding) {
 		ModelAndView result = null;
 		try {
-			final Comment commentRect = this.commentService.reconstruct(comment, binding);
-			this.commentService.save(commentRect);
+			if (comment.getId() != 0)
+				result = this.createEditModelAndView(comment);
+			else {
+				final Comment commentRect = this.commentService.reconstruct(comment, binding);
+				this.commentService.save(commentRect);
 
-			Integer i;
-			if (commentRect.getActivity() != null)
-				i = commentRect.getActivity().getId();
-			else
-				i = commentRect.getConference().getId();
-			//				result = new ModelAndView("redirect:../conference/display.do?idConference" + i + "&url=conference/list.do");
-			result = new ModelAndView("redirect:list.do?idEntity=" + i);
+				Integer i;
+				if (commentRect.getActivity() != null)
+					i = commentRect.getActivity().getId();
+				else
+					i = commentRect.getConference().getId();
+				result = new ModelAndView("redirect:list.do?idEntity=" + i);
+			}
 		} catch (final ValidationException oops) {
 			result = this.createEditModelAndView(comment);
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(comment, "comment.edit.commit.error");
 		}
+		return result;
+	}
+
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public ModelAndView display(@RequestParam final int idComment, @CookieValue(value = "language", required = false) final String lang) {
+		ModelAndView result = null;
+
+		final Comment comment = this.commentService.findOne(idComment);
+
+		result = new ModelAndView("comment/display");
+
+		result.addObject("comment", comment);
+		result.addObject("requestURI", "conference/administrator/display.do?idComment=" + idComment);
+		if (comment.getConference() == null) {
+			final Activity act = comment.getActivity();
+			result.addObject("idEntity", act.getId());
+		} else {
+			final Conference c = comment.getConference();
+			result.addObject("idEntity", c.getId());
+		}
+
+		if (lang == null)
+			result.addObject("anonim", "anonymous");
+		else
+			result.addObject("anonim", "anónimo");
+
+		this.configValues(result);
 		return result;
 	}
 

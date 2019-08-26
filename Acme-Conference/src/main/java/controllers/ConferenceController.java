@@ -15,7 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.CommentService;
 import services.ConferenceService;
+import services.RegistrationService;
 import services.SponsorshipService;
+import utiles.AuthorityMethods;
 import domain.Conference;
 
 @Controller
@@ -27,6 +29,9 @@ public class ConferenceController extends AbstractController {
 
 	@Autowired
 	private CommentService		commentService;
+
+	@Autowired
+	private RegistrationService	registrationService;
 
 	@Autowired
 	private SponsorshipService	sponsorshipService;
@@ -128,10 +133,14 @@ public class ConferenceController extends AbstractController {
 
 		//////////////////////////////////////////
 
+		if (conference.getStartDate().before(new Date()))
+			result.addObject("avaliable", false);
+		else if (AuthorityMethods.checkIsSomeoneLogged())
+			result.addObject("avaliable", !this.registrationService.alreadyRegister(conference));
+
 		this.configValues(result);
 		return result;
 	}
-
 	protected ModelAndView listModelAndView() {
 		return this.listModelAndView(null);
 	}

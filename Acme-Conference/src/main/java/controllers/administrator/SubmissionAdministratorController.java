@@ -13,7 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 import security.LoginService;
 import services.AdministratorService;
 import services.AuthorService;
+import services.MessageService;
 import services.PaperService;
+import services.ReviewerService;
 import services.SubmissionService;
 import controllers.AbstractController;
 import domain.Administrator;
@@ -34,7 +36,13 @@ public class SubmissionAdministratorController extends AbstractController {
 	private AuthorService			authorService;
 
 	@Autowired
+	private MessageService			messageService;
+
+	@Autowired
 	private AdministratorService	adminService;
+
+	@Autowired
+	private ReviewerService			reviewerService;
 
 
 	//Display
@@ -43,19 +51,11 @@ public class SubmissionAdministratorController extends AbstractController {
 		final ModelAndView result;
 
 		final Administrator admin = this.adminService.findByPrincipal(LoginService.getPrincipal());
-
 		final Submission submission = this.submissionService.findOne(idSubmission);
-		if (submission.getConference().getAdministrator().equals(admin)) {
-			result = new ModelAndView("submission/display");
 
-			final Paper nonCameraReadyVersion = this.paperService.getPaperNonCamerReadyVersionOfSubmission(idSubmission);
-			final Paper cameraReadyVersion = this.paperService.getPaperCamerReadyVersionOfSubmission(idSubmission);
-
-			result.addObject("submission", submission);
-			result.addObject("nonCameraReadyVersion", nonCameraReadyVersion);
-			result.addObject("cameraReadyVersion", cameraReadyVersion);
-
-		} else
+		if (submission.getConference().getAdministrator().equals(admin))
+			result = this.displayModelAndView(submission);
+		else
 			result = new ModelAndView("redirect:list.do");
 
 		this.configValues(result);
@@ -91,18 +91,31 @@ public class SubmissionAdministratorController extends AbstractController {
 		return this.listModelAndView("submission.list.underReview", submissions);
 	}
 
+	@RequestMapping(value = "/assignTo", method = RequestMethod.GET)
+	public ModelAndView assingTo(@RequestParam final int idSubmission, @RequestParam final int idReviewer) {
+		ModelAndView res;
+
+		this.submissionService.assignReviewer(idSubmission, idReviewer);
+		res = new ModelAndView("redirect:display.do?idSubmission=" + idSubmission);
+
+		return res;
+	}
+
 	//Change Status
 	@RequestMapping(value = "/changeStatus", method = RequestMethod.GET)
 	public ModelAndView changeStatus(@RequestParam final int idSubmission, @RequestParam final String status) {
 		ModelAndView result;
-		final Submission submission = this.submissionService.findOne(idSubmission);
+
 		try {
-			this.submissionService.changeStatus(submission, status);
+			final Submission submission = this.submissionService.findOne(idSubmission);
+			final Submission newSubmission = this.submissionService.changeStatus(submission, status);
+			this.messageService.notifiqueStatusChanged(newSubmission);
 			result = new ModelAndView("redirect:list.do");
 		} catch (final Throwable oops) {
+			final Submission submission = this.submissionService.findOne(idSubmission);
+
 			oops.printStackTrace();
 			result = this.displayModelAndView(submission, "cannot.change.status");
-
 		}
 
 		this.configValues(result);
@@ -115,7 +128,7 @@ public class SubmissionAdministratorController extends AbstractController {
 
 	//TODO: ADD CONFERENCE
 	protected ModelAndView displayModelAndView(final Submission submission, final String message) {
-		final ModelAndView result = new ModelAndView();
+		final ModelAndView result = new ModelAndView("submission/display");
 		result.addObject("submission", submission);
 		final Paper nonCameraReadyVersion = this.paperService.getPaperNonCamerReadyVersionOfSubmission(submission.getId());
 		final Paper cameraReadyVersion = this.paperService.getPaperCamerReadyVersionOfSubmission(submission.getId());

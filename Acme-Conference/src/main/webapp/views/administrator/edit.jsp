@@ -22,6 +22,7 @@
 	<form:form action="administrator/administrator/save.do"
 		modelAttribute="administrator">
 		<acme:textbox code="administrator.edit.name" path="name" />
+		<acme:textbox code="administrator.edit.middlename" path="middlename" />
 		<acme:textbox code="administrator.edit.surname" path="surname" />		
 		<acme:textbox code="administrator.edit.photoURL" path="photoURL" />
 		<acme:textbox code="administrator.edit.address" path="address" />
@@ -44,6 +45,7 @@
 		<acme:password code="administrator.edit.confirmPassword"
 			path="confirmPassword" />
 		<acme:textbox code="administrator.edit.name" path="name" />
+		<acme:textbox code="administrator.edit.middlename" path="middlename" />
 		<acme:textbox code="administrator.edit.surname" path="surname" />		
 		<acme:textbox code="administrator.edit.photoURL" path="photoURL" />
 		<acme:textbox code="administrator.edit.address" path="address" />

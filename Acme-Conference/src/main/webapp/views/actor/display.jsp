@@ -13,7 +13,6 @@
 <jstl:if test="${actor.userAccount.id == userLogged.id}">
 
 	<acme:button url="actor/edit.do" type="button" code="actor.edit" />
-	<br />
 
 </jstl:if>
 <jstl:if test = "${targetURL != null }"><acme:button code="actor.back" url="${targetURL }" type="button" /></jstl:if>
@@ -22,49 +21,33 @@
 <br/>
 
 <jstl:choose>
-	<jstl:when test="${authority == 'WRITER'}">
+	<jstl:when test="${authority == 'REVIEWER'}">
 	
-		<security:authorize access="hasRole('READER')">
-			<jstl:if test="${!followed}" >
-				<acme:button type="button" code="reader.writer.follow" url="/reader/follow.do?writerId=${writer.id}" />
-			</jstl:if>
-			<jstl:if test="${followed}" >
-				<acme:button type="button" code="reader.writer.unfollow" url="/reader/unfollow.do?writerId=${writer.id}" />
-			</jstl:if>
-		</security:authorize>
 		<hr />
 
 		<b><spring:message code="actor.name" /></b>:
-		<jstl:out value="${writer.name }" />
+		<jstl:out value="${reviewer.name }" />
 		<br />
+		<jstl:if test="${reviewer.middlename ne null }">
+			<b><spring:message code="actor.middlename" /></b>:
+			<jstl:out value="${reviewer.middlename }" />
+			<br />
+		</jstl:if>
 		<b><spring:message code="actor.surname" /></b>:
-		<jstl:out value="${writer.surname }" />
+		<jstl:out value="${reviewer.surname }" />
 		<br />
 		<b><spring:message code="actor.photoURL" /></b>:
-		<img style="width: 200px;" src="${writer.photoURL }" alt="${writer.photoURL }"/>
+			<img style="width: 200px;" src="${reviewer.photoURL }" alt="${sponsor.photoURL }"/>
 		<br />
 		<b><spring:message code="actor.email" /></b>:
-		<jstl:out value="${writer.email }" />
+		<jstl:out value="${reviewer.email }" />
 		<br />
 		<b><spring:message code="actor.address" /></b>:
-		<jstl:out value="${writer.address }" />
+		<jstl:out value="${reviewer.address }" />
 		<br />
 		<b><spring:message code="actor.phoneNumber" /></b>:
-		<jstl:out value="${writer.phoneNumber }" />
+		<jstl:out value="${reviewer.phoneNumber }" />
 		<br />
-
-		<br />
-		<security:authorize access="hasRole('ADMINISTRATOR')">
-			<b><spring:message code="actor.spammer" /></b>
-			<jstl:if test="${ writer.spammer eq null}">
-				<jstl:out value="N/A" />
-			</jstl:if>
-			<jstl:if test="${ writer.spammer != null }">
-				<jstl:out value="${writer.spammer }" />
-			</jstl:if>
-
-		<br />
-		</security:authorize>
 
 
 	</jstl:when>
@@ -73,11 +56,15 @@
 		<b><spring:message code="actor.name" /></b>:
 		<jstl:out value="${administrator.name }" />
 		<br />
+		<jstl:if test="${administrator.middlename ne null }">
+			<b><spring:message code="actor.middlename" /></b>:
+			<jstl:out value="${administrator.middlename }" />
+			<br />
+		</jstl:if>
 		<b><spring:message code="actor.surname" /></b>:
 			<jstl:out value="${administrator.surname }" />
 		<br />
-		<b><spring:message code="actor.photoURL" /></b>:
-		<img style="width: 200px;" src="${administrator.photoURL }" alt="${administrator.photoURL }"/>
+		<img style="width: 200px;" src="${administrator.photoURL }" alt="${sponsor.photoURL }"/>
 		<br />
 		<b><spring:message code="actor.email" /></b>:
 		<jstl:out value="${administrator.email }" />
@@ -89,95 +76,47 @@
 		<jstl:out value="${administrator.phoneNumber }" />
 		<br />
 
-		<security:authorize access="hasRole('ADMINISTRATOR')">
-			<b><spring:message code="actor.spammer" /></b>
-			<jstl:if test="${ administrator.spammer eq null}">
-				<jstl:out value="N/A" />
-			</jstl:if>
-			<jstl:if test="${ administrator.spammer != null }">
-				<jstl:out value="${administrator.spammer }" />
-			</jstl:if>
-		</security:authorize>
-
-
 		<br />
 
 	</jstl:when>
 
-	<jstl:when test="${authority == 'READER'}">
+	<jstl:when test="${authority == 'AUTHOR'}">
 		<b><spring:message code="actor.name" /></b>:
-		<jstl:out value="${reader.name }" />
+		<jstl:out value="${author.name }" />
 		<br />
+		<jstl:if test="${author.middlename ne null }">
+			<b><spring:message code="actor.middlename" /></b>:
+			<jstl:out value="${author.middlename }" />
+			<br />
+		</jstl:if>
 		<b><spring:message code="actor.surname" /></b>:
-			<jstl:out value="${reader.surname }" />
-		<br />
-		<b><spring:message code="actor.photoURL" /></b>:
-			<img style="width: 200px;" src="${reader.photoURL }" alt="${reader.photoURL }"/>
+			<jstl:out value="${author.surname }" />
 		<br />
 		<b><spring:message code="actor.email" /></b>:
-		<jstl:out value="${reader.email }" />
+		<jstl:out value="${author.email }" />
+		<br />
+		<img style="width: 200px;" src="${author.photoURL }" alt="${author.photoURL }"/>
 		<br />
 		<b><spring:message code="actor.address" /></b>:
-		<jstl:out value="${reader.address }" />
+		<jstl:out value="${author.address }" />
 		<br />
 		<b><spring:message code="actor.phoneNumber" /></b>:
-		<jstl:out value="${reader.phoneNumber }" />
+		<jstl:out value="${author.phoneNumber }" />
 
-		<br />
-		<security:authorize access="hasRole('ADMINISTRATOR')">
-			<b><spring:message code="actor.spammer" /></b>
-			<jstl:if test="${ reader.spammer eq null}">
-				<jstl:out value="N/A" />
-			</jstl:if>
-			<jstl:if test="${ reader.spammer != null }">
-				<jstl:out value="${reader.spammer }" />
-			</jstl:if>
-		</security:authorize>
 
 		<br />
 
 	</jstl:when>
 	
-	<jstl:when test="${authority == 'PUBLISHER'}">
-		<b><spring:message code="actor.name" /></b>:
-		<jstl:out value="${publisher.name }" />
-		<br />
-		<b><spring:message code="actor.surname" /></b>:
-			<jstl:out value="${publisher.surname }" />
-		<br />
-		<b><spring:message code="actor.publisher.commercialName" /></b>:
-		<jstl:out value="${publisher.commercialName }" />
-		<br />
-		<b><spring:message code="actor.photoURL" /></b>:
-			<img style="width: 200px;" src="${publisher.photoURL }" alt="${publisher.photoURL }"/>
-		<br />
-		<b><spring:message code="actor.email" /></b>:
-		<jstl:out value="${publisher.email }" />
-		<br />
-		<b><spring:message code="actor.address" /></b>:
-		<jstl:out value="${publisher.address }" />
-		<br />
-		<b><spring:message code="actor.phoneNumber" /></b>:
-		<jstl:out value="${publisher.phoneNumber }" />
-		<br/>
-		<security:authorize access="hasRole('ADMINISTRATOR')">
-			<b><spring:message code="actor.spammer" /></b>
-			<jstl:if test="${ publisher.spammer eq null}">
-				<jstl:out value="N/A" />
-			</jstl:if>
-			<jstl:if test="${ publisher.spammer != null }">
-				<jstl:out value="${publisher.spammer }" />
-			</jstl:if>
-		</security:authorize>
-
-		<br />
-
-	</jstl:when>
-	
-	<jstl:when test="${authority == 'SPONSOR'}">
+	<jstl:when test="${authority == 'CONFERENCESPONSOR'}">
 		<b><spring:message code="actor.name" /></b>:
 		<jstl:out value="${sponsor.name }" />
 		<br />
+		<jstl:if test="${sponsor.middlename ne null }">
+			<b><spring:message code="actor.middlename" /></b>:
+			<jstl:out value="${sponsor.middlename }" />
+			<br />
+		</jstl:if>
 		<b><spring:message code="actor.surname" /></b>:
 			<jstl:out value="${sponsor.surname }" />
 		<br />
@@ -197,57 +136,10 @@
 		<jstl:out value="${sponsor.phoneNumber }" />
 
 		<br />
-		<security:authorize access="hasRole('ADMINISTRATOR')">
-			<b><spring:message code="actor.spammer" /></b>
-			<jstl:if test="${ sponsor.spammer eq null}">
-				<jstl:out value="N/A" />
-			</jstl:if>
-			<jstl:if test="${ sponsor.spammer != null }">
-				<jstl:out value="${sponsor.spammer }" />
-			</jstl:if>
-		</security:authorize>
-
-		<br />
 
 	</jstl:when>
 	
 </jstl:choose>
-
-<!-- Social profiles table -->
-<b><spring:message code="actor.socialProfile" /></b>
-<display:table pagesize="5" name="${socialProfiles}" id="profile"
-	requestURI="${requestURI}">
-	<display:column titleKey="actor.socialProfiles.name">
-		<jstl:out value="${ profile.nick}" />
-	</display:column>
-	<display:column titleKey="actor.socialProfiles.network">
-		<jstl:out value="${profile.nameSocialNetwork}" />
-	</display:column>
-	<display:column titleKey="actor.socialProfiles.link">
-		<jstl:out value="${ profile.link}" />
-	</display:column>
-	<security:authorize access="isAuthenticated()">
-   	 <jstl:if test="${actor.userAccount.id == userLogged.id}">
-   		 <display:column titleKey="actor.socialProfiles.edit">
-   			<acme:button url="/socialProfile/edit.do?socialProfileId=${profile.id}" type="button" code="actor.socialProfiles.edit" />
-   		 </display:column>
-   		 <display:column titleKey="actor.socialProfiles.delete">
-   			 <acme:button
-   				 url="/socialProfile/delete.do?socialProfileId=${profile.id}"
-   				 type="button" code="actor.socialProfiles.delete" />
-   		 </display:column>
-
-   	 </jstl:if>
-    </security:authorize>
-
-</display:table>
-<br />
-
-
-<jstl:if test="${actor.userAccount.id == userLogged.id}">
-    <acme:button url="socialProfile/create.do" type="button"
-   	 code="actor.socialProfile.create" />
-</jstl:if>
 
 
 

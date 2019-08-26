@@ -52,16 +52,13 @@ public class CategoryAdministratorController extends AbstractController {
 		ModelAndView result;
 		result = new ModelAndView("category/edit");
 
-		category = this.categoryService.reconstruct(category, binding);
-
 		try {
-			this.categoryService.save(category);
+			category = this.categoryService.reconstructAndSave(category, binding);
 			result = new ModelAndView("redirect:list.do");
 		} catch (final ValidationException e) {
 			result = this.createModelAndView(category);
 		} catch (final Throwable oops) {
 			result = this.createModelAndView(category, "category.save.error");
-			oops.printStackTrace();
 		}
 
 		return result;
@@ -90,7 +87,7 @@ public class CategoryAdministratorController extends AbstractController {
 	protected ModelAndView listModelAndView(final String message) {
 		final ModelAndView result = new ModelAndView("category/list");
 
-		final Collection<Category> categories = this.categoryService.findAllMinusCONFERENCE();
+		final Collection<Category> categories = this.categoryService.findAll();
 		result.addObject("categories", categories);
 		result.addObject("requestURI", "/category/administrator/list.do");
 		result.addObject("message", message);
@@ -106,7 +103,6 @@ public class CategoryAdministratorController extends AbstractController {
 	protected ModelAndView createModelAndView(final Category category, final String message) {
 		final ModelAndView result = new ModelAndView("category/edit");
 
-		//Todos menos la categoria en cuestion, sus subcategorias y la categoria general
 		final Collection<Category> posibleParents = this.categoryService.findAllMinusCONFERENCE();
 		posibleParents.remove(category);
 		final Collection<Category> allSubcategories = this.categoryService.getChildrenOfACategory(category);

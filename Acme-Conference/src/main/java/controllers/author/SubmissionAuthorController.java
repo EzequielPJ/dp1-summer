@@ -73,7 +73,7 @@ public class SubmissionAuthorController extends AbstractController {
 		final Author author = this.authorService.findByPrincipal(LoginService.getPrincipal());
 		final Collection<Submission> submissions = this.submissionService.getSubmissionsOfAuthor(author.getId());
 
-		return this.listModelAndView("submission.list.all", submissions);
+		return this.listModelAndView("submission.list.all", submissions, "submission/author/list.do");
 	}
 
 	@RequestMapping(value = "/listAccepted", method = RequestMethod.GET)
@@ -81,7 +81,7 @@ public class SubmissionAuthorController extends AbstractController {
 		final Author author = this.authorService.findByPrincipal(LoginService.getPrincipal());
 		final Collection<Submission> submissions = this.submissionService.getSubmissionsOfAuthorAccepted(author.getId());
 
-		return this.listModelAndView("submission.list.accepted", submissions);
+		return this.listModelAndView("submission.list.accepted", submissions, "submission/author/listAccepted.do");
 	}
 
 	@RequestMapping(value = "/listRejected", method = RequestMethod.GET)
@@ -89,7 +89,7 @@ public class SubmissionAuthorController extends AbstractController {
 		final Author author = this.authorService.findByPrincipal(LoginService.getPrincipal());
 		final Collection<Submission> submissions = this.submissionService.getSubmissionsOfAuthorRejected(author.getId());
 
-		return this.listModelAndView("submission.list.rejected", submissions);
+		return this.listModelAndView("submission.list.rejected", submissions, "submission/author/listRejected.do");
 	}
 
 	@RequestMapping(value = "/listUnderReview", method = RequestMethod.GET)
@@ -97,7 +97,7 @@ public class SubmissionAuthorController extends AbstractController {
 		final Author author = this.authorService.findByPrincipal(LoginService.getPrincipal());
 		final Collection<Submission> submissions = this.submissionService.getSubmissionsOfAuthorUnderReview(author.getId());
 
-		return this.listModelAndView("submission.list.underReview", submissions);
+		return this.listModelAndView("submission.list.underReview", submissions, "submission/author/listUnderReview.do");
 	}
 
 	//Display
@@ -141,12 +141,13 @@ public class SubmissionAuthorController extends AbstractController {
 		return result;
 	}
 
-	public ModelAndView listModelAndView(final String title, final Collection<Submission> submissions) {
+	public ModelAndView listModelAndView(final String title, final Collection<Submission> submissions, final String uri) {
 		final ModelAndView result = new ModelAndView("submission/list");
 		final Author author = this.authorService.findByPrincipal(LoginService.getPrincipal());
 		result.addObject("submissions", submissions);
 		result.addObject("title", title);
 		result.addObject("submissionsCanAddCameraVersion", this.submissionService.getSubmissionsCanAddCameraReadyPaper(author.getId()));
+		result.addObject("requestURI", uri);
 
 		this.configValues(result);
 		return result;

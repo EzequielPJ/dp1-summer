@@ -57,9 +57,8 @@
 		
 		<p><strong><spring:message code="sponsorship.display.brandName"/></strong> <jstl:out value="${sponsorship.creditCard.brandName}"/>
 		<jstl:out value="  |  "/> <strong><spring:message code="sponsorship.display.holder"/></strong> <jstl:out value="${sponsorship.creditCard.holder}"/>
-		<jstl:out value="  |  "/> <strong><spring:message code="sponsorship.display.cvv"/></strong> <jstl:out value="${sponsorship.creditCard.cvv}"/> </p>
 		
-		<p><strong><spring:message code="sponsorship.display.number"/></strong> <jstl:out value="${sponsorship.creditCard.number}"/>
+		<p><strong><spring:message code="sponsorship.display.number"/></strong> <jstl:out value="${anonymizedNumber}"/>
 		<jstl:out value="  |  "/> <strong><spring:message code="sponsorship.display.expirationMonth"/></strong> <jstl:out value="${sponsorship.creditCard.expirationMonth}"/>
 		<jstl:out value="  |  "/> <strong><spring:message code="sponsorship.display.expirationYear"/></strong> <jstl:out value="${sponsorship.creditCard.expirationYear}"/> </p>
 		

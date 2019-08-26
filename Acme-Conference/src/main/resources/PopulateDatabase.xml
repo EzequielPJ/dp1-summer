@@ -515,7 +515,7 @@
         <property name="authorities">
             <list>
                 <bean class="security.Authority">
-                    <property name="authority" value="SPONSOR" />
+                    <property name="authority" value="CONFERENCESPONSOR" />
                 </bean>
             </list>
         </property>
@@ -527,7 +527,7 @@
         <property name="authorities">
             <list>
                 <bean class="security.Authority">
-                    <property name="authority" value="SPONSOR" />
+                    <property name="authority" value="CONFERENCESPONSOR" />
                 </bean>
             </list>
         </property>
@@ -593,18 +593,18 @@
         <property value="Galves" name="surname"/>
         <property value="https://photo0.com" name="photoURL" />
         <property value="Street 0" name="address" />
-        <property value="admin@" name="email" />
+        <property value="admin1@" name="email" />
         <property value="+00 000-0000000" name="phoneNumber" />
         <property name="userAccount" ref="userAccount0" />
     </bean>
     
     <bean class="domain.Administrator" id="admin1">
-        <property value="Christian" name="name" />
-        <property value="Lion" name="middlename"/>
-        <property value="Galves" name="surname"/>
+        <property value="Rocio" name="name" />
+        <property value="Barbate" name="middlename"/>
+        <property value="Sanse" name="surname"/>
         <property value="https://photo0.com" name="photoURL" />
         <property value="Street 0" name="address" />
-        <property value="admin@" name="email" />
+        <property value="admin2@" name="email" />
         <property value="+00 000-0000000" name="phoneNumber" />
         <property name="userAccount" ref="userAccount7" />
     </bean>
@@ -678,6 +678,7 @@
             <list>
             <value>ingeniería</value>
             <value>casa</value>
+            <value>MySQL</value>
             </list>
         </property> 
     </bean>
@@ -695,7 +696,7 @@
         <property name="userAccount" ref="userAccount6" />
          <property name="expertiseKeywordsList">
             <list>
-            <value>ingeniería</value>
+          	  <value>ingeniería</value>
             </list>
         </property> 
      </bean>
@@ -753,19 +754,20 @@
     </bean>
     
     <bean class="domain.Category" id="category1">
-        <property name="categoryEN" value="Computer Science" />
-        <property name="categoryES" value="Ciencias de la computación" />
+        <property name="categoryEN" value="COMPUTER SCIENCE" />
+        <property name="categoryES" value="CIENCIAS DE LA COMPUTACIÓN" />
         <property name="parent" ref="category0" />
         <property name="children">
             <list>
-            <ref bean="category2" />
+            	<ref bean="category2" />
+             	<ref bean="category6" />
             </list>
         </property>   
     </bean>
     
     <bean class="domain.Category" id="category2">
-        <property name="categoryEN" value="Artificial Intelligence" />
-        <property name="categoryES" value="Inteligenci Artificial" />
+        <property name="categoryEN" value="ARTIFICIAL INTELLIGENCE" />
+        <property name="categoryES" value="INTELIGENCIA ARTIFICIAL" />
         <property name="parent" ref="category1" />
         <property name="children">
             <list>
@@ -777,26 +779,26 @@
     </bean>
     
      <bean class="domain.Category" id="category3">
-        <property name="categoryEN" value="Deep Learning" />
-        <property name="categoryES" value="Aprendizaje Exhaustivo" />
+        <property name="categoryEN" value="DEEP LEARNING" />
+        <property name="categoryES" value="APRENDIZAJE EXHAUSTIVO" />
         <property name="parent" ref="category2" />    
     </bean>
     
      <bean class="domain.Category" id="category4">
-        <property name="categoryEN" value="Instance-based learning" />
-        <property name="categoryES" value="Aprendizaje Basado en la Instancia" />
+        <property name="categoryEN" value="INSTANCE-BASED LEARNING" />
+        <property name="categoryES" value="APRENDIZAJE BASADO EN LA INSTANCIA" />
         <property name="parent" ref="category2" />    
     </bean>
     
      <bean class="domain.Category" id="category5">
-        <property name="categoryEN" value="Regression" />
-        <property name="categoryES" value="Regresión" />
+        <property name="categoryEN" value="REGRESSION" />
+        <property name="categoryES" value="REGRESIÓN" />
         <property name="parent" ref="category2" />    
     </bean>
     
     <bean class="domain.Category" id="category6">
-        <property name="categoryEN" value="Software Engineering" />
-        <property name="categoryES" value="Ingeniería de Software" />
+        <property name="categoryEN" value="SOFTWARE ENGINEERING" />
+        <property name="categoryES" value="INGENIERÍA DE SOFTWARE" />
         <property name="parent" ref="category1" />
         <property name="children">
             <list>
@@ -809,32 +811,32 @@
     </bean>
     
     <bean class="domain.Category" id="category7">
-        <property name="categoryEN" value="Big Data" />
-        <property name="categoryES" value="Big Data" />
+        <property name="categoryEN" value="BIG DATA" />
+        <property name="categoryES" value="BIG DATA" />
         <property name="parent" ref="category6" />    
     </bean>
     
     <bean class="domain.Category" id="category8">
-        <property name="categoryEN" value="Big Processing" />
-        <property name="categoryES" value="Big Processing" />
+        <property name="categoryEN" value="BIG PROCESSING" />
+        <property name="categoryES" value="BIG PROCESSING" />
         <property name="parent" ref="category6" />    
     </bean>
     
     <bean class="domain.Category" id="category9">
-        <property name="categoryEN" value="Methods" />
-        <property name="categoryES" value="Métodos" />
+        <property name="categoryEN" value="METHODS" />
+        <property name="categoryES" value="MÉTODOS" />
         <property name="parent" ref="category6" />    
     </bean>
     
     <bean class="domain.Category" id="category10">
-        <property name="categoryEN" value="Tools" />
-        <property name="categoryES" value="Herramientas" />
+        <property name="categoryEN" value="TOOLS" />
+        <property name="categoryES" value="HERRAMIENTAS" />
         <property name="parent" ref="category6" />    
     </bean>
     
     <bean class="domain.Category" id="category11">
-        <property name="categoryEN" value="Physics" />
-        <property name="categoryES" value="Físicas" />
+        <property name="categoryEN" value="PHYSICS" />
+        <property name="categoryES" value="FÍSICAS" />
         <property name="parent" ref="category0" />
         <property name="children">
             <list>
@@ -846,26 +848,26 @@
     </bean>
     
     <bean class="domain.Category" id="category12">
-        <property name="categoryEN" value="Cinematic" />
-        <property name="categoryES" value="Cinematicas" />
+        <property name="categoryEN" value="CINEMATIC" />
+        <property name="categoryES" value="CINEMÁTICAS" />
         <property name="parent" ref="category11" />    
     </bean>
     
     <bean class="domain.Category" id="category13">
-        <property name="categoryEN" value="Electricity" />
-        <property name="categoryES" value="Electricidad" />
+        <property name="categoryEN" value="ELECTRICITY" />
+        <property name="categoryES" value="ELECTRICIDAD" />
         <property name="parent" ref="category11" />    
     </bean>
     
     <bean class="domain.Category" id="category14">
-        <property name="categoryEN" value="Electronics" />
-        <property name="categoryES" value="Electrónicas" />
+        <property name="categoryEN" value="ELECTRONICS" />
+        <property name="categoryES" value="ELECTRÓNICAS" />
         <property name="parent" ref="category11" />    
     </bean>
     
     <bean class="domain.Category" id="category15">
-        <property name="categoryEN" value="Biology" />
-        <property name="categoryES" value="Biología" />
+        <property name="categoryEN" value="BIOLOGY" />
+        <property name="categoryES" value="BIOLOGÍA" />
         <property name="parent" ref="category0" />
         <property name="children">
             <list>
@@ -877,20 +879,20 @@
     </bean>
     
     <bean class="domain.Category" id="category16">
-        <property name="categoryEN" value="Animals" />
-        <property name="categoryES" value="Animales" />
+        <property name="categoryEN" value="ANIMALS" />
+        <property name="categoryES" value="ANIMALES" />
         <property name="parent" ref="category15" />    
     </bean>
     
     <bean class="domain.Category" id="category17">
-        <property name="categoryEN" value="Plants" />
-        <property name="categoryES" value="Plantas" />
+        <property name="categoryEN" value="PLANTS" />
+        <property name="categoryES" value="PLANTAS" />
         <property name="parent" ref="category15" />    
     </bean>
     
     <bean class="domain.Category" id="category18">
-        <property name="categoryEN" value="Fungi" />
-        <property name="categoryES" value="Hongos" />
+        <property name="categoryEN" value="FUNGI" />
+        <property name="categoryES" value="HONGOS" />
         <property name="parent" ref="category15" />    
     </bean>
     
@@ -916,9 +918,9 @@
         <property name="title" value="Videojuegos con la informática" />
         <property name="acronym" value="VI" />
         <property name="venue" value="address 66"/>
-        <property name="submissionDeadline" value="09/18/2019"/>
-        <property name="notificationDeadline" value="09/19/2019"/>
-        <property name="cameraReadyDeadline" value="09/20/2019"/>
+        <property name="submissionDeadline" value="07/18/2019"/>
+        <property name="notificationDeadline" value="07/19/2019"/>
+        <property name="cameraReadyDeadline" value="07/20/2019"/>
         <property name="startDate" value="07/25/2019"/>
         <property name="endDate" value="07/29/2019"/>
         <property name="summary" value="Aprende a crear videojuegos"/>
@@ -928,10 +930,26 @@
         <property name="category" ref="category6" />
     </bean>
     
+    <bean class="domain.Conference" id="conference2">
+        <property name="title" value="Introducción al manejo de bases de datos" />
+        <property name="acronym" value="IMBD" />
+        <property name="venue" value="address 80"/>
+        <property name="submissionDeadline" value="04/18/2019"/>
+        <property name="notificationDeadline" value="11/19/2019"/>
+        <property name="cameraReadyDeadline" value="11/20/2019"/>
+        <property name="startDate" value="12/25/2019"/>
+        <property name="endDate" value="12/29/2019"/>
+        <property name="summary" value="Aprende el manejo básico de una base de datos con MySQL"/>
+        <property name="fee" value="32"/>
+        <property name="finalMode" value="true"/>
+        <property name="administrator" ref="admin" />
+        <property name="category" ref="category6" />
+    </bean>
+    
     <!-- Activity (conference0) -->
     
     <bean class="domain.Activity" id="activity0">
-        <property name="type" value="PRESENTATION" />
+        <property name="type" value="PANEL" />
         <property name="title" value="charla sobre software" />
         <property name="startMoment" value="10/06/2018" />
         <property name="duration" value="60" />
@@ -939,11 +957,15 @@
         <property name="summary" value="charla didactica" />
         <property name="attachments">
             <list>
-            <value>attachments</value>
+            <value>http://www.prueba.com</value>
             </list>
         </property>
-        <property name="paper" ref="paper0" />
-        <property name="conference" ref="conference0" />         
+        <property name="conference" ref="conference0" />
+        <property name="authors">
+            <list>
+             <ref bean="author0" />
+            </list>
+        </property>     
     </bean>
     
     <bean class="domain.Activity" id="activity1">
@@ -955,10 +977,15 @@
         <property name="summary" value="tutorial para empezar" />
         <property name="attachments">
             <list>
-            <value>attachments</value>
+            <value>http://www.prueba.com</value>
             </list>
         </property>
-        <property name="conference" ref="conference0" />         
+        <property name="conference" ref="conference0" />
+        <property name="authors">
+            <list>
+            <ref bean="author0" />
+            </list>
+        </property>      
     </bean>
     
     <!-- Section (activity0) -->
@@ -1028,6 +1055,20 @@
         <property name="author" ref="author0" />     
     </bean>
     
+    <bean class="domain.Submission" id="submission2">
+        <property name="moment" value="06/17/2018" />
+        <property name="status" value="ACCEPTED" />
+        <property name="conference" ref="conference2" />
+        <property name="reviewers">
+            <list>
+            <ref bean="reviewer0" />
+            <ref bean="reviewer1" />
+            </list>
+        </property>
+        <property name="ticker" ref="ticker2" /> 
+        <property name="author" ref="author0" />     
+    </bean>
+    
      <!-- Submission (author1) -->
     
     <bean class="domain.Submission" id="submission1">
@@ -1039,6 +1080,32 @@
             </list>
         </property>
         <property name="ticker" ref="ticker1" /> 
+        <property name="author" ref="author1" />     
+    </bean>
+
+    <bean class="domain.Submission" id="submission3">
+        <property name="moment" value="06/18/2018" />
+        <property name="status" value="ACCEPTED" />
+        <property name="conference" ref="conference2" />
+        <property name="reviewers">
+            <list>
+            <ref bean="reviewer0" />
+            <ref bean="reviewer1" />
+            </list>
+        </property>
+        <property name="ticker" ref="ticker3" /> 
+        <property name="author" ref="author1" />     
+    </bean>
+    
+ 	<bean class="domain.Submission" id="submission4">
+        <property name="moment" value="06/18/2018" />
+        <property name="status" value="UNDER-REVIEW" />
+        <property name="conference" ref="conference2" />
+        <property name="reviewers">
+            <list>
+            </list>
+        </property>
+        <property name="ticker" ref="ticker4" /> 
         <property name="author" ref="author1" />     
     </bean>
     
@@ -1061,6 +1128,24 @@
         </property>
         <property name="submission" ref="submission0" />
     </bean>
+
+    <bean class="domain.Paper" id="paper2">
+        <property name="title" value="Bases de datos" />
+        <property name="aliases">
+            <list>
+            <value>aliases</value>
+            </list>
+        </property>  
+        <property name="summary" value="Introducción al manejo de MySQL" />
+        <property name="documentUrl" value="http://www.paper.com" />
+        <property name="cameraReadyPaper" value="true" />
+        <property name="authors">
+            <list>
+            <ref bean="author0" />
+            </list>
+        </property>
+        <property name="submission" ref="submission2" />
+    </bean>
     
     <!-- Paper (author1) -->
     
@@ -1082,6 +1167,41 @@
         <property name="submission" ref="submission1" />
     </bean>
     
+      <bean class="domain.Paper" id="paper3">
+        <property name="title" value="Bases de datos" />
+        <property name="aliases">
+            <list>
+            </list>
+        </property>  
+        <property name="summary" value="Introducción a Oracle Database" />
+        <property name="documentUrl" value="http://www.paper.com" />
+        <property name="cameraReadyPaper" value="true" />
+        <property name="authors">
+            <list>
+            <ref bean="author1" />
+            </list>
+        </property>
+        <property name="submission" ref="submission3" />
+    </bean>
+    
+      <bean class="domain.Paper" id="paper4">
+        <property name="title" value="Programación desde cero" />
+        <property name="aliases">
+            <list>
+            <value>aliases</value>
+            </list>
+        </property>  
+        <property name="summary" value="Primeras nociones de programación en Java" />
+        <property name="documentUrl" value="http://www.paper.com" />
+        <property name="cameraReadyPaper" value="false" />
+        <property name="authors">
+            <list>
+            <ref bean="author1" />
+            </list>
+        </property>
+        <property name="submission" ref="submission4" />
+    </bean>
+    
     <!-- Ticker -->
     
     <bean class="domain.Ticker" id="ticker0">
@@ -1090,6 +1210,18 @@
     
      <bean class="domain.Ticker" id="ticker1">
         <property value="AJT-AN7D" name="identifier" />
+    </bean>
+    
+    <bean class="domain.Ticker" id="ticker2">
+        <property value="ASJ-A124" name="identifier" />
+    </bean>
+    
+     <bean class="domain.Ticker" id="ticker3">
+        <property value="AJT-AN43" name="identifier" />
+    </bean>
+    
+    <bean class="domain.Ticker" id="ticker4">
+        <property value="AJT-GF7D" name="identifier" />
     </bean>
     
     <!-- Sponsorships -->
@@ -1103,8 +1235,8 @@
 	</bean>
 	
 	<bean id="sponsorship1" class="domain.Sponsorship">
-		<property name="bannerURL" value="https://contents.mediadecathlon.com/s719549/k$fd3f50b8bd18127fbbe9659a4f091c94/s48_CONT_02_encuentra-tu-tienda.jpg?f=650x650" />
-		<property name="targetURL" value="https://www.decathlon.es/es/store-locator" />
+		<property name="bannerURL" value="https://www.cocacola.es/content/dam/GO/CokeZone/Spain/highlights/coca-cola-800x654px.jpg" />
+		<property name="targetURL" value="https://www.cocacola.es/es/productos-coca-cola/#cocacola/" />
 		<property name="creditCard" ref="creditcard1" />
 		<property name="conferenceSponsor" ref="sponsor1" />
 		<property name="conferences" ref="conference0" />
@@ -1132,6 +1264,52 @@
 		<property name="title" value="favourite conference" />
 		<property name="text" value="this conference was really good" />
 		<property name="conference" ref="conference0" />
+	</bean>
+	
+	<!-- Message -->
+	<bean id="message0" class="domain.Message">
+		<property name="moment" value="2019/07/27" />
+		<property name="subject" value="Vamos a hablar" />
+		<property name="body" value="Hola. Estoy descontento." />
+		<property name="sender" ref="author0"/>
+        <property name="recipients">
+            <list>
+            <ref bean="admin" />
+            </list>
+        </property>
+        <property name="topics">
+            <list>
+	            <ref bean="topic1"/>
+            </list>
+        </property>
+        <property name="actors">
+            <list>
+            <ref bean="author0" />
+            <ref bean="admin" />
+            </list>
+        </property>
+	</bean>
+	
+	<bean id="message1" class="domain.Message">
+		<property name="moment" value="2019/07/27" />
+		<property name="subject" value="MENSAJE DE PRUEBA" />
+		<property name="body" value="Cuerpo de prueba de un mensaje" />
+		<property name="sender" ref="author0"/>
+        <property name="recipients">
+            <list>
+            <ref bean="admin" />
+            </list>
+        </property>
+         <property name="topics">
+            <list>
+	            <ref bean="topic0"/>
+            </list>
+        </property>
+        <property name="actors">
+            <list>
+            <ref bean="author0" />
+            </list>
+        </property>
 	</bean>
 	
 </beans>

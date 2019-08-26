@@ -47,6 +47,10 @@ public class PaperService {
 	private AdminConfigService	adminConfigService;
 
 
+	public Paper findOne(final int id) {
+		return this.paperRepository.findOne(id);
+	}
+
 	//RECONSTRUCT
 	public Paper reconstruct(final SubmissionPaperForm submissionPaperForm, final Submission submission, final BindingResult bindingResult) {
 
@@ -132,5 +136,10 @@ public class PaperService {
 			if (!(this.adminConfigService.getAdminConfig().getVoidWords().contains(string)))
 				res.add(string.trim());
 		return res;
+	}
+
+	public void flush() {
+		this.paperRepository.flush();
+
 	}
 }

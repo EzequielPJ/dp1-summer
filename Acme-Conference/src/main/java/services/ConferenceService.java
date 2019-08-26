@@ -73,20 +73,24 @@ public class ConferenceService {
 		return this.conferenceRepository.getYoursConference(id);
 	}
 
-	public Collection<Conference> getConferencesBetweenSubmissionDeadline(final Date date1, final Date date2) {
-		return this.conferenceRepository.getConferencesBetweenSubmissionDeadline(date1, date2);
+	public Collection<Conference> getYoursConferenceByCategory(final int id, final int idCategory) {
+		return this.conferenceRepository.getYoursConferenceByCategory(id, idCategory);
 	}
 
-	public Collection<Conference> getConferencesBetweenNotificationDeadline(final Date date1, final Date date2) {
-		return this.conferenceRepository.getConferencesBetweenNotificationDeadline(date1, date2);
+	public Collection<Conference> getConferencesBetweenSubmissionDeadline(final Date date1, final Date date2, final int id) {
+		return this.conferenceRepository.getConferencesBetweenSubmissionDeadline(date1, date2, id);
 	}
 
-	public Collection<Conference> getConferencesBetweenCameraReadyDeadline(final Date date1, final Date date2) {
-		return this.conferenceRepository.getConferencesBetweenCameraReadyDeadline(date1, date2);
+	public Collection<Conference> getConferencesBetweenNotificationDeadline(final Date date1, final Date date2, final int id) {
+		return this.conferenceRepository.getConferencesBetweenNotificationDeadline(date1, date2, id);
 	}
 
-	public Collection<Conference> getConferencesBetweenStartDate(final Date date1, final Date date2) {
-		return this.conferenceRepository.getConferencesBetweenStartDate(date1, date2);
+	public Collection<Conference> getConferencesBetweenCameraReadyDeadline(final Date date1, final Date date2, final int id) {
+		return this.conferenceRepository.getConferencesBetweenCameraReadyDeadline(date1, date2, id);
+	}
+
+	public Collection<Conference> getConferencesBetweenStartDate(final Date date1, final Date date2, final int id) {
+		return this.conferenceRepository.getConferencesBetweenStartDate(date1, date2, id);
 	}
 
 	public Collection<Conference> getConferencesPast(final Date date1) {
@@ -163,22 +167,25 @@ public class ConferenceService {
 		if (conference.getCategory() == null)
 			binding.rejectValue("category", "category.blank");
 
-		if (conference.getSubmissionDeadline().after(conference.getNotificationDeadline()) || conference.getSubmissionDeadline().equals(conference.getNotificationDeadline()))
+		if (conference.getSubmissionDeadline() != null && (conference.getSubmissionDeadline().before(new Date())))
+			binding.rejectValue("submissionDeadline", "deadline.badDate");
+
+		if (conference.getCameraReadyDeadline() != null && (conference.getSubmissionDeadline().after(conference.getNotificationDeadline()) || conference.getSubmissionDeadline().equals(conference.getNotificationDeadline())))
 			binding.rejectValue("submissionDeadline", "submission.notification");
-		else if (conference.getNotificationDeadline().after(conference.getCameraReadyDeadline()) || conference.getNotificationDeadline().equals(conference.getCameraReadyDeadline()))
+		else if (conference.getNotificationDeadline() != null && (conference.getNotificationDeadline().after(conference.getCameraReadyDeadline()) || conference.getNotificationDeadline().equals(conference.getCameraReadyDeadline())))
 			binding.rejectValue("notificationDeadline", "notification.cameraready");
-		else if (conference.getCameraReadyDeadline().after(conference.getStartDate()) || conference.getCameraReadyDeadline().equals(conference.getStartDate()))
+		else if (conference.getCameraReadyDeadline() != null && (conference.getCameraReadyDeadline().after(conference.getStartDate()) || conference.getCameraReadyDeadline().equals(conference.getStartDate())))
 			binding.rejectValue("cameraReadyDeadline", "cameraready.startdate");
-		else if (conference.getStartDate().after(conference.getEndDate()) || conference.getStartDate().equals(conference.getEndDate()))
+		else if (conference.getStartDate() != null && (conference.getStartDate().after(conference.getEndDate()) || conference.getStartDate().equals(conference.getEndDate())))
 			binding.rejectValue("startDate", "startdate.enddate");
 
 		this.validator.validate(conferenceRec, binding);
+
 		if (binding.hasErrors())
 			throw new ValidationException();
 
 		return conferenceRec;
 	}
-
 	public Collection<Conference> getFilterConferencesByKeyword(final String keyword) {
 		return this.conferenceRepository.getFilterConferencesByKeyword(keyword);
 	}
@@ -253,6 +260,10 @@ public class ConferenceService {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("AUTHOR"), "Debe ser un autor para realizar esta acción");
 		final Author author = this.authorService.findByPrincipal(LoginService.getPrincipal());
 		return this.conferenceRepository.getConferenceCanBeSubmitted(author.getId());
+	}
+
+	public void flush() {
+		this.conferenceRepository.flush();
 	}
 
 }

@@ -22,7 +22,19 @@
 <section>
 
 		<display:table name="categories" id="category" pagesize="5" requestURI="${requestURI}">
-			<display:column titleKey="category.list.parent" ><jstl:out value="${category.parent.categoryEN}"/> / <jstl:out value="${category.parent.categoryES}"/></display:column>
+			<display:column titleKey="category.list.parent" >
+				<jstl:choose>
+					<jstl:when test="${category.categoryEN != 'CONFERENCE'}">
+						<jstl:out value="${category.parent.categoryEN}"/> / <jstl:out value="${category.parent.categoryES}"/>
+					</jstl:when>
+				
+					<jstl:otherwise>
+						<jstl:out value="N/A" />
+					</jstl:otherwise>
+				
+				</jstl:choose>
+				
+				</display:column>
 			<display:column titleKey="category.list.name" ><jstl:out value="${category.categoryEN}"/> / <jstl:out value="${category.categoryES}"/></display:column>
 			<display:column titleKey="category.list.children" >
 			
@@ -39,8 +51,18 @@
 				</jstl:choose>
 				
 			</display:column>
-			<display:column titleKey="category.list.edit" ><acme:button url="category/administrator/edit.do?idCategory=${category.id}" type="button" code="category.list.edit"/></display:column>
-			<display:column titleKey="category.list.delete" ><acme:button url="category/administrator/delete.do?idCategory=${category.id}" type="button" code="category.list.delete"/></display:column>
+				<display:column titleKey="category.list.edit">
+					<jstl:if test="${category.categoryEN != 'CONFERENCE'}">
+						<acme:button url="category/administrator/edit.do?idCategory=${category.id}" type="button" code="category.list.edit"/>
+					</jstl:if>
+				</display:column>
+					
+				<display:column titleKey="category.list.delete" >
+					<jstl:if test="${category.categoryEN != 'CONFERENCE'}">
+						<acme:button url="category/administrator/delete.do?idCategory=${category.id}" type="button" code="category.list.delete"/>
+					</jstl:if>
+				</display:column>
+				
 		</display:table>
 
 </section>
