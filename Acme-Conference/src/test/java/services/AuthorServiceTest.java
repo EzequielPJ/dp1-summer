@@ -47,7 +47,7 @@ public class AuthorServiceTest extends AbstractTest {
 			super.authenticate(beanName);
 			this.authorService.computeScore();
 			this.authorService.flush();
-			Assert.isTrue(author.getScore() == 0.5);
+			Assert.isTrue(author.getScore() == 0.0);
 			super.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();

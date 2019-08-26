@@ -15,9 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.SectionRepository;
-import security.LoginService;
 import utiles.AuthorityMethods;
-import utiles.ValidateCollectionURL;
 import domain.Section;
 
 @Service
@@ -29,9 +27,6 @@ public class SectionService {
 
 	@Autowired
 	private SectionRepository	sectionRepository;
-
-	@Autowired
-	private ConferenceService	conferenceService;
 
 	@Autowired
 	Validator					validator;
@@ -48,7 +43,6 @@ public class SectionService {
 	public Section create(final int idActivity) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
 		Assert.isTrue(this.activityService.findOne(idActivity).getType().equals("TUTORIAL"));
-		Assert.isTrue(this.activityService.findOne(idActivity).getConference().getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())));
 		final Section section = new Section();
 		section.setActivity(this.activityService.findOne(idActivity));
 		section.setTitle("");
@@ -72,10 +66,14 @@ public class SectionService {
 		sectionRec = section;
 
 		if (!sectionRec.getPictures().isEmpty()) {
-			ValidateCollectionURL.deleteURLBlanksInCollection(sectionRec.getPictures());
-			if (!ValidateCollectionURL.validateURLCollection(sectionRec.getPictures()))
-				binding.rejectValue("pictures", "section.pictures.bad");
+			final Collection<String> col = sectionRec.getPictures();
+			for (final String s : col)
+				if (s.startsWith("https:") || s.startsWith("http:")) {
+
+				} else
+					binding.rejectValue("pictures", "section.pictures.bad");
 		}
+
 		this.validator.validate(sectionRec, binding);
 		if (binding.hasErrors())
 			throw new ValidationException();
@@ -83,6 +81,7 @@ public class SectionService {
 		return sectionRec;
 
 	}
+
 	public void flush() {
 		this.sectionRepository.flush();
 	}

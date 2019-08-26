@@ -168,7 +168,7 @@ public class ConferenceService {
 			binding.rejectValue("category", "category.blank");
 
 		if (conference.getSubmissionDeadline() != null && (conference.getSubmissionDeadline().before(new Date())))
-			binding.rejectValue("submissionDeadline", "submission.deadline.badDate");
+			binding.rejectValue("submissionDeadline", "deadline.badDate");
 
 		if (conference.getCameraReadyDeadline() != null && (conference.getSubmissionDeadline().after(conference.getNotificationDeadline()) || conference.getSubmissionDeadline().equals(conference.getNotificationDeadline())))
 			binding.rejectValue("submissionDeadline", "submission.notification");

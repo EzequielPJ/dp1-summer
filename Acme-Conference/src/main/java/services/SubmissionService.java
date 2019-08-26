@@ -54,6 +54,9 @@ public class SubmissionService {
 	private IntermediaryBetweenTransactions	intermediaryBetweenTransactions;
 
 	@Autowired
+	private MessageService					messageService;
+
+	@Autowired
 	private Validator						validator;
 
 	private final SimpleDateFormat			FORMAT	= new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -76,6 +79,18 @@ public class SubmissionService {
 		}
 	}
 
+	public void setNotified(final Submission submission) throws ParseException {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		final Conference conference = submission.getConference();
+		Assert.isTrue(conference.getAdministrator().equals(this.administratorService.findByPrincipal(LoginService.getPrincipal())));
+		final LocalDateTime DATETIMENOW = LocalDateTime.now();
+		final Date actual = this.FORMAT.parse(DATETIMENOW.getYear() + "/" + DATETIMENOW.getMonthOfYear() + "/" + DATETIMENOW.getDayOfMonth() + " " + DATETIMENOW.getHourOfDay() + ":" + DATETIMENOW.getMinuteOfHour() + ":" + DATETIMENOW.getSecondOfMinute());
+		Assert.isTrue(conference.getFinalMode());
+		Assert.isTrue(conference.getSubmissionDeadline().before(actual) && conference.getNotificationDeadline().after(actual));
+		submission.setNotified(true);
+		this.submissionRepository.save(submission);
+	}
+
 	public void assignReviewer(final int idSubmission, final int idReviewer) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
 
@@ -93,6 +108,10 @@ public class SubmissionService {
 
 	public Collection<Submission> getSubmissionsByConference(final int idConference) {
 		return this.submissionRepository.getSubmissionsByConference(idConference);
+	}
+
+	public Collection<Submission> getSubmissionsOfReviewer(final int reviewerId) {
+		return this.submissionRepository.getSubmissionsOfReviewer(reviewerId);
 	}
 
 	public void conferenceDecisionMaking(final int idConference) throws ParseException {
@@ -113,7 +132,9 @@ public class SubmissionService {
 				submission.setStatus("REJECTED");
 			else
 				submission.setStatus("ACCEPTED");
-			this.submissionRepository.saveAndFlush(submission);
+			final Submission s = this.submissionRepository.saveAndFlush(submission);
+
+			this.messageService.notifiqueStatusChanged(s);
 		}
 
 	}
@@ -128,6 +149,7 @@ public class SubmissionService {
 		submission.setMoment(DateTime.now().toDate());
 		submission.setStatus("UNDER-REVIEW");
 		submission.setTicker(this.intermediaryBetweenTransactions.generateTicker(author));
+		submission.setNotified(false);
 
 		this.validator.validate(submission, bindingResult);
 

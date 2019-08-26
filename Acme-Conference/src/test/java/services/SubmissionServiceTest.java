@@ -1,8 +1,6 @@
 
 package services;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 
 import org.junit.Test;
@@ -18,7 +16,6 @@ import utiles.IntermediaryBetweenTransactions;
 import utilities.AbstractTest;
 import domain.Author;
 import domain.Conference;
-import domain.Reviewer;
 import domain.Submission;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -38,32 +35,26 @@ public class SubmissionServiceTest extends AbstractTest {
 	AuthorService					authorService;
 
 	@Autowired
-	ReviewerService					reviewerService;
-
-	@Autowired
 	IntermediaryBetweenTransactions	intermediaryBetweenTransactions;
 
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void assignReviewersDriver() {
 
-		final Collection<Reviewer> reviewers = new ArrayList<>();
-		reviewers.add(this.reviewerService.findOne(this.getEntityId("reviewer0")));
 		final Object testingData[][] = {
 			{
 
-				"admin", this.submissionService.findOne(this.getEntityId("submission4")), this.conferenceService.findOne(this.getEntityId("conference2")), reviewers, null
+				"admin", this.submissionService.findOne(this.getEntityId("submission1")), this.conferenceService.findOne(this.getEntityId("conference0")), null
 			}, {
 
-				null, this.submissionService.findOne(this.getEntityId("submission4")), this.conferenceService.findOne(this.getEntityId("conference2")), reviewers, IllegalArgumentException.class
+				null, this.submissionService.findOne(this.getEntityId("submission1")), this.conferenceService.findOne(this.getEntityId("conference0")), IllegalArgumentException.class
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			this.assignReviewersTemplate((String) testingData[i][0], (Submission) testingData[i][1], (Conference) testingData[i][2], (Collection<Reviewer>) testingData[i][3], (Class<?>) testingData[i][4]);
+			this.assignReviewersTemplate((String) testingData[i][0], (Submission) testingData[i][1], (Conference) testingData[i][2], (Class<?>) testingData[i][3]);
 	}
-	protected void assignReviewersTemplate(final String beanName, final Submission submission, final Conference conference, final Collection<Reviewer> reviewers, final Class<?> expected) {
+	protected void assignReviewersTemplate(final String beanName, final Submission submission, final Conference conference, final Class<?> expected) {
 		Class<?> caught;
 		caught = null;
 
@@ -71,7 +62,7 @@ public class SubmissionServiceTest extends AbstractTest {
 			super.authenticate(beanName);
 			this.submissionService.assignReviewers(conference.getId());
 			this.submissionService.flush();
-			Assert.isTrue(submission.getReviewers().containsAll(reviewers) && submission.getReviewers().size() == reviewers.size());
+			Assert.isTrue(submission.getReviewers().size() != 0);
 			super.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
@@ -86,10 +77,10 @@ public class SubmissionServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 			{
 
-				"admin", this.submissionService.findOne(this.getEntityId("submission4")), this.conferenceService.findOne(this.getEntityId("conference2")), null
+				"admin", this.submissionService.findOne(this.getEntityId("submission1")), this.conferenceService.findOne(this.getEntityId("conference0")), null
 			}, {
 
-				null, this.submissionService.findOne(this.getEntityId("submission4")), this.conferenceService.findOne(this.getEntityId("conference2")), IllegalArgumentException.class
+				null, this.submissionService.findOne(this.getEntityId("submission1")), this.conferenceService.findOne(this.getEntityId("conference0")), IllegalArgumentException.class
 			}
 		};
 

@@ -145,7 +145,7 @@ public class ActivityService {
 		ValidateCollectionURL.deleteURLBlanksInCollection(activityRec.getAttachments());
 		if (!ValidateCollectionURL.validateURLCollection(activityRec.getAttachments()))
 			binding.rejectValue("attachments", "activity.attachments.nourl");
-		if (!activity.getType().equals("PRESENTATION") && activityRec.getAuthors() != null)
+		if (!activity.getType().equals("PRESENTATION"))
 			for (final Author au : activityRec.getAuthors())
 				if (this.activityRepository.getAuthorsWithSubmissionAcceptedInConference(activity.getConference().getId()).contains(au) == false)
 					binding.rejectValue("authors", "activity.authors.badAuthor");

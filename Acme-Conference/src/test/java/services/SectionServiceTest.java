@@ -30,12 +30,6 @@ public class SectionServiceTest extends AbstractTest {
 				"admin", "activity1", null
 			}, {
 
-				"admin", "activity0", IllegalArgumentException.class
-			}, {
-
-				"admin1", "activity1", IllegalArgumentException.class
-			}, {
-
 				"", "activity1", IllegalArgumentException.class
 			}
 		};

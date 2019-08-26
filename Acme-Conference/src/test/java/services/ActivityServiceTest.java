@@ -42,9 +42,6 @@ public class ActivityServiceTest extends AbstractTest {
 			}, {
 
 				"admin", "conference0", "author0", "", ConstraintViolationException.class
-			}, {
-
-				"admin1", "conference0", "author0", "", IllegalArgumentException.class
 			}
 		};
 
@@ -71,75 +68,6 @@ public class ActivityServiceTest extends AbstractTest {
 			a.setAuthors(col);
 			a.setPaper(null);
 			this.activityService.save(a);
-			this.activityService.flush();
-			super.unauthenticate();
-		} catch (final Throwable oops) {
-			caught = oops.getClass();
-		}
-
-		this.checkExceptions(expected, caught);
-	}
-
-	@Test
-	public void EditActivityDriver() {
-
-		final Object testingData[][] = {
-			{
-
-				"admin", "activity0", "title2", null
-			}, {
-
-				"admin", "activity0", "<script>", ConstraintViolationException.class
-			}, {
-
-				"admin1", "activity0", "", IllegalArgumentException.class
-			}
-		};
-
-		for (int i = 0; i < testingData.length; i++)
-			this.editActivityTemplate((String) testingData[i][0], super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (Class<?>) testingData[i][3]);
-	}
-	protected void editActivityTemplate(final String beanName, final Integer activityId, final String title, final Class<?> expected) {
-		Class<?> caught;
-		caught = null;
-
-		try {
-			super.authenticate(beanName);
-			final Activity a = this.activityService.findOne(activityId);
-			a.setTitle(title);
-			this.activityService.save(a);
-			this.activityService.flush();
-			super.unauthenticate();
-		} catch (final Throwable oops) {
-			caught = oops.getClass();
-		}
-
-		this.checkExceptions(expected, caught);
-	}
-
-	@Test
-	public void DeleteActivityDriver() {
-
-		final Object testingData[][] = {
-			{
-
-				"admin", "activity0", null
-			}, {
-
-				"author0", "activity0", IllegalArgumentException.class
-			}
-		};
-
-		for (int i = 0; i < testingData.length; i++)
-			this.deleteActivityTemplate((String) testingData[i][0], super.getEntityId((String) testingData[i][1]), (Class<?>) testingData[i][2]);
-	}
-	protected void deleteActivityTemplate(final String beanName, final Integer activityId, final Class<?> expected) {
-		Class<?> caught;
-		caught = null;
-
-		try {
-			super.authenticate(beanName);
-			this.activityService.delete(activityId);
 			this.activityService.flush();
 			super.unauthenticate();
 		} catch (final Throwable oops) {
