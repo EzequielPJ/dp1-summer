@@ -108,11 +108,9 @@ public class MessageController extends AbstractController {
 	public ModelAndView delete(@RequestParam final int idMessage) {
 		ModelAndView result;
 		try {
-			this.messageService.prepareMessageToDelete(idMessage);
-			final Message message = this.messageService.findOne(idMessage);
-			//final Message messageDeleted = this.messageService.deleteRecipients(message);
-			//System.out.println(messageDeleted.getRecipients());
-			this.messageService.delete(message);
+			final Message messageDelete = this.messageService.prepareMessageToDelete(idMessage);
+			//final Message message = this.messageService.getMessage(idMessage);
+			this.messageService.delete(messageDelete);
 			result = new ModelAndView("redirect:list.do");
 		} catch (final Throwable oops) {
 			result = this.listModelAndView(this.messageService.getMessagesOfActorLogged(), "message/list.do", "cannot.delete.message");
@@ -146,8 +144,11 @@ public class MessageController extends AbstractController {
 		final ModelAndView result = new ModelAndView("message/list");
 
 		result.addObject("messagesList", messagesList);
-		for (final Message message2 : messagesList)
-			System.out.println(message2.getSubject() + ": " + message2.getRecipients().size());
+		for (final Message message2 : messagesList) {
+
+			System.out.println("Asunto del mensaje con id= " + message2.getId() + ": " + message2.getSubject());
+			System.out.println("Numero de destinatarios del mensaje con id= " + message2.getId() + ": " + message2.getRecipients().size());
+		}
 		result.addObject("message", message);
 		result.addObject("requestURI", uri);
 
