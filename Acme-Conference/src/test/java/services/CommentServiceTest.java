@@ -35,6 +35,15 @@ public class CommentServiceTest extends AbstractTest {
 				"admin", "conference0", "text", null
 			}, {
 
+				"author0", "activity0", "text2", null
+			}, {
+
+				null, "conference0", "text2", null
+			}, {
+
+				null, "activity0", "text3", null
+			}, {
+
 				"admin", "conference0", "", ConstraintViolationException.class
 			}
 		};

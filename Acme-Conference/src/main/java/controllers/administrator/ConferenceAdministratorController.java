@@ -228,7 +228,7 @@ public class ConferenceAdministratorController extends AbstractController {
 		final Conference conference = this.conferenceService.findOne(idConference);
 
 		if (!conference.getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())))
-			result = new ModelAndView("redirect:list.do");
+			result = this.listModelAndView("security.error.accessDenied");
 		else if (conference.getFinalMode() == true)
 			result = this.listModelAndView("security.error.accessDenied");
 		else
@@ -274,7 +274,7 @@ public class ConferenceAdministratorController extends AbstractController {
 			if (this.conferenceService.findOne(idConference).getFinalMode() == true)
 				result = this.listModelAndView("security.error.accessDenied");
 			else if (!this.conferenceService.findOne(idConference).getAdministrator().equals(this.conferenceService.findByPrincipal(LoginService.getPrincipal())))
-				result = new ModelAndView("redirect:list.do");
+				result = this.listModelAndView("security.error.accessDenied");
 			else {
 				this.conferenceService.delete(idConference);
 				result = new ModelAndView("redirect:list.do");
