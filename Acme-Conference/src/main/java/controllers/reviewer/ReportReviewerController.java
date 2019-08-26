@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.LoginService;
 import services.ReportService;
+import services.ReviewerService;
 import services.SubmissionService;
 import controllers.AbstractController;
 import domain.Report;
+import domain.Reviewer;
 import domain.Submission;
 
 @Controller
@@ -25,6 +28,9 @@ public class ReportReviewerController extends AbstractController {
 
 	@Autowired
 	private ReportService		reportService;
+
+	@Autowired
+	private ReviewerService		reviewerService;
 
 	@Autowired
 	private SubmissionService	submissionService;
@@ -36,10 +42,10 @@ public class ReportReviewerController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam final int reviewerId) {
-		return this.listReportsByReviewerModelAndView(reviewerId);
+	public ModelAndView list() {
+		final Reviewer reviewer = this.reviewerService.findByPrincipal(LoginService.getPrincipal());
+		return this.listReportsByReviewerModelAndView(reviewer.getId());
 	}
-
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam final int submissionId) {
 		return this.createModelAndView(this.submissionService.findOne(submissionId));
@@ -57,6 +63,7 @@ public class ReportReviewerController extends AbstractController {
 		} catch (final ValidationException oops) {
 			result = this.createModelAndView(report);
 		} catch (final Throwable oops) {
+			oops.printStackTrace();
 			result = this.createModelAndView(report, "report.save.error");
 		}
 

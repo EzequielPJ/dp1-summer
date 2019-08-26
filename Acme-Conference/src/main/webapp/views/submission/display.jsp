@@ -16,6 +16,14 @@
 	 <acme:button url="/submission/administrator/changeStatus.do?idSubmission=${submission.id}&status=REJECTED" type="button" code="submission.display.changeStatus.rejected"/>
  	</jstl:if>
  </security:authorize>
+ 
+ 	<security:authorize access="hasRole('REVIEWER')">
+ 		<jstl:if test="${submission.status == 'UNDER-REVIEW'}">
+ 		<br />
+ 		<b><spring:message code="report.create.report" /></b>
+			<acme:button url="report/reviewer/create.do?submissionId=${submission.id }" type="button" code="report.list.create"/>
+		</jstl:if>
+	</security:authorize>
 
 <!-- Details of submission  -->	
 <acme:text label="submission.display.moment" value="${submission.moment}"/>

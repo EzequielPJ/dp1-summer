@@ -1,6 +1,7 @@
 
 package services;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -42,6 +43,9 @@ public class MessageService {
 
 	@Autowired
 	private AuthorService		authorService;
+
+	@Autowired
+	private SubmissionService	submissionService;
 
 	@Autowired
 	private Validator			validator;
@@ -126,7 +130,7 @@ public class MessageService {
 		return this.messageRepository.save(message);
 	}
 
-	public Message notifiqueStatusChanged(final Submission submission) {
+	public Message notifiqueStatusChanged(final Submission submission) throws ParseException {
 
 		final Actor admin = this.actorService.findByUserAccount(LoginService.getPrincipal());
 
@@ -153,6 +157,7 @@ public class MessageService {
 			+ submission.getConference().getCameraReadyDeadline() + ".  ---------  Tu entrega " + submission.getTicker().getIdentifier() + " ha recibido una actualización del estado {" + submission.getStatus()
 			+ "}. Por favor, compruebe el mismo para adjuntar la versión para la presentación del documento si fuese necesario antes de " + submission.getConference().getCameraReadyDeadline() + ".");
 
+		this.submissionService.setNotified(submission);
 		return this.messageRepository.save(message);
 
 	}
@@ -167,7 +172,6 @@ public class MessageService {
 			this.messageRepository.delete(message.getId());
 		}
 		this.messageRepository.flush();
-
 	}
 
 	public Message prepareMessageToDelete(final int idMessage) {
@@ -187,6 +191,7 @@ public class MessageService {
 			//message.setRecipients(new ArrayList<Actor>());
 			message.setActors(new ArrayList<Actor>());
 			result = this.messageRepository.save(message);
+			this.messageRepository.flush();
 		} else {
 			message.setRecipients(recipients);
 			message.setActors(actors);
@@ -194,7 +199,6 @@ public class MessageService {
 		}
 
 		this.messageRepository.flush();
-
 		return result;
 	}
 
@@ -284,5 +288,4 @@ public class MessageService {
 	public Message saveRepo(final Message message) {
 		return this.messageRepository.save(message);
 	}
-
 }

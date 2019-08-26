@@ -126,9 +126,6 @@
 		<b><spring:message code="actor.email" /></b>:
 		<jstl:out value="${sponsor.email }" />
 		<br />
-		<b><spring:message code="actor.sponsor.companyName" /></b>:
-		<jstl:out value="${sponsor.companyName }" />
-		<br />
 		<b><spring:message code="actor.address" /></b>:
 		<jstl:out value="${sponsor.address }" />
 		<br />

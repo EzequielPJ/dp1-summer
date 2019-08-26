@@ -27,6 +27,7 @@ public class Submission extends DomainEntity {
 	//Atributes
 	private Date					moment;
 	private String					status;
+	private boolean					notified;
 
 	//Relationship
 	private Conference				conference;
@@ -94,6 +95,14 @@ public class Submission extends DomainEntity {
 
 	public void setAuthor(final Author author) {
 		this.author = author;
+	}
+
+	public boolean getNotified() {
+		return this.notified;
+	}
+
+	public void setNotified(final boolean notified) {
+		this.notified = notified;
 	}
 
 }

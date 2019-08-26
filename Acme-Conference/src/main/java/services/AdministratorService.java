@@ -126,6 +126,7 @@ public class AdministratorService {
 		result.setName(admin.getName());
 		result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), admin.getPhoneNumber()));
 		result.setPhotoURL(admin.getPhotoURL());
+		result.setMiddlename(admin.getMiddlename());
 		result.setSurname(admin.getSurname());
 
 		this.validator.validate(result, binding);

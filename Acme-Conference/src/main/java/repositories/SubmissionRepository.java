@@ -37,6 +37,9 @@ public interface SubmissionRepository extends JpaRepository<Submission, Integer>
 	@Query("select s from Submission s where s.author.id = ?1 and s.status = 'UNDER-REVIEW'")
 	Collection<Submission> getSubmissionsOfAuthorUnderReview(int idAuthor);
 
+	@Query("select s from Submission s join s.reviewers reviewer where reviewer.id = ?1 and s.status = 'UNDER-REVIEW'")
+	Collection<Submission> getSubmissionsOfReviewer(int reviewerID);
+
 	@Query("select count(s) from Submission s where s.author.id = ?1 and s.conference.id = ?2")
 	Integer getNumberOfSubmissionsOfAuthorByConference(int idAuthor, int idConference);
 
