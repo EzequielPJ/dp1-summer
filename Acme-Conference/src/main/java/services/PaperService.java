@@ -142,4 +142,8 @@ public class PaperService {
 		this.paperRepository.flush();
 
 	}
+
+	public Collection<Paper> getPaperCamerReadyVersionOfConference(final int idConference) {
+		return this.paperRepository.getPaperCamerReadyVersionOfConference(idConference);
+	}
 }

@@ -126,5 +126,4 @@ public class MessageServiceTest extends AbstractTest {
 
 		this.checkExceptions(expected, caught);
 	}
-
 }
