@@ -8,7 +8,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<acme:cancel url="report/reviewer/list.do" code="report.display.back" />
+<acme:cancel url="${backUri }" code="report.display.back" />
 
 <h3><spring:message code="report.list.decision" /></h3>
 <b><jstl:out value="${report.decision}" /></b>

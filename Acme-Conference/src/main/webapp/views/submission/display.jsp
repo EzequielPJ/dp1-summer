@@ -75,6 +75,16 @@
 	</jstl:forEach>
 </ul>
 
+<security:authorize access="hasRole('AUTHOR')">
+
+	<jstl:if test="${submission.notified }">
+		<display:table pagesize="5" name="reports" id="report" requestURI="${requestURI}">
+			<display:column titleKey="submission.report.decision"><jstl:out value="${report.decision }" /></display:column>
+			<display:column titleKey="submission.report.seeMore"><acme:button url="report/author/display.do?reportId=${report.id }&backUri='submission/author/display.do?submissionId=${submission.id }'" type="button" code="submission.report.seeMore"/></display:column>
+		</display:table>
+	</jstl:if>
+
+</security:authorize>
 
 
 <!-- Details of camera ready paper  -->

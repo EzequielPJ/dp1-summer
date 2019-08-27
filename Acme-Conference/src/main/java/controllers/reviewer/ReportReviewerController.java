@@ -37,8 +37,8 @@ public class ReportReviewerController extends AbstractController {
 
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView displayReport(@RequestParam final int reportId) {
-		return this.displayModelAndView(reportId);
+	public ModelAndView displayReport(@RequestParam final int reportId, @RequestParam final String backUri) {
+		return this.displayModelAndView(reportId, backUri);
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -106,13 +106,15 @@ public class ReportReviewerController extends AbstractController {
 
 	}
 
-	protected ModelAndView displayModelAndView(final int reportId) {
+	protected ModelAndView displayModelAndView(final int reportId, final String backUri) {
 
 		final ModelAndView res = new ModelAndView("report/display");
 
 		final Report report = this.reportService.findOne(reportId);
 
 		res.addObject("report", report);
+
+		res.addObject("backUri", backUri);
 
 		this.configValues(res);
 		return res;

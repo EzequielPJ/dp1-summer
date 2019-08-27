@@ -29,8 +29,8 @@ public class ReportAuthorController extends AbstractController {
 
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView displayReport(@RequestParam final int reportId) {
-		return this.displayModelAndView(reportId);
+	public ModelAndView displayReport(@RequestParam final int reportId, @RequestParam final String backUri) {
+		return this.displayModelAndView(reportId, backUri);
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -40,7 +40,7 @@ public class ReportAuthorController extends AbstractController {
 		return this.listModelAndView(a);
 	}
 
-	protected ModelAndView displayModelAndView(final int reportId) {
+	protected ModelAndView displayModelAndView(final int reportId, final String backUri) {
 
 		final ModelAndView res = new ModelAndView("report/display");
 
@@ -48,6 +48,7 @@ public class ReportAuthorController extends AbstractController {
 
 		res.addObject("report", report);
 		res.addObject("requestURI", "report/author/display.do");
+		res.addObject("backUri", backUri);
 
 		this.configValues(res);
 		return res;

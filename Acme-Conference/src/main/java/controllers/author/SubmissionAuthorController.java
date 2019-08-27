@@ -17,6 +17,7 @@ import security.LoginService;
 import services.AuthorService;
 import services.ConferenceService;
 import services.PaperService;
+import services.ReportService;
 import services.SubmissionService;
 import controllers.AbstractController;
 import domain.Author;
@@ -36,6 +37,9 @@ public class SubmissionAuthorController extends AbstractController {
 
 	@Autowired
 	private AuthorService		authorService;
+
+	@Autowired
+	private ReportService		reportService;
 
 	@Autowired
 	private PaperService		paperService;
@@ -117,6 +121,9 @@ public class SubmissionAuthorController extends AbstractController {
 			result.addObject("submission", submission);
 			result.addObject("nonCameraReadyVersion", nonCameraReadyVersion);
 			result.addObject("cameraReadyVersion", cameraReadyVersion);
+
+			if (submission.getNotified())
+				result.addObject("reports", this.reportService.findReportsByAuthor(submission.getAuthor().getId()));
 
 		} else
 			result = new ModelAndView("redirect:list.do");

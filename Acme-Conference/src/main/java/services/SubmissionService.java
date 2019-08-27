@@ -76,6 +76,18 @@ public class SubmissionService {
 		}
 	}
 
+	public void setNotified(final Submission submission) throws ParseException {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		final Conference conference = submission.getConference();
+		Assert.isTrue(conference.getAdministrator().equals(this.administratorService.findByPrincipal(LoginService.getPrincipal())));
+		final LocalDateTime DATETIMENOW = LocalDateTime.now();
+		final Date actual = this.FORMAT.parse(DATETIMENOW.getYear() + "/" + DATETIMENOW.getMonthOfYear() + "/" + DATETIMENOW.getDayOfMonth() + " " + DATETIMENOW.getHourOfDay() + ":" + DATETIMENOW.getMinuteOfHour() + ":" + DATETIMENOW.getSecondOfMinute());
+		Assert.isTrue(conference.getFinalMode());
+		Assert.isTrue(conference.getSubmissionDeadline().before(actual) && conference.getNotificationDeadline().after(actual));
+		submission.setNotified(true);
+		this.submissionRepository.save(submission);
+	}
+
 	public void assignReviewer(final int idSubmission, final int idReviewer) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
 
@@ -89,6 +101,10 @@ public class SubmissionService {
 		submission.setReviewers(reviewers);
 
 		this.submissionRepository.save(submission);
+	}
+
+	public Collection<Submission> getSubmissionsOfReviewer(final int reviewerId) {
+		return this.submissionRepository.getSubmissionsOfReviewer(reviewerId);
 	}
 
 	public Collection<Submission> getSubmissionsByConference(final int idConference) {
