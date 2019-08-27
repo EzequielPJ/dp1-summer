@@ -116,7 +116,7 @@ public class MessageServiceTest extends AbstractTest {
 			super.authenticate(actor);
 
 			this.messageService.prepareMessageToDelete(this.getEntityId(message));
-			this.messageService.delete(this.getEntityId(message));
+			this.messageService.delete(this.messageService.findOne(this.getEntityId(message)));
 
 			this.messageService.flush();
 			super.unauthenticate();
@@ -126,5 +126,4 @@ public class MessageServiceTest extends AbstractTest {
 
 		this.checkExceptions(expected, caught);
 	}
-
 }
