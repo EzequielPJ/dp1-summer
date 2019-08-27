@@ -1,11 +1,15 @@
 
 package controllers.administrator;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,25 +22,52 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
+import services.AdministratorService;
 import services.CategoryService;
 import services.ConferenceService;
+import services.PaperService;
 import services.SubmissionService;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.List;
+import com.itextpdf.text.ListItem;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.ZapfDingbatsList;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import controllers.AbstractController;
 import domain.Administrator;
+import domain.Author;
 import domain.Conference;
+import domain.Paper;
 
 @Controller
 @RequestMapping("/conference/administrator")
 public class ConferenceAdministratorController extends AbstractController {
 
 	@Autowired
-	private ConferenceService	conferenceService;
+	private ConferenceService		conferenceService;
 
 	@Autowired
-	private CategoryService		categoryService;
+	private CategoryService			categoryService;
 
 	@Autowired
-	private SubmissionService	submissionService;
+	private SubmissionService		submissionService;
+
+	@Autowired
+	private AdministratorService	adminService;
+
+	@Autowired
+	private PaperService			paperService;
+
+	DateFormat						dateFormat	= new SimpleDateFormat("yyyy/MM/dd hh:mm");
 
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -199,6 +230,10 @@ public class ConferenceAdministratorController extends AbstractController {
 		result.addObject("conference", conference);
 		result.addObject("requestURI", "conference/administrator/display.do?idConference=" + idConference);
 		result.addObject("url", url);
+
+		if (conference.getCameraReadyDeadline().after(new Date()))
+			result.addObject("showButton", true);
+
 		if (lang == null)
 			result.addObject("lang", "en");
 		else
@@ -355,4 +390,129 @@ public class ConferenceAdministratorController extends AbstractController {
 		return result;
 	}
 
+	/**
+	 * @param idConference
+	 * @param response
+	 * @return
+	 * @throws DocumentException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/downloadConference", method = RequestMethod.GET)
+	public void downloadBook(@RequestParam final int idConference, final HttpServletResponse response) throws DocumentException, IOException {
+		final Conference conference = this.conferenceService.findOne(idConference);
+
+		final Administrator administratorLogged = this.adminService.findByPrincipal(LoginService.getPrincipal());
+		if (conference.getAdministrator().equals(administratorLogged) && conference.getCameraReadyDeadline().after(new Date())) {
+
+			response.setContentType("application/pdf");
+
+			final Document doc = new Document();
+
+			final PdfWriter pdfWriter = PdfWriter.getInstance(doc, response.getOutputStream());
+			doc.open();
+			final BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED);
+
+			//Portada del documento: Datos de la conferencia
+			doc.add(Chunk.NEWLINE);
+			final Font fontTitle = new Font(helvetica, 24, Font.BOLD);
+			final Paragraph paragraphTitle = new Paragraph(conference.getTitle(), fontTitle);
+			paragraphTitle.setAlignment(Element.ALIGN_CENTER);
+			doc.add(paragraphTitle);
+			doc.add(Chunk.NEWLINE);
+			doc.add(Chunk.NEWLINE);
+
+			final Image image = Image.getInstance("https://i.imgur.com/Ew8PhPu.png");
+			image.setAlignment(Element.ALIGN_BOTTOM | Element.ALIGN_CENTER | Image.TEXTWRAP);
+			image.scaleAbsolute(200, 200);
+			//Revisar el tamanio de la portada
+			doc.add(image);
+			doc.add(Chunk.NEWLINE);
+
+			final Font fontDate = new Font(helvetica, 20, Font.BOLD);
+			final String date = this.dateFormat.format(conference.getStartDate()) + " - " + this.dateFormat.format(conference.getEndDate());
+			final Paragraph paragraphDate = new Paragraph(date, fontDate);
+			paragraphDate.setAlignment(Element.ALIGN_CENTER);
+			doc.add(paragraphDate);
+			doc.add(Chunk.NEWLINE);
+
+			final Font fontPlace = new Font(helvetica, 14, Font.NORMAL);
+			final String place = conference.getVenue() + " (" + conference.getFee() + "$)";
+			final Paragraph paragraphPlace = new Paragraph(place, fontPlace);
+			paragraphPlace.setAlignment(Element.ALIGN_CENTER);
+			doc.add(paragraphPlace);
+
+			doc.newPage();
+
+			//Papers
+			final Collection<Paper> papers = this.paperService.getPaperCamerReadyVersionOfConference(conference.getId());
+
+			//Indice
+			final Font fontTitleIndex = new Font(helvetica, 22, (Font.BOLD | Font.UNDERLINE));
+			final Paragraph paragraphTitleIndex = new Paragraph("Index:", fontTitleIndex);
+			paragraphTitleIndex.setAlignment(Element.ALIGN_LEFT);
+			doc.add(paragraphTitleIndex);
+			doc.add(Chunk.NEWLINE);
+			final List indice = new List(true);
+			for (final Paper paper : papers) {
+				final ListItem indicePaper = new ListItem(paper.getTitle());
+				indice.add(indicePaper);
+			}
+
+			doc.add(indice);
+			doc.newPage();
+
+			final Font fontTitlePaper = new Font(helvetica, 20, Font.UNDERLINE);
+			final Font fontPaper = new Font(helvetica, 12);
+			final Font fontPaperURL = new Font(helvetica, 12, Font.UNDERLINE, new BaseColor(0, 191, 255));
+			final Font fontSubTitle = new Font(helvetica, 14, Font.BOLD);
+			for (final Paper paper : papers) {
+				doc.add(Chunk.NEWLINE);
+
+				final Paragraph paragraphPaperTitle = new Paragraph(paper.getTitle(), fontTitlePaper);
+				paragraphPaperTitle.setAlignment(Element.ALIGN_CENTER);
+				doc.add(paragraphPaperTitle);
+				doc.add(Chunk.NEWLINE);
+
+				final Paragraph paragraphAuthorsTitle = new Paragraph("Authors:", fontSubTitle);
+				paragraphAuthorsTitle.setAlignment(Element.ALIGN_JUSTIFIED);
+				doc.add(paragraphAuthorsTitle);
+
+				final ZapfDingbatsList authors = new ZapfDingbatsList(108);
+				for (final Author author : paper.getAuthors()) {
+					final ListItem authorIndex = new ListItem(author.getName() + " " + author.getMiddlename() + " " + author.getSurname() + " (" + author.getEmail() + ")", fontPaper);
+					authors.add(authorIndex);
+				}
+
+				for (final String alias : paper.getAliases()) {
+					final ListItem authorIndex = new ListItem(alias, fontPaper);
+					authors.add(authorIndex);
+				}
+
+				authors.setIndentationLeft(45f);
+				doc.add(authors);
+				doc.add(Chunk.NEWLINE);
+
+				final Paragraph paragraphSummaryTitle = new Paragraph("Summary:", fontSubTitle);
+				paragraphSummaryTitle.setAlignment(Element.ALIGN_JUSTIFIED);
+				doc.add(paragraphSummaryTitle);
+
+				final Paragraph summary = new Paragraph(paper.getSummary(), fontPaper);
+				summary.setIndentationLeft(45f);
+				summary.setAlignment(Element.ALIGN_JUSTIFIED);
+				doc.add(summary);
+
+				doc.add(Chunk.NEWLINE);
+
+				final Chunk urlDoc = new Chunk("Go to the document.", fontPaperURL);
+				urlDoc.setAnchor(paper.getDocumentUrl());
+				doc.add(urlDoc);
+
+				doc.newPage();
+			}
+
+			doc.close();
+			pdfWriter.close();
+		}
+
+	}
 }

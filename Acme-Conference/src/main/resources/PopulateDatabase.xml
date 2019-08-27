@@ -1115,14 +1115,14 @@
     <!-- Paper (author0) -->
     
     <bean class="domain.Paper" id="paper0">
-        <property name="title" value="Videojuegos" />
+        <property name="title" value="About videogames and other storytales" />
         <property name="aliases">
             <list>
             <value>aliases</value>
             </list>
         </property>  
-        <property name="summary" value="Videojuegos en la informática" />
-        <property name="documentUrl" value="http://www.paper.com" />
+        <property name="summary" value="Ubisoft noticed that connected sandbox experiences, with seamless switches between single and multiplayer modes provided the players with more fun, leading the company to switch from pursuing single-player only games to internet connected online experiences. According to Guillemot, Ubisoft internally refers to its reimagined self as 'before The Division' and an 'after The Division'. In an interview with The Verge, Anne Blondel-Jouin, executive producer of The Crew turned vice-president of live operations, noted that The Crew was an early game of Ubisoft's to require a persistent internet connection in order to play. This raised initial concerns for gamers, hampering the game's initial success and sparked concerns internally at the company." />
+        <property name="documentUrl" value="https://forums.ubi.com/" />
         <property name="cameraReadyPaper" value="false" />
         <property name="authors">
             <list>
@@ -1133,14 +1133,14 @@
     </bean>
 
     <bean class="domain.Paper" id="paper2">
-        <property name="title" value="Bases de datos" />
+        <property name="title" value="Database efficiency" />
         <property name="aliases">
             <list>
-            <value>aliases</value>
+            <value>Jose Ramirez Prieto</value>
             </list>
         </property>  
-        <property name="summary" value="Introducción al manejo de MySQL" />
-        <property name="documentUrl" value="http://www.paper.com" />
+        <property name="summary" value="Database software can be tailored for specific application domains and their required functionality, for specific hardware and its characteristics, or for other purposes. This brief paper collects issues and techniques required or desirable for making a server-class database management system energy-efficient. The opportunities go far beyond cost functions and general performance improvements. Topics include additional layers in the memory hierarchy, I/O optimizations, data format, scheduling, adaptive query plan execution, and self management in novel ways. This paper represents a challenge rather than a solution. Promising approaches and techniques are indicated throughout, but the challenge is to provide tools for building and tailoring experimental database server software that enables research into energy-efficient database management" />
+        <property name="documentUrl" value="http://www.inf.ovgu.de/inf_media/downloads/forschung/technical_reports_und_preprints/2008/TechReport1-EGOTEC-23e94.pdf#page=32" />
         <property name="cameraReadyPaper" value="true" />
         <property name="authors">
             <list>
@@ -1153,13 +1153,13 @@
     <!-- Paper (author1) -->
     
     <bean class="domain.Paper" id="paper1">
-        <property name="title" value="La informática en la ingeniería" />
+        <property name="title" value="IT: Java 10 news" />
         <property name="aliases">
             <list>
             <value>Felipe Giro Completo</value>
             </list>
         </property>  
-        <property name="summary" value="Breve historia de la informática" />
+        <property name="summary" value="These notes describe important changes, enhancements, removed APIs and features, deprecated APIs and features, and other information about JDK 12 and Java SE 12. In some cases, the descriptions provide links to additional detailed information about an issue or a change. This page does not duplicate the descriptions provided by the Java SE 12 ( JSR 386) Platform Specification, which provides informative background for all specification changes and might also include the identification of removed or deprecated APIs and features not described here." />
         <property name="documentUrl" value="http://www.java.com" />
         <property name="cameraReadyPaper" value="false" />
         <property name="authors">
@@ -1171,13 +1171,13 @@
     </bean>
     
       <bean class="domain.Paper" id="paper3">
-        <property name="title" value="Bases de datos" />
+        <property name="title" value="Best protocols in database managements" />
         <property name="aliases">
             <list>
             </list>
         </property>  
-        <property name="summary" value="Introducción a Oracle Database" />
-        <property name="documentUrl" value="http://www.paper.com" />
+        <property name="summary" value="Systematic review of complex evidence cannot rely solely on predefined, protocol driven search strategies, no matter how many databases are searched. Strategies that might seem less efficient (such as browsing library shelves, asking colleagues, pursuing references that look interesting, and simply being alert to serendipitous discovery) may have a better yield per hour spent and are likely to identify important sources that would otherwise be missed. Citation tracking is an important search method for identifying systematic reviews published in obscure journals." />
+        <property name="documentUrl" value="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1283190/" />
         <property name="cameraReadyPaper" value="true" />
         <property name="authors">
             <list>
@@ -1188,14 +1188,14 @@
     </bean>
     
       <bean class="domain.Paper" id="paper4">
-        <property name="title" value="Programación desde cero" />
+        <property name="title" value="Programming from scratch" />
         <property name="aliases">
             <list>
-            <value>aliases</value>
+            <value>Maria Gonzalez Felipez</value>
             </list>
         </property>  
-        <property name="summary" value="Primeras nociones de programación en Java" />
-        <property name="documentUrl" value="http://www.paper.com" />
+        <property name="summary" value="This python for beginners course is geared to students who want to know how python works and also to those totally new to programming. The python language has very simple syntax(way to write it) to learn and it is one of the most powerful languages to learn since it can used for a variety of things." />
+        <property name="documentUrl" value="https://www.udemy.com/course/python-for-beginners-learn-programming-from-scratch/" />
         <property name="cameraReadyPaper" value="false" />
         <property name="authors">
             <list>

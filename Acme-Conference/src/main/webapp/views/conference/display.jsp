@@ -17,6 +17,10 @@
 	</jstl:if>
 </security:authorize>
 
+<jstl:if test= "${showButton}">
+	<acme:button url="conference/administrator/downloadConference.do?idConference=${conference.id}" type="button" code="conference.display.download"/>
+</jstl:if>
+
 <acme:text label="conference.list.title" value="${conference.title}"/>
 <acme:text label="conference.list.acronym" value="${conference.acronym}"/>
 <acme:text label="conference.list.venue" value="${conference.venue}"/>

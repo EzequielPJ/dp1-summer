@@ -27,4 +27,7 @@ public interface PaperRepository extends JpaRepository<Paper, Integer> {
 	@Query("select p from Paper p where p.submission.id = ?1 and cameraReadyPaper = true")
 	Paper getPaperCamerReadyVersionOfSubmission(int idSubmission);
 
+	@Query("select p from Paper p where p.submission.conference.id = ?1 and cameraReadyPaper = true")
+	Collection<Paper> getPaperCamerReadyVersionOfConference(int idConference);
+
 }
