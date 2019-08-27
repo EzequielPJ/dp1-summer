@@ -19,7 +19,7 @@
 		<display:table pagesize="5" name="reports" id="report" requestURI="${requestURI}">
 			<display:column titleKey="report.list.submission" ><jstl:out value="${report.submission.ticker.identifier}"/> </display:column>
 			<display:column titleKey="report.list.decision" ><jstl:out value="${report.decision}"/></display:column>
-			<display:column titleKey="report.list.display"><acme:button url="report/reviewer/display.do?reportId=${report.id}" type="button" code="report.list.display"/></display:column>
+			<display:column titleKey="report.list.display"><acme:button url="report/reviewer/display.do?reportId=${report.id}&backUri=report/reviewer/list.do" type="button" code="report.list.display"/></display:column>
 		</display:table>
 
 	</section>

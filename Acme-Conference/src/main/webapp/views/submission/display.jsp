@@ -11,7 +11,7 @@
 
 
  <security:authorize access="hasRole('ADMINISTRATOR')">
- 	<jstl:if test="${submission.status == 'UNDER-REVIEW'}">
+ 	<jstl:if test="${submission.status == 'UNDER-REVIEW' and validDate}">
 	 <acme:button url="/submission/administrator/changeStatus.do?idSubmission=${submission.id}&status=ACCEPTED" type="button" code="submission.display.changeStatus.accepted"/>
 	 <acme:button url="/submission/administrator/changeStatus.do?idSubmission=${submission.id}&status=REJECTED" type="button" code="submission.display.changeStatus.rejected"/>
  	</jstl:if>
@@ -80,7 +80,7 @@
 	<jstl:if test="${submission.notified }">
 		<display:table pagesize="5" name="reports" id="report" requestURI="${requestURI}">
 			<display:column titleKey="submission.report.decision"><jstl:out value="${report.decision }" /></display:column>
-			<display:column titleKey="submission.report.seeMore"><acme:button url="report/author/display.do?reportId=${report.id }&backUri='submission/author/display.do?submissionId=${submission.id }'" type="button" code="submission.report.seeMore"/></display:column>
+			<display:column titleKey="submission.report.seeMore"><acme:button url="report/author/display.do?reportId=${report.id }&backUri=submission/author/display.do?idSubmission=${submission.id }" type="button" code="submission.report.seeMore"/></display:column>
 		</display:table>
 	</jstl:if>
 

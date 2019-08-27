@@ -69,8 +69,10 @@ public class RegistrationAuthorController extends AbstractController {
 			result = new ModelAndView("redirect:display.do?registrationId=" + res.getId());
 		} catch (final ValidationException oops) {
 			result = this.createModelAndView(registration);
+			oops.printStackTrace();
 		} catch (final Throwable oops) {
 			result = this.createModelAndView(registration, "registration.save.error");
+			oops.printStackTrace();
 		}
 
 		return result;

@@ -59,7 +59,7 @@ public class ReportReviewerController extends AbstractController {
 		try {
 			final Report reportFinal = this.reportService.reconstruct(report, binding);
 			final Report res = this.reportService.save(reportFinal);
-			result = new ModelAndView("redirect:display.do?reportId=" + res.getId());
+			result = new ModelAndView("redirect:list.do");
 		} catch (final ValidationException oops) {
 			result = this.createModelAndView(report);
 		} catch (final Throwable oops) {
@@ -69,7 +69,6 @@ public class ReportReviewerController extends AbstractController {
 
 		return result;
 	}
-
 	protected ModelAndView createModelAndView(final Submission submission) {
 		final ModelAndView res = new ModelAndView("report/edit");
 

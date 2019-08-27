@@ -44,9 +44,7 @@
 		
 		<security:intercept-url pattern="/category/administrator/**" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/topic/administrator/**" access="hasRole('ADMINISTRATOR')" />
-		
-		<security:intercept-url pattern="/sponsorship/sponsor/**" access="hasRole('SPONSOR')" />
-		
+				
 		<!-- Conference -->
 		
 		<security:intercept-url pattern="/conference/administrator/**" access="hasRole('ADMINISTRATOR')"/>
@@ -54,6 +52,9 @@
 		<security:intercept-url pattern="/conference/listConferenceNow.do" access="permitAll" />
 		<security:intercept-url pattern="/conference/listConferenceFuture.do" access="permitAll" />
 		<security:intercept-url pattern="/conference/display.do" access="permitAll" />
+		
+		<!-- Sponosrship -->
+		<security:intercept-url pattern="/sponsorship/sponsor/**" access="hasRole('CONFERENCESPONSOR')"/>
 		
 		<!-- Submission -->
 		<security:intercept-url pattern="/submission/administrator/**" access="hasRole('ADMINISTRATOR')"/>

@@ -43,10 +43,14 @@ public class CategoryAdministratorController extends AbstractController {
 	public ModelAndView edit(final int idCategory) {
 		ModelAndView result;
 		final Category category = this.categoryService.findOne(idCategory);
-		result = this.createModelAndView(category);
+
+		if (this.categoryService.getGeneralCategory().equals(category))
+			result = this.listModelAndView("security.error.accessDenied");
+		else
+			result = this.createModelAndView(category);
+
 		return result;
 	}
-
 	@RequestMapping(value = "/save", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(Category category, final BindingResult binding) {
 		ModelAndView result;

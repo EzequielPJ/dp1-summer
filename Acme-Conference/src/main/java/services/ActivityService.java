@@ -21,6 +21,7 @@ import utiles.AuthorityMethods;
 import utiles.ValidateCollectionURL;
 import domain.Activity;
 import domain.Author;
+import domain.Comment;
 import domain.Paper;
 import domain.Section;
 
@@ -33,6 +34,9 @@ public class ActivityService {
 
 	@Autowired
 	private ConferenceService	conferenceService;
+
+	@Autowired
+	private CommentService		commentService;
 
 	@Autowired
 	private SectionService		sectionService;
@@ -106,6 +110,10 @@ public class ActivityService {
 			for (final Section s : col)
 				this.sectionService.delete(s.getId());
 		}
+
+		for (final Comment c : this.commentService.getCommentsByActivity(ac.getId()))
+			this.commentService.delete(c);
+
 		this.activityRepository.delete(ac);
 	}
 	public Activity reconstruct(final Activity activity, final BindingResult binding) throws ParseException {

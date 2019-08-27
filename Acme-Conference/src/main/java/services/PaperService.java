@@ -57,7 +57,6 @@ public class PaperService {
 		final Paper paper = new Paper();
 
 		paper.setTitle(submissionPaperForm.getTitle());
-		paper.setAliases(submissionPaperForm.getAliases());
 		paper.setSummary(submissionPaperForm.getSummary());
 		paper.setDocumentUrl(submissionPaperForm.getDocumentUrl());
 		paper.setCameraReadyPaper(false);

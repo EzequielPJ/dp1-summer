@@ -51,6 +51,9 @@ public class SubmissionService {
 	private PaperService					paperService;
 
 	@Autowired
+	private MessageService					messageService;
+
+	@Autowired
 	private IntermediaryBetweenTransactions	intermediaryBetweenTransactions;
 
 	@Autowired
@@ -93,7 +96,8 @@ public class SubmissionService {
 
 		final Submission submission = this.findOne(idSubmission);
 		Assert.isTrue(submission.getConference().getAdministrator().equals(this.administratorService.findByPrincipal(LoginService.getPrincipal())));
-		Assert.isTrue(submission.getConference().getSubmissionDeadline().before(new Date()) && submission.getConference().getNotificationDeadline().after(new Date()));
+		final Date actual = new Date();
+		Assert.isTrue(submission.getConference().getSubmissionDeadline().before(actual) && submission.getConference().getNotificationDeadline().after(actual));
 
 		final Reviewer reviewer = this.reviewerService.findOne(idReviewer);
 		final Collection<Reviewer> reviewers = submission.getReviewers();
@@ -130,6 +134,7 @@ public class SubmissionService {
 			else
 				submission.setStatus("ACCEPTED");
 			this.submissionRepository.saveAndFlush(submission);
+			this.messageService.notifiqueStatusChanged(submission);
 		}
 
 	}
@@ -169,13 +174,15 @@ public class SubmissionService {
 	}
 
 	//FIXME: HAY QUE TENER ALGUNA RESTRICCION DE FECHA?
-	public Submission changeStatus(final Submission submission, final String status) {
+	public Submission changeStatus(final Submission submission, final String status) throws ParseException {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"), "Debe ser un administrador para realizar esta acción");
 		Assert.isTrue(submission.getConference().getAdministrator().equals(this.administratorService.findByPrincipal(LoginService.getPrincipal())), "Debe ser el propietario de la conferencia");
 		Assert.isTrue(submission.getStatus().equals("UNDER-REVIEW"), "A la conferencia seleccionada ya se le ha cambiado el estado");
 		Assert.isTrue(status.equals("ACCEPTED") || status.equals("REJECTED"), "El estado es incorrecto");
 		submission.setStatus(status);
-		return this.submissionRepository.save(submission);
+		final Submission newSubmission = this.submissionRepository.save(submission);
+		this.messageService.notifiqueStatusChanged(newSubmission);
+		return newSubmission;
 	}
 
 	public Integer getNumberOfSubmissionsOfAuthor(final int idAuthor) {

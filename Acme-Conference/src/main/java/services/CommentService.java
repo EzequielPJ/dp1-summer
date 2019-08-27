@@ -48,6 +48,10 @@ public class CommentService {
 		return this.commentRepository.getCommentsByActivity(id);
 	}
 
+	public void delete(final Comment comment) {
+		this.commentRepository.delete(comment);
+	}
+
 	public Actor findActorPrincipal(final int id) {
 		return this.commentRepository.findActorPrincipal(id);
 	}

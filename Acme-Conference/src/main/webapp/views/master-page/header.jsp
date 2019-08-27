@@ -52,9 +52,6 @@
 					<li>
 						<a href="conference/administrator/listNextConference.do"><spring:message code="master.page.administrator.listNextConference" /></a>
 					</li>
-					<li>
-						<a href="conference/administrator/create.do"><spring:message code="master.page.administrator.create" /></a>
-					</li>
 				</ul>
 			</li>
 		</security:authorize>
@@ -125,23 +122,6 @@
 		</li> 
 		</security:authorize>
 		
-
-		
-		<!-- Actors -->
-		<li>
-			<a class="fNiv"><spring:message	code="master.page.actors" /></a>
-			<ul>
-				<li class="arrow"></li>
-				<li>
-					<a href="actor/listWriters.do"><spring:message code="master.page.list.writers" /></a>
-		
-				</li>
-				<li>
-					<a href="actor/listPublishers.do"><spring:message code="master.page.list.publishers" /></a>
-				</li>
-			</ul>
-		</li>
-		
 		<!-- ADMINISTRATOR -->
 		<security:authorize access="hasRole('ADMINISTRATOR')">
 			<li>
@@ -163,9 +143,6 @@
 					<li>
 					   <a href="administrator/process.do"><spring:message code="master.page.process.launch" /></a>
 					</li>
-					<li>
-						<a href="actor/administrator/listActors.do"><spring:message code="master.page.administrator.listActors" /></a>
-					</li>
 				</ul>
 			</li>
 		</security:authorize>
@@ -174,12 +151,6 @@
 		<security:authorize access="hasRole('AUTHOR')">
 			<li>
 				<a class="fNiv" href="finder/author/edit.do"><spring:message code="master.page.finder.edit" /></a>
-			</li>
-			<li>
-				<a class="fNiv" href="opinion/reader/list.do"><spring:message code="master.page.opinion.list" /></a>
-			</li>
-			<li>
-				<a class="fNiv" href="announcement/reader/listAllMyWriters.do"><spring:message code="master.page.announcement.listMy" /></a>
 			</li>
 		</security:authorize>	
 				
@@ -200,13 +171,6 @@
 		
 		<!-- My profile and logout -->
 		<security:authorize access="isAuthenticated() ">
-			<li><a class="fNiv"><spring:message code="actor.settings" /></a>
-				<ul>
-					<li>
-						<a href="actor/displayData.do"><spring:message code="master.page.displayData" /></a>
-					</li>
-				</ul>
-			</li>
 			<li>
 				<a class="fNiv" href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a>
 			</li>

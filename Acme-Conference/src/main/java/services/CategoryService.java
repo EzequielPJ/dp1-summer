@@ -65,7 +65,7 @@ public class CategoryService {
 		result.setCategoryEN(category.getCategoryEN().toUpperCase().replaceAll(" +", " "));
 		result.setCategoryES(category.getCategoryES().toUpperCase().replaceAll(" +", " "));
 
-		final Category generalCategory = this.categoryRepository.getGeneralCategory();
+		final Category generalCategory = this.getGeneralCategory();
 		if (category.getParent() == null)
 			result.setParent(generalCategory);
 		else
@@ -84,8 +84,8 @@ public class CategoryService {
 	public Category save(final Category category) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
 		Assert.isTrue(!category.getCategoryES().toUpperCase().trim().equals("CONGRESO") && !category.getCategoryEN().toUpperCase().trim().equals("CONFERENCE"));
-		final Category genar = this.categoryRepository.getGeneralCategory();
-		Assert.isTrue(category.getId() != this.categoryRepository.getGeneralCategory().getId());
+		final Category genar = this.getGeneralCategory();
+		Assert.isTrue(category.getId() != this.getGeneralCategory().getId());
 
 		final Category parent = category.getParent();
 		Assert.isTrue(category.getId() != parent.getId());
@@ -106,7 +106,7 @@ public class CategoryService {
 
 	public void delete(final Category category) {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
-		final Category generalCategory = this.categoryRepository.getGeneralCategory();
+		final Category generalCategory = this.getGeneralCategory();
 		Assert.isTrue(category.getId() != generalCategory.getId());
 
 		final Category categoryParent = category.getParent();
@@ -216,7 +216,7 @@ public class CategoryService {
 
 		Category newParent = newCategory.getParent();
 		if (newParent == null)
-			newParent = this.categoryRepository.getGeneralCategory();
+			newParent = this.getGeneralCategory();
 		newParent.getChildren().add(newCategory);
 		this.categoryRepository.saveAndFlush(newParent);
 	}
@@ -224,6 +224,10 @@ public class CategoryService {
 	public void flush() {
 		this.categoryRepository.flush();
 
+	}
+
+	public Category getGeneralCategory() {
+		return this.categoryRepository.getGeneralCategory();
 	}
 
 	//---------------------------------------------------------------------------------------

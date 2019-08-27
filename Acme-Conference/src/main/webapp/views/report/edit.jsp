@@ -25,12 +25,17 @@
 		<b><spring:message code="report.edit.decisionPattern" /></b>
 		<acme:textbox code="report.edit.decision" path="decision"/>
 		<br/>
+		<div id="comments"> 
 		<spring:message code="report.edit.comments" />
+			<jstl:if test="${empty report.comments}">
+   				<form:input class="textbox" path="comments" type="text"/>    
+   			</jstl:if>
+		
 		<jstl:forEach var="comment" items="${report.comments}">
     	   	 <form:input class="textbox" path="comments" type="text" value="${comment}"/>       	
     	</jstl:forEach>
     	<form:errors path="comments" cssClass="error" />
-		
+		</div>
 		<acme:submit name="save" code="report.edit.save"/>
 		<acme:cancel url="submission/reviewer/display.do?idSubmission=${report.submission.id }" code="report.edit.cancel"/>
 		

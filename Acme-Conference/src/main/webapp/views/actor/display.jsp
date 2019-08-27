@@ -102,7 +102,12 @@
 		<br />
 		<b><spring:message code="actor.phoneNumber" /></b>:
 		<jstl:out value="${author.phoneNumber }" />
-
+		
+		<jstl:if test="${actor.score ne null }">
+			<br />
+			<b><spring:message code="actor.score" /></b>:
+			<jstl:out value="${author.score }" />
+		</jstl:if>
 
 		<br />
 

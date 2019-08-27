@@ -1,6 +1,8 @@
 
 package controllers.author;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -12,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.AuthorService;
 import services.PaperService;
+import utiles.ValidatorCollection;
 import controllers.AbstractController;
 import domain.Paper;
 
@@ -39,6 +42,9 @@ public class PaperAuthorController extends AbstractController {
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public ModelAndView save(final Paper paper, final BindingResult bindingResult) {
 		ModelAndView result;
+
+		final Collection<String> aliases = ValidatorCollection.deleteStringsBlanksInCollection(paper.getAliases());
+		paper.setAliases(aliases);
 
 		paper.setCameraReadyPaper(true);
 		this.validator.validate(paper, bindingResult);

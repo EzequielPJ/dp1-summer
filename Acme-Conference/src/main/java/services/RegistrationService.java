@@ -55,7 +55,7 @@ public class RegistrationService {
 		Assert.isTrue(registration.getAuthor().getId() == this.authorService.findByPrincipal(LoginService.getPrincipal()).getId());
 
 		Assert.isTrue(!ValidateCreditCard.isCaducate(registration.getCreditCard()));
-		Assert.isTrue(registration.getConference().getStartDate().before(registration.getMoment()));
+		Assert.isTrue(registration.getConference().getStartDate().after(registration.getMoment()));
 
 		Assert.isTrue(!this.alreadyRegister(registration.getConference()));
 
@@ -69,6 +69,7 @@ public class RegistrationService {
 
 		final Registration res = new Registration();
 
+		res.setId(0);
 		res.setAuthor(registration.getAuthor());
 		res.setConference(registration.getConference());
 

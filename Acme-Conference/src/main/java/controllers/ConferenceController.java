@@ -119,24 +119,13 @@ public class ConferenceController extends AbstractController {
 		else
 			result.addObject("lang", lang);
 
-		/////////////Parte de comment/////////////
-		//		Collection<Comment> comments = null;
-		//		final int idEntity = idConference;
-		//		comments = this.commentService.getCommentsByConference(idEntity);
-		//
-		//		result.addObject("comments", comments);
-		//
-		//		if (lang == null)
-		//			result.addObject("anonim", "anonymous");
-		//		else
-		//			result.addObject("anonim", "anónimo");
-
-		//////////////////////////////////////////
-
 		if (conference.getStartDate().before(new Date()))
 			result.addObject("avaliable", false);
 		else if (AuthorityMethods.checkIsSomeoneLogged())
-			result.addObject("avaliable", !this.registrationService.alreadyRegister(conference));
+			if (AuthorityMethods.chechAuthorityLogged("AUTHOR"))
+				result.addObject("avaliable", !this.registrationService.alreadyRegister(conference));
+			else
+				result.addObject("avaliable", false);
 
 		this.configValues(result);
 		return result;

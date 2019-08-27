@@ -84,10 +84,10 @@ public class TopicService {
 		}
 
 		if (namesEN.contains(topic.getTopicEN().trim().toUpperCase().replaceAll(" +", " ")))
-			binding.rejectValue("topicEN", "category.error.namelikeOther");
+			binding.rejectValue("topicEN", "topic.error.namelikeOther");
 
 		if (namesES.contains(topic.getTopicES().trim().toUpperCase().replaceAll(" +", " ")))
-			binding.rejectValue("topicES", "category.error.namelikeOther");
+			binding.rejectValue("topicES", "topic.error.namelikeOther");
 
 	}
 
@@ -100,7 +100,7 @@ public class TopicService {
 	}
 	//---------------------------------------------------------------------------------------
 
-public void flush() {
+	public void flush() {
 		this.topicRepository.flush();
 	}
 

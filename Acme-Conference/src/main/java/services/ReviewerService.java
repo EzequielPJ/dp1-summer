@@ -110,7 +110,7 @@ public class ReviewerService {
 		final UserAccount account = reviewerForm.getUserAccount();
 
 		final Authority a = new Authority();
-		a.setAuthority(Authority.AUTHOR);
+		a.setAuthority(Authority.REVIEWER);
 		account.addAuthority(a);
 
 		result.setUserAccount(account);

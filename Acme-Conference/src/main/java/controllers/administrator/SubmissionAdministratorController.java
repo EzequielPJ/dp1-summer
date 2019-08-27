@@ -2,6 +2,7 @@
 package controllers.administrator;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,41 +59,45 @@ public class SubmissionAdministratorController extends AbstractController {
 
 		if (submission.getConference().getAdministrator().equals(admin)) {
 			result = this.displayModelAndView(submission);
-			result.addObject("reviewers", reviewers);
+			if (submission.getConference().getSubmissionDeadline().before(new Date()) && submission.getConference().getNotificationDeadline().after(new Date())) {
+				result.addObject("reviewers", reviewers);
+				result.addObject("validDate", true);
+			} else
+				result.addObject("validDate", false);
+
 		} else
 			result = new ModelAndView("redirect:list.do");
 
 		this.configValues(result);
 		return result;
 	}
-
 	//list
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		final Administrator admin = this.adminService.findByPrincipal(LoginService.getPrincipal());
 		final Collection<Submission> submissions = this.submissionService.getSubmissionsOfAdmin(admin.getId());
-		return this.listModelAndView("submission.list.all", submissions);
+		return this.listModelAndView("submission.list.all", submissions, "list.do");
 	}
 
 	@RequestMapping(value = "/listAccepted", method = RequestMethod.GET)
 	public ModelAndView listAccepted() {
 		final Administrator admin = this.adminService.findByPrincipal(LoginService.getPrincipal());
 		final Collection<Submission> submissions = this.submissionService.getSubmissionsOfAdminAccepted(admin.getId());
-		return this.listModelAndView("submission.list.accepted", submissions);
+		return this.listModelAndView("submission.list.accepted", submissions, "listAccepted.do");
 	}
 
 	@RequestMapping(value = "/listRejected", method = RequestMethod.GET)
 	public ModelAndView listRejected() {
 		final Administrator admin = this.adminService.findByPrincipal(LoginService.getPrincipal());
 		final Collection<Submission> submissions = this.submissionService.getSubmissionsOfAdminRejected(admin.getId());
-		return this.listModelAndView("submission.list.rejected", submissions);
+		return this.listModelAndView("submission.list.rejected", submissions, "listRejected.do");
 	}
 
 	@RequestMapping(value = "/listUnderReview", method = RequestMethod.GET)
 	public ModelAndView listUnderReview() {
 		final Administrator admin = this.adminService.findByPrincipal(LoginService.getPrincipal());
 		final Collection<Submission> submissions = this.submissionService.getSubmissionsOfAdminUnderReview(admin.getId());
-		return this.listModelAndView("submission.list.underReview", submissions);
+		return this.listModelAndView("submission.list.underReview", submissions, "listUnderReview.do");
 	}
 
 	@RequestMapping(value = "/assignTo", method = RequestMethod.GET)
@@ -113,7 +118,6 @@ public class SubmissionAdministratorController extends AbstractController {
 		try {
 			final Submission submission = this.submissionService.findOne(idSubmission);
 			final Submission newSubmission = this.submissionService.changeStatus(submission, status);
-			this.messageService.notifiqueStatusChanged(newSubmission);
 			result = new ModelAndView("redirect:list.do");
 		} catch (final Throwable oops) {
 			final Submission submission = this.submissionService.findOne(idSubmission);
@@ -144,10 +148,11 @@ public class SubmissionAdministratorController extends AbstractController {
 		return result;
 	}
 
-	public ModelAndView listModelAndView(final String title, final Collection<Submission> submissions) {
+	public ModelAndView listModelAndView(final String title, final Collection<Submission> submissions, final String uri) {
 		final ModelAndView result = new ModelAndView("submission/list");
 		result.addObject("submissions", submissions);
 		result.addObject("title", title);
+		result.addObject("requestURI", "submission/administrator/" + uri);
 
 		this.configValues(result);
 		return result;

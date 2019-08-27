@@ -76,7 +76,9 @@ public class SponsorshipService {
 		result.setTargetURL(sponsorship.getTargetURL());
 		final CreditCard creditCard = this.reconstructCVV(sponsorship.getCreditCard());
 		result.setCreditCard(creditCard);
-		result.setConferences(sponsorship.getConferences());
+		final Collection<Conference> conferences = sponsorship.getConferences();
+		conferences.remove(null);
+		result.setConferences(conferences);
 
 		ValidateCreditCard.checkGregorianDate(result.getCreditCard(), binding);
 
