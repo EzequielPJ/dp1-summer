@@ -1363,6 +1363,7 @@
 	
 	
 	<!-- CONTROL CHECK -->
+	<!-- CAMBIAR PATRONES DE LOS TICKERS -->
 	
 	 <bean class="domain.Conference" id="conference100">
         <property name="title" value="Conference0 Control Check" />
@@ -1396,13 +1397,56 @@
         <property name="category" ref="category6" />
     </bean>
 	
+	<bean class="domain.Ticker" id="ticker100">
+        <property value="CCC-AN70" name="identifier" />
+    </bean>
+    
 	<bean id="quolet0" class="domain.Quolet">
 		<property name="title" value="TEST quolet0" />
 		<property name="publicationMoment" value="2019/07/27" />
 		<property name="body" value="Cuerpo de prueba de un quolet0" />
 		<property name="atributoDos" value="Prueba 0"/>
         <property name="ticker" ref="ticker100" />
-        <property name="conference" ref="conference100"
+        <property name="conference" ref="conference100"/>
+	</bean>
+	
+	<bean class="domain.Ticker" id="ticker101">
+        <property value="CCC-AN71" name="identifier" />
+    </bean>
+    
+	<bean id="quolet1" class="domain.Quolet">
+		<property name="title" value="TEST quolet1" />
+		<property name="publicationMoment" value="2019/07/27" />
+		<property name="body" value="Cuerpo de prueba de un quolet1" />
+		<property name="atributoDos" value="Prueba 1"/>
+        <property name="ticker" ref="ticker101" />
+        <property name="conference" ref="conference100"/>
+	</bean>
+	
+	<bean class="domain.Ticker" id="ticker102">
+        <property value="CCC-AN72" name="identifier" />
+    </bean>
+    
+	<bean id="quolet2" class="domain.Quolet">
+		<property name="title" value="TEST quolet2" />
+		<property name="publicationMoment" value="2019/07/27" />
+		<property name="body" value="Cuerpo de prueba de un quolet2" />
+		<property name="atributoDos" value="Prueba 2"/>
+        <property name="ticker" ref="ticker102" />
+        <property name="conference" ref="conference101"/>
+	</bean>
+	
+	<bean class="domain.Ticker" id="ticker103">
+        <property value="CCC-AN73" name="identifier" />
+    </bean>
+    
+	<bean id="quolet3" class="domain.Quolet">
+		<property name="title" value="TEST quolet3" />
+		<property name="publicationMoment" value="2019/07/27" />
+		<property name="body" value="Cuerpo de prueba de un quolet3" />
+		<property name="atributoDos" value="Prueba 3"/>
+        <property name="ticker" ref="ticker103" />
+        <property name="conference" ref="conference101"/>
 	</bean>
 	
 	
