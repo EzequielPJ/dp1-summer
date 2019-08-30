@@ -85,7 +85,6 @@ public abstract class Actor extends DomainEntity {
 		this.address = address;
 	}
 
-	@SafeHtml
 	public String getEmail() {
 		return this.email;
 	}
