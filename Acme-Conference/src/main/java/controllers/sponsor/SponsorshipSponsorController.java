@@ -132,7 +132,7 @@ public class SponsorshipSponsorController extends AbstractController {
 		final Collection<Sponsorship> sponsorships = this.sponsorshipService.findAllBySponsor(sponsor.getId());
 
 		result.addObject("sponsorships", sponsorships);
-		result.addObject("requestURI", "/sponsorship/provider/list.do");
+		result.addObject("requestURI", "/sponsorship/sponsor/list.do");
 		result.addObject("message", messageCode);
 
 		this.configValues(result);
