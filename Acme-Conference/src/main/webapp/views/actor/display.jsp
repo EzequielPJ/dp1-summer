@@ -25,6 +25,8 @@
 	
 		<hr />
 
+			<img style="width: 200px;" src="${reviewer.photoURL }" alt="${sponsor.photoURL }"/>
+		<br />
 		<b><spring:message code="actor.name" /></b>:
 		<jstl:out value="${reviewer.name }" />
 		<br />
@@ -35,9 +37,6 @@
 		</jstl:if>
 		<b><spring:message code="actor.surname" /></b>:
 		<jstl:out value="${reviewer.surname }" />
-		<br />
-		<b><spring:message code="actor.photoURL" /></b>:
-			<img style="width: 200px;" src="${reviewer.photoURL }" alt="${sponsor.photoURL }"/>
 		<br />
 		<b><spring:message code="actor.email" /></b>:
 		<jstl:out value="${reviewer.email }" />
@@ -53,6 +52,8 @@
 	</jstl:when>
 	
 	<jstl:when test="${authority == 'ADMINISTRATOR'}">
+		<img style="width: 200px;" src="${administrator.photoURL }" alt="${sponsor.photoURL }"/>
+		<br />
 		<b><spring:message code="actor.name" /></b>:
 		<jstl:out value="${administrator.name }" />
 		<br />
@@ -63,8 +64,6 @@
 		</jstl:if>
 		<b><spring:message code="actor.surname" /></b>:
 			<jstl:out value="${administrator.surname }" />
-		<br />
-		<img style="width: 200px;" src="${administrator.photoURL }" alt="${sponsor.photoURL }"/>
 		<br />
 		<b><spring:message code="actor.email" /></b>:
 		<jstl:out value="${administrator.email }" />
@@ -81,6 +80,8 @@
 	</jstl:when>
 
 	<jstl:when test="${authority == 'AUTHOR'}">
+		<img style="width: 200px;" src="${author.photoURL }" alt="${author.photoURL }"/>
+		<br />
 		<b><spring:message code="actor.name" /></b>:
 		<jstl:out value="${author.name }" />
 		<br />
@@ -94,8 +95,6 @@
 		<br />
 		<b><spring:message code="actor.email" /></b>:
 		<jstl:out value="${author.email }" />
-		<br />
-		<img style="width: 200px;" src="${author.photoURL }" alt="${author.photoURL }"/>
 		<br />
 		<b><spring:message code="actor.address" /></b>:
 		<jstl:out value="${author.address }" />
@@ -114,6 +113,8 @@
 	</jstl:when>
 	
 	<jstl:when test="${authority == 'CONFERENCESPONSOR'}">
+		<img style="width: 200px;" src="${sponsor.photoURL }" alt="${sponsor.photoURL }"/>
+		<br />
 		<b><spring:message code="actor.name" /></b>:
 		<jstl:out value="${sponsor.name }" />
 		<br />
@@ -124,9 +125,6 @@
 		</jstl:if>
 		<b><spring:message code="actor.surname" /></b>:
 			<jstl:out value="${sponsor.surname }" />
-		<br />
-		<b><spring:message code="actor.photoURL" /></b>:
-			<img style="width: 200px;" src="${sponsor.photoURL }" alt="${sponsor.photoURL }"/>
 		<br />
 		<b><spring:message code="actor.email" /></b>:
 		<jstl:out value="${sponsor.email }" />

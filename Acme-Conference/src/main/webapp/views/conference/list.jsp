@@ -11,11 +11,11 @@
 
 <jstl:if test="${sel}">
 <div>
-	<ul id="jMenu">
+	<ul class="jMenu">
 		<li>
 			<a class="fNiv"><spring:message	code="conference.list.byCategory" /></a>
 			<ul>
-				<li class="arrow"></li>
+		r		<li class="arrow"></li>
 				<jstl:forEach var="category" items="${categories}">				
 					<li>
 					<jstl:choose>

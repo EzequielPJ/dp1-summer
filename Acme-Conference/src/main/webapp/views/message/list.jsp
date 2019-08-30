@@ -10,7 +10,7 @@
 
 
 <div>
-	<ul id="jMenu">
+	<ul class="jMenu">
 	
 		<li>
 			<a class="fNiv" href="message/list.do"><spring:message	code="message.list.all" /></a>

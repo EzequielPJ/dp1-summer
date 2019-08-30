@@ -35,10 +35,10 @@ public class DashboardServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 			{
 
-				"admin", 0.6667, 0, 1, 0.4714, null
+				"admin", 1.25, 0, 3, 1.299, null
 			}, {
 
-				"author0", 0.6667, 0, 1, 0.4714, IllegalArgumentException.class
+				"author0", 1.25, 0, 3, 1.299, IllegalArgumentException.class
 			}
 		};
 
@@ -75,10 +75,10 @@ public class DashboardServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 			{
 
-				"admin", 0.6667, 0, 1, 0.4714, null
+				"admin", 0.25, 0, 1, 0.433, null
 			}, {
 
-				"author0", 0.6667, 0, 1, 0.4714, IllegalArgumentException.class
+				"author0", 0.25, 0, 1, 0.433, IllegalArgumentException.class
 			}
 		};
 
@@ -115,10 +115,10 @@ public class DashboardServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 			{
 
-				"admin", 0.6667, 0, 1, 0.4714, null
+				"admin", 24.0, 14, 32, 6.442049363362563, null
 			}, {
 
-				"author0", 0.6667, 0, 1, 0.4714, IllegalArgumentException.class
+				"author0", 24.0, 14, 32, 6.442049363362563, IllegalArgumentException.class
 			}
 		};
 
@@ -155,10 +155,10 @@ public class DashboardServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 			{
 
-				"admin", 0.6667, 0, 1, 0.4714, null
+				"admin", 10.0, 1, 31, 12.1861, null
 			}, {
 
-				"author0", 0.6667, 0, 1, 0.4714, IllegalArgumentException.class
+				"author0", 10.0, 1, 31, 12.1861, IllegalArgumentException.class
 			}
 		};
 
@@ -195,10 +195,10 @@ public class DashboardServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 			{
 
-				"admin", 0.6667, 0, 1, 0.4714, null
+				"admin", 0.2105, 0, 4, 0.8932, null
 			}, {
 
-				"author0", 0.6667, 0, 1, 0.4714, IllegalArgumentException.class
+				"author0", 0.2105, 0, 4, 0.8932, IllegalArgumentException.class
 			}
 		};
 
@@ -235,10 +235,10 @@ public class DashboardServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 			{
 
-				"admin", 0.6667, 0, 1, 0.4714, null
+				"admin", 0.25, 0, 1, 0.433, null
 			}, {
 
-				"author0", 0.6667, 0, 1, 0.4714, IllegalArgumentException.class
+				"author0", 0.25, 0, 1, 0.433, IllegalArgumentException.class
 			}
 		};
 
@@ -275,10 +275,10 @@ public class DashboardServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 			{
 
-				"admin", 0.6667, 0, 1, 0.4714, null
+				"admin", 0.0, 0, 0, 0.0, null
 			}, {
 
-				"author0", 0.6667, 0, 1, 0.4714, IllegalArgumentException.class
+				"author0", 0.0, 0, 0, 0.0, IllegalArgumentException.class
 			}
 		};
 

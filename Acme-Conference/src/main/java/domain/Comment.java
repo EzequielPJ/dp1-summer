@@ -63,7 +63,7 @@ public class Comment extends DomainEntity {
 	}
 
 	@Valid
-	@ManyToOne(optional = true/* , fetch = FetchType.EAGER */)
+	@ManyToOne(optional = true)
 	@NotFound(action = NotFoundAction.IGNORE)
 	public Actor getActor() {
 		return this.actor;

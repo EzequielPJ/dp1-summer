@@ -177,6 +177,7 @@ public class SubmissionService {
 	public Submission changeStatus(final Submission submission, final String status) throws ParseException {
 		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"), "Debe ser un administrador para realizar esta acción");
 		Assert.isTrue(submission.getConference().getAdministrator().equals(this.administratorService.findByPrincipal(LoginService.getPrincipal())), "Debe ser el propietario de la conferencia");
+		Assert.isTrue(submission.getConference().getSubmissionDeadline().before(new Date()) && submission.getConference().getNotificationDeadline().after(new Date()), "La fecha para cambiar el estado ha expirado");
 		Assert.isTrue(submission.getStatus().equals("UNDER-REVIEW"), "A la conferencia seleccionada ya se le ha cambiado el estado");
 		Assert.isTrue(status.equals("ACCEPTED") || status.equals("REJECTED"), "El estado es incorrecto");
 		submission.setStatus(status);

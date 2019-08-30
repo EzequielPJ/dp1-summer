@@ -557,6 +557,18 @@
         </property>
     </bean>
     
+    <bean id="userAccount8" class="security.UserAccount">
+        <property name="username" value="author2" />
+        <property name="password" value="9bd97baef2b853ec00cc3cffd269f679" />
+        <property name="authorities">
+            <list>
+                <bean class="security.Authority">
+                    <property name="authority" value="AUTHOR" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
    	<!-- User accounts (reviewer)-->
     
     <bean id="userAccount5" class="security.UserAccount">
@@ -589,7 +601,7 @@
         <property value="Christian" name="name" />
         <property value="Lion" name="middlename"/>
         <property value="Galves" name="surname"/>
-        <property value="https://photo0.com" name="photoURL" />
+        <property value="https://i.kym-cdn.com/entries/icons/original/000/016/546/hidethepainharold.jpg" name="photoURL" />
         <property value="Street 0" name="address" />
         <property value="admin1@" name="email" />
         <property value="+00 000-0000000" name="phoneNumber" />
@@ -600,7 +612,7 @@
         <property value="Rocio" name="name" />
         <property value="Barbate" name="middlename"/>
         <property value="Sanse" name="surname"/>
-        <property value="https://photo0.com" name="photoURL" />
+        <property value="https://www.mor.bo/wp-content/uploads/2019/02/kk_thumb.jpg" name="photoURL" />
         <property value="Street 0" name="address" />
         <property value="admin2@" name="email" />
         <property value="+00 000-0000000" name="phoneNumber" />
@@ -613,7 +625,7 @@
         <property value="Carmen" name="name" />
         <property value="Araujo" name="middlename"/>
         <property value="Jimenez" name="surname"/>
-        <property value="https://photo1.com" name="photoURL" />
+        <property value="https://i.pinimg.com/originals/ac/17/e8/ac17e809a2302e4309dff943e85f8f13.jpg" name="photoURL" />
         <property value="Street 1" name="address" />
         <property value="sponsor0@gmail.com" name="email" />
         <property value="+00 000-0000001" name="phoneNumber" />
@@ -626,7 +638,7 @@
         <property value="Juan" name="name" />
         <property value="Marcus" name="middlename"/>
         <property value="Torcuato" name="surname"/>
-        <property value="https://photo2.com" name="photoURL" />
+        <property value="https://e00-elmundo.uecdn.es/assets/multimedia/imagenes/2017/09/08/15048953703423.png" name="photoURL" />
         <property value="Street 2" name="address" />
         <property value="sponsor1@gmail.com" name="email" />
         <property value="+00 000-0000002" name="phoneNumber" />
@@ -639,7 +651,7 @@
         <property value="Antonio" name="name" />
         <property value="Sanchez" name="middlename"/>
         <property value="Jimenez" name="surname"/>
-        <property value="https://photo1.com" name="photoURL" />
+        <property value="https://i1.wp.com/revistasoyrock.com.ar/wp/wp-content/uploads/2019/04/nicolas-cage-9234498-1-402.jpg" name="photoURL" />
         <property value="Street 1" name="address" />
         <property value="author0@gmail.com" name="email" />
         <property value="+00 000-0000003" name="phoneNumber" />
@@ -653,12 +665,25 @@
         <property value="Alberto" name="name" />
         <property value="Julio" name="middlename"/>
         <property value="Torcuato" name="surname"/>
-        <property value="https://photo2.com" name="photoURL" />
+        <property value="https://as.com/epik/imagenes/2018/10/01/portada/1538404001_952768_1538404059_noticia_normal.jpg" name="photoURL" />
         <property value="Street 4" name="address" />
         <property value="author1@gmail.com" name="email" />
         <property value="+00 000-0000004" name="phoneNumber" />
         <property name="userAccount" ref="userAccount4" />
         <property name="finder" ref="finder1" />
+    </bean>
+    
+    <!-- Authors (author2) -->  
+    <bean class="domain.Author" id="author2">
+        <property value="Laura" name="name" />
+        <property value="Gonzalez" name="middlename"/>
+        <property value="Parranda" name="surname"/>
+        <property value="https://lifestyle.americaeconomia.com/sites/lifestyle.americaeconomia.com/files/styles/gallery_image/public/1539714985121_0.jpg" name="photoURL" />
+        <property value="Street 2" name="address" />
+        <property value="author2@gmail.com" name="email" />
+        <property value="+00 000-0000003" name="phoneNumber" />
+        <property name="userAccount" ref="userAccount8" />
+        <property name="finder" ref="finder2" />
     </bean>
     
     <!-- Reviewers (reviewer0) -->    
@@ -667,7 +692,7 @@
         <property value="Marta" name="name" />
         <property value="Mains" name="middlename"/>
         <property value="Torcuato" name="surname"/>
-        <property value="https://photo2.com" name="photoURL" />
+        <property value="https://pm1.narvii.com/6544/4aea037ff36b0c4471cfab572aa79a83ae154b40_hq.jpg" name="photoURL" />
         <property value="Street 4" name="address" />
         <property value="reviewer1@gmail.com" name="email" />
         <property value="+00 000-0000005" name="phoneNumber" />
@@ -687,7 +712,7 @@
         <property value="Lucas" name="name" />
         <property value="Mains" name="middlename"/>
         <property value="Efe" name="surname"/>
-        <property value="https://photo2.com" name="photoURL" />
+        <property value="https://i.kym-cdn.com/entries/icons/original/000/030/115/cover4.jpg" name="photoURL" />
         <property value="Street 4" name="address" />
         <property value="reviewer2@gmail.com" name="email" />
         <property value="+00 000-0000006" name="phoneNumber" />
@@ -709,6 +734,11 @@
     <!-- Finders (author1)-->    
     
     <bean class="domain.Finder" id="finder1">      
+    </bean>
+    
+     <!-- Finders (author2)-->    
+    
+    <bean class="domain.Finder" id="finder2">      
     </bean>
     
     <!-- Topics -->
@@ -944,6 +974,22 @@
         <property name="category" ref="category6" />
     </bean>
     
+    <bean class="domain.Conference" id="conference3">
+        <property name="title" value="SQL: Pros and cons. What professionals says-" />
+        <property name="acronym" value="SQLP" />
+        <property name="venue" value="address 56"/>
+        <property name="submissionDeadline" value="10/10/2019"/>
+        <property name="notificationDeadline" value="11/10/2019"/>
+        <property name="cameraReadyDeadline" value="12/10/2019"/>
+        <property name="startDate" value="15/10/2019"/>
+        <property name="endDate" value="16/10/2019"/>
+        <property name="summary" value="Is the SQL language the best way to approach a proyect? Lets find out."/>
+        <property name="fee" value="25"/>
+        <property name="finalMode" value="true"/>
+        <property name="administrator" ref="admin" />
+        <property name="category" ref="category6" />
+    </bean>
+    
     <!-- Activity (conference0) -->
     
     <bean class="domain.Activity" id="activity0">
@@ -1115,7 +1161,7 @@
     <!-- Paper (author0) -->
     
     <bean class="domain.Paper" id="paper0">
-        <property name="title" value="About videogames and other storytales" />
+        <property name="title" value="About videogames and other storytales (Aprende sobre videojuegos y otras historias)" />
         <property name="aliases">
             <list>
             <value>aliases</value>
@@ -1133,7 +1179,7 @@
     </bean>
 
     <bean class="domain.Paper" id="paper2">
-        <property name="title" value="Database efficiency" />
+        <property name="title" value="Database efficiency in sql" />
         <property name="aliases">
             <list>
             <value>Jose Ramirez Prieto</value>

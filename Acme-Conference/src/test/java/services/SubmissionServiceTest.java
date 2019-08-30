@@ -119,7 +119,7 @@ public class SubmissionServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 			{
 				//El autor 0 hace una entrega a una conferencia. Positivo
-				"author0", "conference1", null
+				"author2", "conference3", null
 			}, {
 				//El autor 0 hace una entrega a una conferencia. Negativo porque ya hay una entrega de este autor a la conferencia especificada
 				"author0", "conference0", IllegalArgumentException.class
@@ -162,7 +162,7 @@ public class SubmissionServiceTest extends AbstractTest {
 				"author0", "submission1", "ACCEPTED", IllegalArgumentException.class
 			}, {
 
-				"admin", "submission1", "ACCEPTED", null
+				"admin", "submission4", "ACCEPTED", null
 			}
 		};
 
