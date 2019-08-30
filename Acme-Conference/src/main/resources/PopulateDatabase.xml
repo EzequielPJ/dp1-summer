@@ -1408,6 +1408,7 @@
 		<property name="atributoDos" value="Prueba 0"/>
         <property name="ticker" ref="ticker100" />
         <property name="conference" ref="conference100"/>
+        <property name="finalMode" value="true"/>
 	</bean>
 	
 	<bean class="domain.Ticker" id="ticker101">
@@ -1421,6 +1422,8 @@
 		<property name="atributoDos" value="Prueba 1"/>
         <property name="ticker" ref="ticker101" />
         <property name="conference" ref="conference100"/>
+        <property name="finalMode" value="false"/>
+        
 	</bean>
 	
 	<bean class="domain.Ticker" id="ticker102">
@@ -1434,6 +1437,8 @@
 		<property name="atributoDos" value="Prueba 2"/>
         <property name="ticker" ref="ticker102" />
         <property name="conference" ref="conference101"/>
+        <property name="finalMode" value="false"/>
+        
 	</bean>
 	
 	<bean class="domain.Ticker" id="ticker103">
@@ -1447,6 +1452,8 @@
 		<property name="atributoDos" value="Prueba 3"/>
         <property name="ticker" ref="ticker103" />
         <property name="conference" ref="conference101"/>
+        <property name="finalMode" value="false"/>
+        
 	</bean>
 	
 	

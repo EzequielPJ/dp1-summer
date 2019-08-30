@@ -1,3 +1,4 @@
+
 package controllers.administrator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -202,6 +203,26 @@ public class DashboardAdministratorController extends AbstractController {
 			result.addObject("sDOfCommentsPerActivity", sDOfCommentsPerActivity);
 		else
 			result.addObject("sDOfCommentsPerActivity", 0.0);
+
+		//		DASHBOARD CONTROL CHECK
+
+		final Double avgOfQuolets = this.administratorService.getAvgOfQuolets();
+		if (avgOfQuolets != null)
+			result.addObject("avgOfQuolets", avgOfQuolets);
+		else
+			result.addObject("avgOfQuolets", 0.0);
+
+		final Double sDOfQuolets = this.administratorService.getSDOfQuolets();
+		if (sDOfQuolets != null)
+			result.addObject("sDOfQuolets", sDOfQuolets);
+		else
+			result.addObject("sDOfQuolets", 0.0);
+
+		final Double ratioOfFinalModeVsDraftModeQuolets = this.administratorService.getRatioOfFinalModeVsDraftModeQuolets();
+		if (ratioOfFinalModeVsDraftModeQuolets != null)
+			result.addObject("ratioOfFinalModeVsDraftModeQuolets", ratioOfFinalModeVsDraftModeQuolets);
+		else
+			result.addObject("ratioOfFinalModeVsDraftModeQuolets", 0.0);
 
 		result.addObject("requestURI", "dashboard/administrator/display.do");
 

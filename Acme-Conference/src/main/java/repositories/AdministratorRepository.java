@@ -112,4 +112,15 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
 	@Query("select a from Administrator a where a.userAccount.id = ?1")
 	Administrator findByPrincipal(int id);
 
+	//	CONTROL CHECK DASHBOARD
+
+	@Query("select avg(1*(select count(qu) from Quolet qu where qu.conference.id = q.conference.id)) from Quolet q")
+	Double getAvgOfQuolets();
+
+	@Query("select stddev(1*(select count(qu) from Quolet qu where qu.conference.id = q.conference.id)) from Quolet q")
+	Double getSDOfQuolets();
+
+	@Query("select 1.0 * count(qf) / (select count(qd) from Quolet qd where (qd.finalMode = false)) from Quolet qf where (finalMode = true)")
+	Double getRatioOfFinalModeVsDraftModeQuolets();
+
 }

@@ -22,7 +22,7 @@ public class Quolet extends DomainEntity {
 
 	//Atributes
 	private String		title;
-	private Date		publicationMoment;
+	private Date		publicationMoment;	//ESTA A NULL HASTA QUE SE CAMBIA A FINAL MODE
 	private String		body;
 	private String		atributoDos;
 	private boolean		finalMode;

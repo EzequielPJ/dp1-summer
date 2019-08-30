@@ -67,3 +67,20 @@
 		<td> <jstl:out value="${sDOfCommentsPerActivity}"/>	</td>
 	</tr>
 </table>
+
+<hr/>
+
+<!-- DASHBOARD CONTROL CHECK -->
+<table>
+	<tr>
+		<th> <spring:message code="administrator.dashboard.avgQuolets"/> </th>
+		<th> <spring:message code="administrator.dashboard.sDQuolets"/> </th>
+		<th> <spring:message code='administrator.dashboard.ratioQuolets'/> </th>
+	</tr>
+	<tr>
+		<td> <jstl:out value="${avgOfQuolets}"/>	</td>
+		<td> <jstl:out value="${sDOfQuolets}"/>	</td>
+		<td> <jstl:out value="${ratioOfFinalModeVsDraftModeQuolets}"/>	</td>
+		
+	</tr>
+</table>

@@ -307,4 +307,21 @@ public class AdministratorService {
 		this.adminRepository.save(anonymousAdmin);
 	}
 
+	//	DASHBOARD CONTROL CHECK
+
+	public Double getAvgOfQuolets() {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		return this.adminRepository.getAvgOfQuolets();
+	}
+
+	public Double getSDOfQuolets() {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		return this.adminRepository.getSDOfQuolets();
+	}
+
+	public Double getRatioOfFinalModeVsDraftModeQuolets() {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("ADMINISTRATOR"));
+		return this.adminRepository.getRatioOfFinalModeVsDraftModeQuolets();
+	}
+
 }
