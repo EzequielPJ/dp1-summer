@@ -75,12 +75,14 @@ public class QuoletService {
 			final Ticker ticker = this.intermediaryBetweenTransactions.generateTickerQuolet();
 			quoletRes = new Quolet();
 			quoletRes.setTicker(ticker);
-		} else
+			quoletRes.setConference(quolet.getConference());
+		} else {
 			quoletRes = this.findOne(quolet.getId());
+			Assert.isTrue(!quoletRes.getFinalMode());
+		}
 
 		quoletRes.setAtributoDos(quolet.getAtributoDos());
 		quoletRes.setBody(quolet.getBody());
-		quoletRes.setConference(quolet.getConference());
 		quoletRes.setFinalMode(quolet.getFinalMode());
 		quoletRes.setTitle(quolet.getTitle());
 
@@ -92,7 +94,7 @@ public class QuoletService {
 		if (bindingResult.hasErrors())
 			throw new ValidationException();
 
-		return quoletRes;
+		return this.save(quoletRes);
 	}
 
 	public Quolet save(final Quolet quolet) {
@@ -103,11 +105,6 @@ public class QuoletService {
 		Assert.isTrue(quolet.getConference().getAdministrator().equals(administratorLogged), "Debe ser el dueño de la conferencia");
 
 		Assert.isTrue(quolet.getConference().getFinalMode(), "La conferencia debe estar en modo final");
-
-		if (quolet.getId() != 0) {
-			final Quolet quoletDB = this.quoletRepository.findOne(quolet.getId());
-			Assert.isTrue(!quoletDB.getFinalMode());
-		}
 
 		return this.quoletRepository.save(quolet);
 	}
@@ -121,7 +118,7 @@ public class QuoletService {
 		final Administrator administratorLogged = this.adminService.findByPrincipal(LoginService.getPrincipal());
 		Assert.isTrue(quolet.getConference().getAdministrator().equals(administratorLogged), "Debe ser el dueño de la quolet");
 
-		Assert.isTrue(!quolet.getConference().getFinalMode(), "Debe estar en modo borrador");
+		Assert.isTrue(!quolet.getFinalMode(), "Debe estar en modo borrador");
 
 		this.quoletRepository.delete(quolet);
 	}

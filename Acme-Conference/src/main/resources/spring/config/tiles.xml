@@ -50,6 +50,9 @@
 		
 		<value>/views/topic/tiles.xml</value>
 		
+		<value>/views/quolet/tiles.xml</value>
+		
+		
 		<value>/views/welcome/tiles.xml</value>
 				
 	</util:list>

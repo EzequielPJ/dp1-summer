@@ -17,3 +17,17 @@
 	color: red;
 	font-weight: bolder;
 }
+
+.lessAMonth{
+	background-color: antiqueWhite;
+}
+
+.betweenMonths{
+	background-color: darkSlateGrey;
+	color:white;
+}
+
+.moreThanTwoMonths{
+	background-color: lightGoldenRodYellow;
+	
+}

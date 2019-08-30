@@ -15,7 +15,7 @@
 		<li>
 			<a class="fNiv"><spring:message	code="conference.list.byCategory" /></a>
 			<ul>
-		r		<li class="arrow"></li>
+				<li class="arrow"></li>
 				<jstl:forEach var="category" items="${categories}">				
 					<li>
 					<jstl:choose>
@@ -103,7 +103,14 @@
 						<acme:button url="activity/administrator/create.do?idConference=${conference.id}" type="button" code="conference.list.activity.create"/>
 				</jstl:if>
 				</display:column>
+				<display:column titleKey="conference.list.quolet.create">
+				<jstl:if test="${conference.finalMode eq true}">
+						<acme:button url="quolet/administrator/create.do?idConference=${conference.id}" type="button" code="conference.list.quolet.create"/>
 				</jstl:if>
+				</display:column>
+				</jstl:if>
+				
+				
 				
 				<jstl:if test="${general}">
 				<display:column titleKey="conference.list.activity">

@@ -108,6 +108,11 @@
 		<security:intercept-url pattern="/author/author/save.do" access="hasRole('AUTHOR')" />
 		<security:intercept-url pattern="/reviewer/reviewer/save.do" access="hasRole('REVIEWER')" />
 		<security:intercept-url pattern="/conferenceSponsor/conferenceSponsor/save.do" access="hasRole('CONFERENCESPONSOR')" />
+		
+		
+		
+		<!-- ControlCheck  -->
+		<security:intercept-url pattern="/quolet/administrator/**" access="hasRole('ADMINISTRATOR')" />
 	
 		<!-- <security:intercept-url pattern="/**" access="hasRole('NONE')" /> -->
 		

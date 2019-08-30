@@ -13,12 +13,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.CommentService;
+import security.LoginService;
+import services.ActorService;
 import services.ConferenceService;
+import services.QuoletService;
 import services.RegistrationService;
 import services.SponsorshipService;
 import utiles.AuthorityMethods;
+import domain.Actor;
 import domain.Conference;
+import domain.Quolet;
 
 @Controller
 @RequestMapping("/conference")
@@ -28,13 +32,16 @@ public class ConferenceController extends AbstractController {
 	private ConferenceService	conferenceService;
 
 	@Autowired
-	private CommentService		commentService;
-
-	@Autowired
 	private RegistrationService	registrationService;
 
 	@Autowired
 	private SponsorshipService	sponsorshipService;
+
+	@Autowired
+	private QuoletService		quoletService;
+
+	@Autowired
+	private ActorService		actorService;
 
 
 	@RequestMapping(value = "/listConferencePast", method = RequestMethod.GET)
@@ -126,6 +133,22 @@ public class ConferenceController extends AbstractController {
 				result.addObject("avaliable", !this.registrationService.alreadyRegister(conference));
 			else
 				result.addObject("avaliable", false);
+
+		//CONTROL CHECK QUOLET
+		Collection<Quolet> quolets = new ArrayList<>();
+		final Actor actorLogged = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		if (conference.getAdministrator().getId() == actorLogged.getId())
+			quolets = this.quoletService.getQuoletsOfConferenceAll(idConference);
+		else
+			quolets = this.quoletService.getQuoletsOfConferenceFinalMode(idConference);
+
+		result.addObject("quolets", quolets);
+
+		final Date currentDate = new Date();
+		final Date aMonthAgo = new Date(currentDate.getTime() - 2629746000l);
+		result.addObject("aMonthAgo", aMonthAgo);
+		final Date twoMonthAgo = new Date(currentDate.getTime() - 5259492000l);
+		result.addObject("twoMonthAgo", twoMonthAgo);
 
 		this.configValues(result);
 		return result;

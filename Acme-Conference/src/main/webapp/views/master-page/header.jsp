@@ -33,6 +33,11 @@
 					</li>
 				</ul>
 			</li>
+			
+			<li>
+				<a class="fNiv" href="quolet/administrator/list.do"><spring:message	code="master.page.quolet" /></a>
+			</li>
+			
 			<li>
 				<a class="fNiv"><spring:message	code="master.page.conference" /></a>
 				<ul>

@@ -5,8 +5,8 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-
-<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 
 <acme:cancel url="${url}" code="conference.display.back"/> 
@@ -41,19 +41,88 @@
 </jstl:if>
 
 <hr>
-<%-- <display:table pagesize="5" name="comments" id="comment" requestURI="${requestURI}">
 
-			<display:column titleKey="comment.list.title"><jstl:out value="${comment.title}"/></display:column>
-			<display:column titleKey="comment.list.moment"><jstl:out value="${comment.moment}"/></display:column>
-			<display:column titleKey="comment.list.text"><jstl:out value="${comment.text}"/></display:column>
-			<jstl:if test="${comment.actor.name == null}">
-			<display:column titleKey="comment.list.actor"><jstl:out value="${anonim}"/></display:column>
-			</jstl:if>
-			<jstl:if test="${comment.actor.name != null}">
-			<display:column titleKey="comment.list.actor"><jstl:out value="${comment.actor.name}"/></display:column>
-			</jstl:if>	
+		
+		<h3><spring:message code="quolet.list.quolets" /></h3>
+
+		<display:table pagesize="5" name="quolets" id="quolet" requestURI="${requestURI}">
+		
+			<jstl:choose>
+		
+				<jstl:when test="${quolet.publicationMoment gt aMonthAgo}">
+					
+					<display:column class="lessAMonth" titleKey="quolet.list.ticker"><jstl:out value="${quolet.ticker.identifier}" /></display:column>
+					<display:column class="lessAMonth" titleKey="quolet.list.title" ><jstl:out value="${quolet.title}"/></display:column>
+					
+					<display:column class="lessAMonth" titleKey="quolet.list.publicationMoment">
+						<jstl:if test="${quolet.finalMode}">
+							<jstl:out value="N/A" />
+						</jstl:if>
+			
+						<jstl:if test="${!quolet.finalMode}">
+							<spring:message code="quolet.date.format" var="format" />
+							<fmt:formatDate value="${quolet.publicationMoment}" pattern="${format}" />
+							<!--<jstl:out value="${quolet.publicationMoment}" /> -->
+						</jstl:if>
+					</display:column>
+			
+					<display:column class="lessAMonth" titleKey="quolet.list.display">
+						<acme:button url="quolet/display.do?idquolet=${quolet.id}" type="button" code="quolet.list.display" />
+					</display:column>
+			
+				</jstl:when>
 				
-</display:table> --%>
+				<jstl:when test="${(quolet.publicationMoment lt twoMonthAgo) or (quolet.publicationMoment eq null)}">
+				
+					<display:column class="moreThanTwoMonths" titleKey="quolet.list.ticker"><jstl:out value="${quolet.ticker.identifier}" /></display:column>
+					<display:column class="moreThanTwoMonths" titleKey="quolet.list.title" ><jstl:out value="${quolet.title}"/></display:column>
+					
+					<display:column class="moreThanTwoMonths" titleKey="quolet.list.publicationMoment">
+			
+						<jstl:if test="${!quolet.finalMode}">
+							<jstl:out value="N/A" />
+						</jstl:if>
+			
+						<jstl:if test="${quolet.finalMode}">
+							<spring:message code="quolet.date.format" var="format" />
+							<fmt:formatDate value="${quolet.publicationMoment}" pattern="${format }" />
+							<!--<jstl:out value="${quolet.publicationMoment}" /> -->
+						</jstl:if>
+			
+					</display:column>
+			
+					<display:column class="moreThanTwoMonths" titleKey="quolet.list.display">
+						<acme:button url="quolet/display.do?idquolet=${quolet.id}" type="button" code="quolet.list.display" />
+					</display:column>
+			
+				</jstl:when>
+			
+				<jstl:otherwise>
+					<display:column class="betweenMonths" titleKey="quolet.list.ticker"><jstl:out value="${quolet.ticker.identifier}" /></display:column>
+					<display:column class="betweenMonths" titleKey="quolet.list.title" ><jstl:out value="${quolet.title}"/></display:column>
+					
+					<display:column class="betweenMonths" titleKey="quolet.list.publicationMoment">
+			
+						<jstl:if test="${!quolet.finalMode}">
+							<jstl:out value="N/A" />
+						</jstl:if>
+			
+						<jstl:if test="${quolet.finalMode}">
+							<spring:message code="quolet.date.format" var="format" />
+							<fmt:formatDate value="${quolet.publicationMoment}" pattern="${format }" />
+						</jstl:if>
+			
+					</display:column>
+			
+					<display:column class="betweenMonths" titleKey="quolet.list.display">
+						<acme:button url="quolet/display.do?idquolet=${quolet.id}" type="button" code="quolet.list.display" />
+					</display:column>
+			
+				</jstl:otherwise>
+			
+			</jstl:choose>
+ 		
+ 		</display:table>
 
 
 <div id="sponsor" style="width: 50px;">

@@ -14,30 +14,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import security.LoginService;
-import services.AdminConfigService;
-import services.ConferenceService;
-import services.ConferenceSponsorService;
-import services.SponsorshipService;
+import services.QuoletService;
 import controllers.AbstractController;
-import domain.ConferenceSponsor;
-import domain.Sponsorship;
+import domain.Quolet;
 
 @Controller
 @RequestMapping("/quolet/administrator")
 public class QuoletAdministratorController extends AbstractController {
 
 	@Autowired
-	private ConferenceSponsorService	sponsorService;
-
-	@Autowired
-	private SponsorshipService			sponsorshipService;
-
-	@Autowired
-	private AdminConfigService			adminConfigService;
-
-	@Autowired
-	private ConferenceService			conferenceService;
+	private QuoletService	quoletService;
 
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -46,126 +32,103 @@ public class QuoletAdministratorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int idSponsorship) {
+	public ModelAndView display(@RequestParam final int idQuolet) {
 		ModelAndView result;
 
 		try {
-			final Sponsorship sponsorship = this.sponsorshipService.findOne(idSponsorship);
-			Assert.notNull(sponsorship);
-			result = new ModelAndView("sponsorship/display");
-			result.addObject("sponsorship", sponsorship);
-			result.addObject("anonymizedNumber", "*************" + sponsorship.getCreditCard().getNumber().substring(13));
-			result.addObject("requestURI", "/sponsorship/sponsor/display.do?idSponsorship=" + idSponsorship);
-		} catch (final Exception e) {
+			final Quolet quolet = this.quoletService.findOne(idQuolet);
+			result = new ModelAndView("quolet/display");
+			result.addObject("quolet", quolet);
+		} catch (final Throwable oops) {
 			result = this.listModelAndView("security.error.accessDenied");
 		}
 
 		this.configValues(result);
 		return result;
 	}
+
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(@RequestParam final int idConference) {
 		final ModelAndView result;
 
-		result = this.createEditModelAndView(this.sponsorshipService.create());
+		result = this.createEditModelAndView(this.quoletService.create(idConference));
 
 		return result;
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView delete(@RequestParam final int idSponsorship) {
+	public ModelAndView delete(@RequestParam final int idQuolet) {
 		ModelAndView result;
 
 		try {
-			final Sponsorship sponsorship = this.sponsorshipService.findOne(idSponsorship);
-			Assert.notNull(sponsorship);
-			this.sponsorshipService.delete(sponsorship);
+			this.quoletService.delete(idQuolet);
 			result = new ModelAndView("redirect:list.do");
-		} catch (final Exception e) {
-			result = this.listModelAndView("sponsorship.commit.error");
+		} catch (final Throwable oops) {
+			result = this.listModelAndView("quolet.commit.error");
+			oops.printStackTrace();
 		}
 
 		return result;
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam final int idSponsorship) {
+	public ModelAndView edit(@RequestParam final int idQuolet) {
 		ModelAndView result;
 
 		try {
-			final Sponsorship sponsorship = this.sponsorshipService.findOne(idSponsorship);
-			Assert.notNull(sponsorship);
-			result = this.createEditModelAndView(sponsorship);
-		} catch (final Exception e) {
+			final Quolet quolet = this.quoletService.findOne(idQuolet);
+			Assert.isTrue(!quolet.getFinalMode());
+			result = this.createEditModelAndView(quolet);
+		} catch (final Throwable oops) {
 			result = this.listModelAndView("security.error.accessDenied");
 		}
 
 		return result;
 	}
-
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(Sponsorship sponsorship, final BindingResult binding) {
+	@RequestMapping(value = "/save", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(final Quolet quolet, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
-			sponsorship = this.sponsorshipService.reconstruct(sponsorship, binding);
-			this.sponsorshipService.save(sponsorship);
+			this.quoletService.reconstruct(quolet, binding);
 			result = new ModelAndView("redirect:list.do");
 		} catch (final ValidationException oops) {
-			result = this.createEditModelAndView(sponsorship);
+			result = this.createEditModelAndView(quolet);
 			oops.printStackTrace();
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(sponsorship, "sponsorship.commit.error");
+			result = this.createEditModelAndView(quolet, "quolet.commit.error");
+			oops.printStackTrace();
 		}
 
 		return result;
 	}
-
-	@RequestMapping(value = "/changeFinalMode", method = RequestMethod.GET)
-	public ModelAndView changeFinalMode(@RequestParam final int idSponsorship) {
-		ModelAndView result;
-
-		try {
-			final Sponsorship sponsorship = this.sponsorshipService.findOne(idSponsorship);
-			Assert.notNull(sponsorship);
-			result = this.createEditModelAndView(sponsorship);
-		} catch (final Exception e) {
-			result = this.listModelAndView("security.error.accessDenied");
-		}
-
-		return result;
-	}
-
 	protected ModelAndView listModelAndView() {
 		return this.listModelAndView(null);
 	}
 
 	protected ModelAndView listModelAndView(final String messageCode) {
-		final ModelAndView result = new ModelAndView("sponsorship/list");
+		final ModelAndView result = new ModelAndView("quolet/list");
 
-		final ConferenceSponsor sponsor = this.sponsorService.findByPrincipal(LoginService.getPrincipal());
-		final Collection<Sponsorship> sponsorships = this.sponsorshipService.findAllBySponsor(sponsor.getId());
+		final Collection<Quolet> quolets = this.quoletService.getQuoletsOfAdminLogged();
 
-		result.addObject("sponsorships", sponsorships);
-		result.addObject("requestURI", "/sponsorship/provider/list.do");
+		result.addObject("quolets", quolets);
+		result.addObject("requestURI", "/quolet/administrator/list.do");
 		result.addObject("message", messageCode);
 
 		this.configValues(result);
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final Sponsorship sponsorship) {
-		return this.createEditModelAndView(sponsorship, null);
+	protected ModelAndView createEditModelAndView(final Quolet quolet) {
+		return this.createEditModelAndView(quolet, null);
 	}
 
-	protected ModelAndView createEditModelAndView(final Sponsorship sponsorship, final String messageCode) {
+	protected ModelAndView createEditModelAndView(final Quolet quolet, final String messageCode) {
 		final ModelAndView result;
 
-		result = new ModelAndView("sponsorship/edit");
+		result = new ModelAndView("quolet/edit");
 
-		result.addObject("sponsorship", sponsorship);
-		result.addObject("conferences", this.conferenceService.getConferencesFinalMode());
-		result.addObject("makers", this.adminConfigService.getAdminConfig().getCreditCardMakes());
+		result.addObject("quolet", quolet);
 		result.addObject("message", messageCode);
 
 		this.configValues(result);
