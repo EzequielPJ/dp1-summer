@@ -68,7 +68,7 @@ public class Quolet extends DomainEntity {
 		this.atributoDos = atributoDos;
 	}
 
-	public boolean isFinalMode() {
+	public boolean getFinalMode() {
 		return this.finalMode;
 	}
 

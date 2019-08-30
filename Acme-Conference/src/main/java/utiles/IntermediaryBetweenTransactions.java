@@ -31,4 +31,20 @@ public class IntermediaryBetweenTransactions {
 		return result;
 	}
 
+	public Ticker generateTickerQuolet() {
+		boolean exito = false;
+		Ticker result = null;
+
+		int attempts = 20;
+
+		while (!exito || attempts == 0)
+			try {
+				result = this.tickerService.generateTickerQuolet();
+				exito = true;
+			} catch (final Throwable oops) {
+				attempts--;
+			}
+		return result;
+	}
+
 }
