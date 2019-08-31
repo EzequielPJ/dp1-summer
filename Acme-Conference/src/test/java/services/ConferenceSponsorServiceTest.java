@@ -8,7 +8,11 @@ import java.text.ParseException;
 import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import security.Authority;
 import security.LoginService;
@@ -16,6 +20,11 @@ import security.UserAccount;
 import utilities.AbstractTest;
 import domain.ConferenceSponsor;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {
+	"classpath:spring/junit.xml"
+})
+@Transactional
 public class ConferenceSponsorServiceTest extends AbstractTest {
 
 	@Autowired
@@ -28,9 +37,9 @@ public class ConferenceSponsorServiceTest extends AbstractTest {
 			{
 				null, true, null
 			}, {
-				"conferenceSponsor0", true, IllegalArgumentException.class
+				"sponsor0", true, IllegalArgumentException.class
 			}, {
-				"conferenceSponsor0", false, IllegalArgumentException.class
+				"sponsor0", false, IllegalArgumentException.class
 			}, {
 				"reviewer0", true, IllegalArgumentException.class
 			}, {
@@ -47,10 +56,13 @@ public class ConferenceSponsorServiceTest extends AbstractTest {
 	protected void ConferenceSponsorRegisterTemplate(final String username, final boolean validData, final Class<?> expected) throws ParseException {
 		Class<?> caught;
 
+		this.unauthenticate();
 		caught = null;
-		ConferenceSponsor conferenceSponsor = this.conferenceSponsorService.create();
 		try {
+
 			this.authenticate(username);
+
+			ConferenceSponsor conferenceSponsor = this.conferenceSponsorService.create();
 
 			if (!validData) {
 				conferenceSponsor.setEmail("null");

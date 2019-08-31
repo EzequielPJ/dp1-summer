@@ -23,9 +23,10 @@ import security.UserAccountRepository;
 import utiles.AddPhoneCC;
 import utiles.AuthorityMethods;
 import utiles.EmailValidator;
+import utiles.ValidatorCollection;
 import domain.Reviewer;
 import domain.Submission;
-import forms.ActorForm;
+import forms.ReviewerForm;
 
 @Service
 @Transactional
@@ -93,7 +94,7 @@ public class ReviewerService {
 		return this.reviewerRepository.findAll();
 	}
 
-	public Reviewer reconstruct(final ActorForm reviewerForm, final BindingResult binding) {
+	public Reviewer reconstruct(final ReviewerForm reviewerForm, final BindingResult binding) {
 
 		if (!EmailValidator.validateEmail(reviewerForm.getEmail(), Authority.REVIEWER))
 			binding.rejectValue("email", "reviewer.edit.email.error");
@@ -121,6 +122,7 @@ public class ReviewerService {
 		result.setPhoneNumber(AddPhoneCC.addPhoneCC(this.adminConfigService.getAdminConfig().getCountryCode(), reviewerForm.getPhoneNumber()));
 		result.setPhotoURL(reviewerForm.getPhotoURL());
 		result.setSurname(reviewerForm.getSurname());
+		result.setExpertiseKeywordsList(ValidatorCollection.deleteStringsBlanksInCollection(reviewerForm.getExpertiseKeywordsList()));
 
 		this.validator.validate(result, binding);
 
@@ -129,7 +131,6 @@ public class ReviewerService {
 
 		return result;
 	}
-
 	public Reviewer reconstruct(final Reviewer reviewer, final BindingResult binding) {
 
 		if (!EmailValidator.validateEmail(reviewer.getEmail(), Authority.REVIEWER))
@@ -174,6 +175,7 @@ public class ReviewerService {
 	}
 
 	public Reviewer findByPrincipal(final UserAccount principal) {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("REVIEWER"));
 		return this.reviewerRepository.findByPrincipal(principal.getId());
 	}
 }

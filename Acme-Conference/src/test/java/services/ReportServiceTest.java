@@ -4,13 +4,22 @@ package services;
 import java.util.Collection;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import security.LoginService;
 import utilities.AbstractTest;
 import domain.Report;
 import domain.Submission;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {
+	"classpath:spring/junit.xml"
+})
+@Transactional
 public class ReportServiceTest extends AbstractTest {
 
 	@Autowired
@@ -50,7 +59,7 @@ public class ReportServiceTest extends AbstractTest {
 		caught = null;
 
 		try {
-			super.authenticate(beanName);
+			this.authenticate(beanName);
 			final Collection<Submission> submissionsAssigned = this.submissionService.getSubmissionsOfReviewer(this.reviewerService.findByPrincipal(LoginService.getPrincipal()).getId());
 
 			for (final Submission s : submissionsAssigned) {
@@ -73,7 +82,7 @@ public class ReportServiceTest extends AbstractTest {
 				break;
 			}
 
-			super.unauthenticate();
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
