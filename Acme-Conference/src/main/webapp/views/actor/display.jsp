@@ -47,7 +47,16 @@
 		<b><spring:message code="actor.phoneNumber" /></b>:
 		<jstl:out value="${reviewer.phoneNumber }" />
 		<br />
-
+		<b><spring:message code="actor.keyWords" /></b>:
+			<jstl:if test="${empty reviewer.expertiseKeywordsList}">
+   				N/A    
+   			</jstl:if>
+   			<jstl:if test="${not(empty reviewer.expertiseKeywordsList)}">
+   				<jstl:forEach var="keyWord" items="${reviewer.expertiseKeywordsList}">
+   					<li><jstl:out value="${keyWord}"/></li>
+    			</jstl:forEach>
+   			</jstl:if>
+		<br />
 
 	</jstl:when>
 	

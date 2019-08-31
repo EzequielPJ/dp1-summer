@@ -29,6 +29,18 @@
 		<acme:textbox code="reviewer.edit.email" path="email" />
 		<acme:textbox code="reviewer.edit.phoneNumber" path="phoneNumber" id="phone" />
 		<br />
+		<div id="expertiseKeywordsList"> 
+		<spring:message code="reviewer.edit.keyWords" />
+			<jstl:if test="${empty report.expertiseKeywordsList}">
+   				<form:input class="textbox" path="expertiseKeywordsList" type="text"/>    
+   			</jstl:if>
+		
+		<jstl:forEach var="keyWord" items="${report.expertiseKeywordsList}">
+    	   	 <form:input class="textbox" path="expertiseKeywordsList" type="text" value="${keyWord}"/>       	
+    	</jstl:forEach>
+    	<form:errors path="expertiseKeywordsList" cssClass="error" />
+		</div>
+		<br />
 		<spring:message code="reviewer.edit.submit" var="submit"/>
 		<input type="submit" name="submit" onclick="return checkPhone(this.form.phone.value)" value="${ submit}" />
 		<acme:cancel url="/actor/display.do" code="reviewer.edit.cancel" />
@@ -52,6 +64,18 @@
 		<acme:textbox code="reviewer.edit.email" path="email" />
 		<acme:textbox code="reviewer.edit.phoneNumber" path="phoneNumber" id="phone" />
 		<br />
+		<div id="expertiseKeywordsList"> 
+		<spring:message code="reviewer.edit.keyWords" />
+			<jstl:if test="${empty report.expertiseKeywordsList}">
+   				<form:input class="textbox" path="expertiseKeywordsList" type="text"/>    
+   			</jstl:if>
+		
+		<jstl:forEach var="keyWord" items="${report.expertiseKeywordsList}">
+    	   	 <form:input class="textbox" path="expertiseKeywordsList" type="text" value="${keyWord}"/>       	
+    	</jstl:forEach>
+    	<form:errors path="expertiseKeywordsList" cssClass="error" />
+		</div>
+		<br />
 		<form:checkbox path="termsAndConditions" />
 		<b><spring:message code="reviewer.edit.termsAndConditions" /></b>
 		<form:errors path="termsAndConditions" cssClass="error" />
@@ -60,4 +84,6 @@
 		<input type="submit" name="submit" onclick="return checkPhone(this.form.phone.value)" value="${ submit}"/>
 		<acme:cancel url="/" code="reviewer.edit.cancel" />
 	</form:form>
+	<button class="addComment" onclick="addComment('expertiseKeywordsList','expertiseKeywordsList', 'textbox')"><spring:message code="reviewer.edit.addKeyWords" /></button>
+	
 </jstl:if>

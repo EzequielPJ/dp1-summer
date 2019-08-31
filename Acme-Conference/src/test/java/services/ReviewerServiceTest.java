@@ -8,7 +8,11 @@ import java.text.ParseException;
 import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import security.Authority;
 import security.LoginService;
@@ -16,6 +20,11 @@ import security.UserAccount;
 import utilities.AbstractTest;
 import domain.Reviewer;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {
+	"classpath:spring/junit.xml"
+})
+@Transactional
 public class ReviewerServiceTest extends AbstractTest {
 
 	@Autowired

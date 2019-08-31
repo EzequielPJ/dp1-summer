@@ -108,6 +108,7 @@ public class SubmissionService {
 	}
 
 	public Collection<Submission> getSubmissionsOfReviewer(final int reviewerId) {
+		Assert.isTrue(AuthorityMethods.chechAuthorityLogged("REVIEWER"));
 		return this.submissionRepository.getSubmissionsOfReviewer(reviewerId);
 	}
 
