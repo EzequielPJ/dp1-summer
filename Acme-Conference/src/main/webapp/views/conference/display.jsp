@@ -55,19 +55,23 @@
 					<display:column class="lessAMonth" titleKey="quolet.list.title" ><jstl:out value="${quolet.title}"/></display:column>
 					
 					<display:column class="lessAMonth" titleKey="quolet.list.publicationMoment">
-						<jstl:if test="${quolet.finalMode}">
+						<jstl:if test="${!quolet.finalMode}">
 							<jstl:out value="N/A" />
 						</jstl:if>
 			
-						<jstl:if test="${!quolet.finalMode}">
+						<jstl:if test="${quolet.finalMode}">
 							<spring:message code="quolet.date.format" var="format" />
 							<fmt:formatDate value="${quolet.publicationMoment}" pattern="${format}" />
-							<!--<jstl:out value="${quolet.publicationMoment}" /> -->
 						</jstl:if>
 					</display:column>
 			
 					<display:column class="lessAMonth" titleKey="quolet.list.display">
-						<acme:button url="quolet/display.do?idquolet=${quolet.id}" type="button" code="quolet.list.display" />
+					<jstl:if test= "${bot}">
+						<acme:button url="quolet/administrator/display.do?idQuolet=${quolet.id}" type="button" code="quolet.list.display" />
+					</jstl:if>
+					<jstl:if test= "${!bot}">
+						<acme:button url="quolet/display.do?idQuolet=${quolet.id}" type="button" code="quolet.list.display" />
+					</jstl:if>
 					</display:column>
 			
 				</jstl:when>
@@ -85,19 +89,24 @@
 			
 						<jstl:if test="${quolet.finalMode}">
 							<spring:message code="quolet.date.format" var="format" />
-							<fmt:formatDate value="${quolet.publicationMoment}" pattern="${format }" />
-							<!--<jstl:out value="${quolet.publicationMoment}" /> -->
+							<fmt:formatDate value="${quolet.publicationMoment}" pattern="${format}" />
 						</jstl:if>
 			
 					</display:column>
 			
 					<display:column class="moreThanTwoMonths" titleKey="quolet.list.display">
-						<acme:button url="quolet/display.do?idquolet=${quolet.id}" type="button" code="quolet.list.display" />
+					<jstl:if test= "${bot}">
+						<acme:button url="quolet/administrator/display.do?idQuolet=${quolet.id}" type="button" code="quolet.list.display" />
+					</jstl:if>
+					<jstl:if test= "${!bot}">
+						<acme:button url="quolet/display.do?idQuolet=${quolet.id}" type="button" code="quolet.list.display" />
+					</jstl:if>
 					</display:column>
 			
 				</jstl:when>
 			
 				<jstl:otherwise>
+				
 					<display:column class="betweenMonths" titleKey="quolet.list.ticker"><jstl:out value="${quolet.ticker.identifier}" /></display:column>
 					<display:column class="betweenMonths" titleKey="quolet.list.title" ><jstl:out value="${quolet.title}"/></display:column>
 					
@@ -109,13 +118,18 @@
 			
 						<jstl:if test="${quolet.finalMode}">
 							<spring:message code="quolet.date.format" var="format" />
-							<fmt:formatDate value="${quolet.publicationMoment}" pattern="${format }" />
+							<fmt:formatDate value="${quolet.publicationMoment}" pattern="${format}" />
 						</jstl:if>
 			
 					</display:column>
 			
 					<display:column class="betweenMonths" titleKey="quolet.list.display">
-						<acme:button url="quolet/display.do?idquolet=${quolet.id}" type="button" code="quolet.list.display" />
+					<jstl:if test= "${bot}">
+						<acme:button url="quolet/administrator/display.do?idQuolet=${quolet.id}" type="button" code="quolet.list.display" />
+					</jstl:if>
+					<jstl:if test= "${!bot}">
+						<acme:button url="quolet/display.do?idQuolet=${quolet.id}" type="button" code="quolet.list.display" />
+					</jstl:if>
 					</display:column>
 			
 				</jstl:otherwise>

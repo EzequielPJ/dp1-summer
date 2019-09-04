@@ -22,10 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
+import services.ActorService;
 import services.AdministratorService;
 import services.CategoryService;
 import services.ConferenceService;
 import services.PaperService;
+import services.QuoletService;
 import services.SubmissionService;
 
 import com.itextpdf.text.BaseColor;
@@ -43,14 +45,22 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import controllers.AbstractController;
+import domain.Actor;
 import domain.Administrator;
 import domain.Author;
 import domain.Conference;
 import domain.Paper;
+import domain.Quolet;
 
 @Controller
 @RequestMapping("/conference/administrator")
 public class ConferenceAdministratorController extends AbstractController {
+
+	@Autowired
+	private ActorService			actorService;
+
+	@Autowired
+	private QuoletService			quoletService;
 
 	@Autowired
 	private ConferenceService		conferenceService;
@@ -238,6 +248,27 @@ public class ConferenceAdministratorController extends AbstractController {
 			result.addObject("lang", "en");
 		else
 			result.addObject("lang", lang);
+
+		//CONTROL CHECK QUOLET/////////////////////////
+
+		Collection<Quolet> quolets = new ArrayList<>();
+		final Actor actorLogged = this.actorService.findByUserAccount(LoginService.getPrincipal());
+		if (conference.getAdministrator().getId() == actorLogged.getId())
+			quolets = this.quoletService.getQuoletsOfConferenceAll(idConference);
+		else
+			quolets = this.quoletService.getQuoletsOfConferenceFinalMode(idConference);
+
+		result.addObject("quolets", quolets);
+
+		result.addObject("bot", true);
+
+		final Date currentDate = new Date();
+		final Date aMonthAgo = new Date(currentDate.getTime() - 2629746000l);
+		result.addObject("aMonthAgo", aMonthAgo);
+		final Date twoMonthAgo = new Date(currentDate.getTime() - 5259492000l);
+		result.addObject("twoMonthAgo", twoMonthAgo);
+
+		////////////////////////////////
 
 		this.configValues(result);
 		return result;

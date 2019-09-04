@@ -482,8 +482,8 @@
    
    <!-- User accounts (admin) -->
     <bean id="userAccount0" class="security.UserAccount">
-        <property name="username" value="admin" />
-        <property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
+        <property name="username" value="administrator1" />
+        <property name="password" value="d5cee333abe432891a0de57d0ee38713" />
         <property name="authorities">
             <list>
                 <bean class="security.Authority">
@@ -494,8 +494,8 @@
     </bean>
     
     <bean id="userAccount7" class="security.UserAccount">
-        <property name="username" value="admin1" />
-        <property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
+        <property name="username" value="administrator2" />
+        <property name="password" value="82954495ff7e2a735ed2192c35b2cd00" />
         <property name="authorities">
             <list>
                 <bean class="security.Authority">
@@ -1403,7 +1403,7 @@
     
 	<bean id="quolet0" class="domain.Quolet">
 		<property name="title" value="TEST quolet0" />
-		<property name="publicationMoment" value="2019/07/27" />
+		<property name="publicationMoment" value="2019/09/03" />
 		<property name="body" value="Cuerpo de prueba de un quolet0" />
 		<property name="atributoDos" value="Prueba 0"/>
         <property name="ticker" ref="ticker100" />
@@ -1417,12 +1417,12 @@
     
 	<bean id="quolet1" class="domain.Quolet">
 		<property name="title" value="TEST quolet1" />
-		<property name="publicationMoment" value="2019/07/27" />
+		<property name="publicationMoment" value="2019/08/03" />
 		<property name="body" value="Cuerpo de prueba de un quolet1" />
 		<property name="atributoDos" value="Prueba 1"/>
         <property name="ticker" ref="ticker101" />
         <property name="conference" ref="conference100"/>
-        <property name="finalMode" value="false"/>
+        <property name="finalMode" value="true"/>
         
 	</bean>
 	
@@ -1432,11 +1432,10 @@
     
 	<bean id="quolet2" class="domain.Quolet">
 		<property name="title" value="TEST quolet2" />
-		<property name="publicationMoment" value="2019/07/27" />
 		<property name="body" value="Cuerpo de prueba de un quolet2" />
 		<property name="atributoDos" value="Prueba 2"/>
         <property name="ticker" ref="ticker102" />
-        <property name="conference" ref="conference101"/>
+        <property name="conference" ref="conference100"/>
         <property name="finalMode" value="false"/>
         
 	</bean>
@@ -1447,10 +1446,39 @@
     
 	<bean id="quolet3" class="domain.Quolet">
 		<property name="title" value="TEST quolet3" />
-		<property name="publicationMoment" value="2019/07/27" />
+		<property name="publicationMoment" value="2019/09/03" />
 		<property name="body" value="Cuerpo de prueba de un quolet3" />
 		<property name="atributoDos" value="Prueba 3"/>
         <property name="ticker" ref="ticker103" />
+        <property name="conference" ref="conference101"/>
+        <property name="finalMode" value="true"/>
+        
+	</bean>
+	
+	<bean class="domain.Ticker" id="ticker104">
+        <property value="CCC-78Y3" name="identifier" />
+    </bean>
+    
+	<bean id="quolet4" class="domain.Quolet">
+		<property name="title" value="TEST quolet4" />
+		<property name="publicationMoment" value="2019/08/03" />
+		<property name="body" value="Cuerpo de prueba de un quolet4" />
+		<property name="atributoDos" value="Prueba 4"/>
+        <property name="ticker" ref="ticker104" />
+        <property name="conference" ref="conference101"/>
+        <property name="finalMode" value="true"/>
+        
+	</bean>
+	
+	<bean class="domain.Ticker" id="ticker105">
+        <property value="CCC-78OO" name="identifier" />
+    </bean>
+    
+	<bean id="quolet5" class="domain.Quolet">
+		<property name="title" value="TEST quolet5" />
+		<property name="body" value="Cuerpo de prueba de un quolet5" />
+		<property name="atributoDos" value="Prueba 5"/>
+        <property name="ticker" ref="ticker105" />
         <property name="conference" ref="conference101"/>
         <property name="finalMode" value="false"/>
         

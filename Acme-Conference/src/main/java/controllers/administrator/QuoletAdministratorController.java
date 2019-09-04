@@ -28,7 +28,9 @@ public class QuoletAdministratorController extends AbstractController {
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
-		return this.listModelAndView();
+		ModelAndView result;
+		result = this.listModelAndView();
+		return result;
 	}
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
@@ -39,6 +41,8 @@ public class QuoletAdministratorController extends AbstractController {
 			final Quolet quolet = this.quoletService.findOne(idQuolet);
 			result = new ModelAndView("quolet/display");
 			result.addObject("quolet", quolet);
+			result.addObject("backURL", "/");
+			result.addObject("bot", true);
 		} catch (final Throwable oops) {
 			result = this.listModelAndView("security.error.accessDenied");
 		}

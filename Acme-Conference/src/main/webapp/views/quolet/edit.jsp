@@ -25,7 +25,7 @@
 		<acme:checkbox code="quolet.edit.finalMode" path="finalMode"/>
 		
 		<acme:submit name="save" code="quolet.edit.save"/>
-		<acme:cancel url="quolet/administrator/list.do" code="quolet.edit.cancel"/>
+		<acme:cancel url="conference/administrator/list.do" code="quolet.edit.cancel"/>
 		
 	</form:form>
 

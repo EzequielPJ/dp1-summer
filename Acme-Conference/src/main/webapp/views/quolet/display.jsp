@@ -9,7 +9,9 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<acme:cancel url="quolet/administrator/list.do" code="quolet.display.back" />
+<jstl:if test="${bot}">
+<acme:cancel url="${backURL}" code="quolet.display.back" />
+</jstl:if>
 
 <section id="main">
 
