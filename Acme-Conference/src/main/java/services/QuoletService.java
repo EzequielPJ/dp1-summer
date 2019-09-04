@@ -86,6 +86,11 @@ public class QuoletService {
 		quoletRes.setFinalMode(quolet.getFinalMode());
 		quoletRes.setTitle(quolet.getTitle());
 
+		//		final Pattern pattern1 = Pattern.compile("^\\w{2,4}:(\\d{2}):([0]?[1-9]|[1][0-2])([0]?[1-9]|[1|2][0-9]|[3][0|1])$");
+		//		final Matcher matcher1 = pattern1.matcher((CharSequence) quoletRes.getTicker());
+		//		if (!matcher1.find())
+		//			bindingResult.rejectValue("ticker", "ticker.error");
+
 		if (quolet.getFinalMode())
 			quoletRes.setPublicationMoment(new Date());
 

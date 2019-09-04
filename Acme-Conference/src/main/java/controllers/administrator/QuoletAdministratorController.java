@@ -53,9 +53,13 @@ public class QuoletAdministratorController extends AbstractController {
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam final int idConference) {
-		final ModelAndView result;
+		ModelAndView result;
 
-		result = this.createEditModelAndView(this.quoletService.create(idConference));
+		try {
+			result = this.createEditModelAndView(this.quoletService.create(idConference));
+		} catch (final Throwable oops) {
+			result = this.listModelAndView("security.error.accessDenied");
+		}
 
 		return result;
 	}

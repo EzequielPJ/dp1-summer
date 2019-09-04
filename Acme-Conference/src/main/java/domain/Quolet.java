@@ -12,6 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -52,6 +53,9 @@ public class Quolet extends DomainEntity {
 		this.publicationMoment = publicationMoment;
 	}
 
+	@NotBlank
+	@SafeHtml
+	@Length(max = 100)
 	public String getBody() {
 		return this.body;
 	}
@@ -60,6 +64,8 @@ public class Quolet extends DomainEntity {
 		this.body = body;
 	}
 
+	@NotBlank
+	@SafeHtml
 	public String getAtributoDos() {
 		return this.atributoDos;
 	}
@@ -87,7 +93,7 @@ public class Quolet extends DomainEntity {
 	}
 
 	@Valid
-	@ManyToOne(optional = true)
+	@ManyToOne(optional = false)
 	public Conference getConference() {
 		return this.conference;
 	}
