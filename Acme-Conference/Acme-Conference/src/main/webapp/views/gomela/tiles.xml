@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+ * tiles.xml
+ *
+ * Copyright (C) 2019 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       
+<tiles-definitions>
+
+	<definition name="gomela/list" extends="master.page">
+		<put-attribute name="title" value="My gomelas" />
+		<put-attribute name="body" value="/views/gomela/list.jsp" />
+	</definition>
+	
+	<definition name="gomela/edit" extends="master.page">
+		<put-attribute name="title" value="Edit gomela" />
+		<put-attribute name="body" value="/views/gomela/edit.jsp" />
+	</definition>
+	
+	<definition name="gomela/display" extends="master.page">
+		<put-attribute name="title" value="Display gomela" />
+		<put-attribute name="body" value="/views/gomela/display.jsp" />
+	</definition>
+	
+</tiles-definitions>
